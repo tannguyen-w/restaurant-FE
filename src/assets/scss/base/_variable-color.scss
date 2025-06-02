@@ -1,0 +1,44 @@
+html {
+    // text
+    --primary-color: #fb8f2c;
+    --white-color: #fff;
+    --white-8-color: rgb(255, 255, 255, 0.8);
+    --dark-color: #111114;
+    --dark-8-color: rgb(17, 17, 20, 0.8);
+
+    // Icon color
+    --icon-color: brightness(0) saturate(100%) invert(95%) sepia(97%) saturate(14%) hue-rotate(213deg) brightness(104%)
+        contrast(104%);
+
+    // Button
+    --button-bg: rgb(251, 143, 44, 0.9);
+
+    // Navbar
+    --navbar-main-bg-color: #292e39;
+    --navbar-act-dropdown-bg: #2f3441;
+    --navbar-act-dropdown-shadow: rgba(23, 28, 40, 0.4);
+
+    --dropdown-arrow-color: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(293%) hue-rotate(184deg)
+        brightness(98%) contrast(96%);
+
+    // separate border
+    --separate-bg: #292e39;
+
+    // Profile
+    --profile-sidebar-bg: #171c28;
+    --profile-sidebar-shadow: rgba(23, 28, 40, 0.2);
+    --profile-sidebar-link-hover: #2f3441;
+    --profile-bg: #292e39;
+
+    --new-payment-hover: #fff;
+
+    // Account info
+    --account-info-bg: #292e39;
+    --account-info-icon-bg: #171c28;
+
+    --favourite-separate-bg: #292e39;
+
+    // Dialog
+    --dialog-bg: #2f3441;
+    --dialog-shadow: rgba(23, 28, 40, 0.4);
+}

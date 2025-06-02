@@ -1,0 +1,413 @@
+@use "../abstracts";
+
+.cart {
+  &-ordered {
+    margin-top: 100px;
+
+    &__delete {
+      display: flex;
+      justify-content: center;
+
+      @include abstracts.screen(md) {
+        width: 100%;
+        text-align: center;
+      }
+
+      &-icon {
+        padding: 6px 12px;
+      }
+    }
+
+    &__thumb {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      @include abstracts.screen(md) {
+        display: none;
+      }
+
+      &-item {
+        width: 130px;
+        height: 130px;
+        object-fit: cover;
+        flex-shrink: 0;
+
+        @include abstracts.screen(lg) {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    }
+
+    &__voucher {
+      display: flex;
+      gap: 20px;
+      margin-left: 40px;
+      color: var(--white-color);
+
+      @include abstracts.screen(md) {
+        margin-left: 0;
+        gap: 15px;
+      }
+
+      &-code {
+        text-wrap: nowrap;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &-apply {
+        font-weight: 600;
+      }
+
+      &-code,
+      &-apply {
+        &:hover {
+          opacity: 0.9;
+        }
+
+        @include abstracts.screen(md) {
+          flex: 1 1 48%; /* Chia đều chiều rộng mỗi nút */
+          box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước nút */
+        }
+      }
+    }
+
+    &__btn {
+      font-size: 1.6rem;
+      padding: 8px 30px !important;
+
+      @include abstracts.screen(sm) {
+        padding: 8px 10px !important;
+      }
+    }
+
+    &__update {
+      margin-right: 40px;
+
+      @include abstracts.screen(md) {
+        margin-top: 15px;
+        margin-right: 0;
+      }
+
+      &-btn {
+        font-weight: 600;
+        color: var(--white-color);
+
+        &:hover {
+          opacity: 0.9;
+        }
+
+        @include abstracts.screen(md) {
+          display: block;
+          width: 100% !important;
+          text-align: center;
+        }
+      }
+    }
+
+    @include abstracts.screen(md) {
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+      }
+
+      thead {
+        display: none; /* Ẩn tiêu đề bảng trên mobile */
+      }
+
+      tbody,
+      tfoot,
+      tr,
+      td {
+        display: block; /* Hiển thị các hàng và cột dưới dạng block */
+        width: 100%;
+      }
+
+      tr {
+        // margin-bottom: 15px; /* Khoảng cách giữa các hàng */
+      }
+
+      td {
+        margin: 15px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between; /* Căn đều hai đầu cho nhãn và nội dung */
+      }
+
+      td:before {
+        content: attr(data-label); /* Hiển thị nhãn từ thuộc tính data-label */
+        font-weight: bold;
+        text-align: left;
+        white-space: nowrap;
+
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 155.556%;
+
+        color: var(--white-color);
+      }
+
+      tfoot td {
+        width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng cho mobile */
+        display: block; /* Hiển thị block cho layout linh hoạt */
+        padding: 0 15px;
+      }
+    }
+
+    @include abstracts.screen(sm) {
+      .containerR {
+        overflow-x: auto; /* Cho phép cuộn ngang */
+      }
+
+      table {
+        width: 100%; /* Đặt chiều rộng bảng theo chiều rộng của containerR */
+        table-layout: auto; /* Đảm bảo bảng có thể thu nhỏ theo nội dung */
+      }
+
+      th,
+      td {
+        word-wrap: break-word; /* Cho phép nội dung tự xuống dòng */
+        white-space: nowrap; /* Ngăn không cho nội dung bị thu nhỏ quá mức */
+        padding: 10px 5px; /* Điều chỉnh padding để tối ưu không gian */
+      }
+    }
+  }
+
+  &-item {
+    &__input {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      &-left {
+        border: 1px solid var(--white-8-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-btn {
+        padding: 15px 15px;
+
+        &:hover {
+          background-color: var(--primary-color);
+        }
+      }
+
+      &-btn:first-child {
+        display: flex;
+        padding: 20px 15px;
+      }
+
+      &-quantity {
+        height: 42px;
+        padding: 9px 20px;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        border-left: 1px solid var(--white-8-color);
+        border-right: 1px solid var(--white-8-color);
+      }
+    }
+
+    &__btn {
+      height: 44px;
+      font-weight: 500;
+      font-size: 1.6rem;
+    }
+  }
+
+  &-total {
+    margin-top: 100px;
+
+    @include abstracts.screen(md) {
+      margin-top: 70px;
+    }
+
+    &__form {
+      margin-top: 30px;
+    }
+
+    &__title {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 133.333%;
+    }
+
+    &__form {
+      padding: 28px 20px 28px 28px;
+
+      border: 1px solid #4b4b4e;
+      background: #18181b;
+
+      color: var(--white-color);
+    }
+
+    &__sub-title {
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 162.5%;
+    }
+
+    &__main-content {
+      margin: 28px 0;
+      border-top: 1px solid #4b4b4e;
+      border-bottom: 1px solid #4b4b4e;
+    }
+
+    &-shipping {
+      &__title {
+        font-size: 1.6rem;
+        font-weight: 400;
+        line-height: 162.5%;
+      }
+
+      &__value {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 162.5%;
+      }
+
+      &__price,
+      &__address,
+      &__change {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &__address {
+        margin-top: 14px;
+      }
+
+      &__change {
+        margin-top: 30px;
+      }
+
+      &__input {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      &__text {
+        height: 44px;
+        padding: 8px 0 10px;
+
+        font-size: 1.6rem;
+        font-weight: 400;
+      }
+
+      &__btn {
+        padding: 8px 30px;
+        margin: 24px 0 28px;
+        color: var(--dark-color);
+        background: var(--white-color);
+
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 162.5%;
+
+        &:hover {
+          opacity: 0.85;
+        }
+      }
+    }
+
+    &__checkout {
+      margin-top: 22px;
+      padding: 8px 30px;
+      width: 100%;
+      text-align: center;
+
+      background: var(--primary-color);
+    }
+
+    &__link {
+      color: var(--white-color);
+      font-size: 1.6rem;
+      font-weight: 600;
+      line-height: 162.5%;
+    }
+  }
+
+  &-preview-item {
+    display: flex;
+    margin-top: 16px;
+    gap: 16px;
+
+    &__img {
+      border-radius: 8px;
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &__title {
+      margin-top: 8px;
+      display: block;
+      display: -webkit-box;
+      max-width: 100%;
+      font-size: 1.4rem;
+      line-height: 1;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__price {
+      margin-left: auto;
+    }
+
+    &__quantity,
+    &__unit-price {
+      font-size: 1.2rem;
+      color: var(--white-8-color);
+    }
+  }
+
+  &-sub {
+    margin-top: 24px;
+
+    &__total,
+    &__act {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    &__title {
+      color: var(--white-color);
+    }
+
+    &__price {
+      color: #ee0606;
+    }
+
+    &__act {
+      margin-top: 16px;
+    }
+
+    &__act--link {
+      border-radius: 6px;
+      text-align: center;
+      padding: 6px 10px;
+      width: 100%;
+      background: var(--primary-color);
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

@@ -1,0 +1,270 @@
+@use "../abstracts";
+
+.checkout {
+    margin: 50px 0;
+
+    &-bill {
+        width: min(570px, 100%);
+
+        @include abstracts.screen(xl) {
+            width: 100%;
+        }
+
+        &__heading {
+            font-size: 3rem;
+            font-weight: 500;
+            line-height: 133.333%;
+        }
+
+        &-form {
+            margin-top: 28px;
+
+            &__group {
+                display: flex;
+                flex-direction: column;
+                margin-top: 24px;
+            }
+
+            &__title {
+                font-size: 1.6rem;
+                font-weight: 400;
+                line-height: 162.5%;
+            }
+
+            &__input {
+                height: 30px;
+                padding: 5px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+                font-size: 1.6rem;
+                font-weight: 400;
+                line-height: 162.5%;
+
+                &:focus {
+                    border-color: var(--white-color);
+                }
+
+                &:focus &__title {
+                    color: var(--primary-color);
+                }
+            }
+        }
+
+        &__btn {
+            font-size: 2.4rem;
+            margin-top: 36px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+
+            padding: 10px 0;
+            font-weight: 600;
+
+            color: var(--white-color);
+            background: var(--primary-color);
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &-order {
+        padding: 28px;
+        border: 1px solid #4b4b4e;
+        background: #18181b;
+
+        @include abstracts.screen(lg) {
+            margin-top: 80px;
+        }
+
+        &__heading {
+            font-size: 3rem;
+            font-weight: 500;
+            line-height: 133.333%;
+        }
+
+        & table,
+        thead,
+        tbody,
+        tr {
+            border: none;
+        }
+
+        & tbody td {
+            padding: 24px 0;
+            border-top: 1px solid #4b4b4e;
+
+            @include abstracts.screen(sm) {
+                width: 160px;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+.cart-info {
+    padding: 30px;
+    border-radius: 20px;
+    background: var(--profile-sidebar-bg);
+    box-shadow: 0px 20px 60px 10px var(--profile-sidebar-shadow);
+
+    @include abstracts.screen(md) {
+        padding: 16px;
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        justify-content: space-between;
+    }
+
+    &__back-arrow {
+        width: 50px;
+        padding-right: 20px;
+        position: relative;
+        top: 4px;
+
+        translate: 0;
+        transition: translate 0.2s;
+
+        &:hover {
+            translate: -4px;
+        }
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+
+        font-size: 2.4rem;
+        font-weight: 700;
+        line-height: 141.667%;
+
+        &--lv2 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            line-height: 145.455%;
+        }
+    }
+
+    &__desc {
+        margin-top: 6px;
+        font-size: 1.5rem;
+        line-height: 146.667%;
+    }
+
+    &__form {
+        margin-bottom: 30px;
+    }
+
+    &__list {
+        margin-top: -30px;
+
+        @include abstracts.screen(md) {
+            margin-top: -16px;
+        }
+    }
+
+    &__bottom {
+        margin-top: 30px;
+    }
+
+    &__row,
+    &__continue-link {
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 144.444%;
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-top: 10px;
+
+        &--bold {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        &-md--block {
+            @include abstracts.screen(md) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+            }
+        }
+    }
+    &__separate {
+        margin: 30px 0;
+        height: 1px;
+        background: var(--profile-bg);
+    }
+
+    &__continue {
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+
+        &-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &-icon {
+            rotate: 90deg;
+            transition: translate 0.3s;
+        }
+
+        &-link:hover &-icon {
+            translate: -5px;
+        }
+    }
+
+    &__sub-label {
+        font-weight: 400;
+    }
+
+    &__next-btn {
+        margin-top: 30px;
+    }
+
+    &__sub-heading {
+        margin: 30px 0;
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 144.444%;
+    }
+
+    &__edit-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        line-height: 144.444%;
+    }
+
+    &__form-row {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    &__check-all {
+        margin: 30px 0;
+    }
+
+    &__checkout-all {
+        @include abstracts.screen(md) {
+            width: 100%;
+        }
+    }
+}
+// End .cart-info
+
+.cart-info + .cart-info {
+    margin-top: 30px;
+}

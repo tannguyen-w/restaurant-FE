@@ -1,0 +1,29 @@
+@use "../abstracts";
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--account-info-bg);
+
+    &__icon {
+        flex-shrink: 0;
+        padding: 15px;
+        border-radius: 8px;
+        background: var(--account-info-icon-bg);
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 146.667%;
+    }
+
+    &__desc {
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 142.857%;
+    }
+}

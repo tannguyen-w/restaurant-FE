@@ -1,0 +1,213 @@
+@use "../abstracts";
+
+.product-detail {
+    margin-top: 80px;
+
+    &__thumb {
+        width: 100%;
+    }
+
+    &__heading {
+        @include abstracts.screen(xl) {
+            font-size: 5rem;
+        }
+
+        @include abstracts.screen(lg) {
+            font-size: 4.6rem;
+        }
+
+        @include abstracts.screen(md) {
+            margin-top: 24px;
+        }
+    }
+
+    &__rate {
+        margin: 10px 0 20px;
+        display: flex;
+        align-items: center;
+
+        @include abstracts.screen(xl) {
+            margin: 6px 0 12px;
+        }
+
+        @include abstracts.screen(md) {
+            margin: 12px 0;
+        }
+    }
+
+    &__reviewer {
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 171.429%;
+    }
+
+    &__price-product {
+        font-size: 2.4rem;
+        font-weight: 500;
+        line-height: 141.667%;
+    }
+
+    &__desc-product {
+        margin: 20px 0 50px;
+
+        @include abstracts.screen(xl) {
+            margin: 10px 0 25px;
+        }
+
+        @include abstracts.screen(lg) {
+            font-size: 1.4rem;
+        }
+    }
+
+    &__origin {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 40px;
+
+        @include abstracts.screen(xl) {
+            margin-top: 14px;
+            gap: 6px;
+        }
+
+        @include abstracts.screen(md) {
+            margin-top: 36px;
+        }
+    }
+
+    &__code {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 155.556%;
+
+        &-name {
+            color: var(--white-8-color);
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            line-height: 162.5%;
+        }
+    }
+
+    &__bottom {
+        margin-top: 100px;
+
+        @include abstracts.screen(lg) {
+            margin-top: 60px;
+        }
+    }
+
+    &__cate {
+        display: flex;
+        gap: 42px;
+        border-bottom: 1px solid var(--white-8-color);
+    }
+
+    &__title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 155.556%;
+        padding-bottom: 16px;
+    }
+
+    &__cate--active {
+        position: relative;
+        top: 1px;
+        color: var(--white-color);
+
+        border-bottom: 1px solid var(--primary-color);
+    }
+
+    &__index > p {
+        margin-top: 30px;
+    }
+
+    &-review {
+        display: flex;
+        gap: 18px;
+        margin-top: 24px;
+        align-items: flex-start;
+
+        &__avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        &__name {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 155.556%;
+            color: var(--white-color);
+        }
+
+        &__time {
+            font-family: "Plus Jakarta Sans";
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 171.429%;
+            color: var(--white-8-color);
+        }
+
+        &__desc {
+            margin-top: 18px;
+        }
+
+        &__rate {
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+    }
+}
+
+.product-relate {
+    margin: 80px 0;
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 500;
+        line-height: 141.667%;
+        text-transform: capitalize;
+    }
+
+    &__content {
+        margin-top: 40px;
+    }
+}
+
+.product-review {
+    margin-top: 60px;
+
+    @include abstracts.screen(md) {
+        margin-top: 50px;
+    }
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 500;
+        line-height: 141.667%;
+        text-transform: capitalize;
+    }
+
+    &__desc {
+        margin-top: 16px;
+
+        @include abstracts.screen(md) {
+            font-size: 1.4rem;
+        }
+    }
+
+    &__btn {
+        margin-top: 36px;
+        padding: 8px 30px;
+        color: var(--white-color);
+
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 162.5%;
+    }
+}

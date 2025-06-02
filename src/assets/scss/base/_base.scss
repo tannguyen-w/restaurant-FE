@@ -1,0 +1,181 @@
+@use "../abstracts";
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: Plus Jakarta Sans, sans-serif;
+    background: #111114;
+    color: var(--white-8-color);
+}
+
+.icon {
+    filter: var(--icon-color);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+a,
+img,
+button,
+input,
+label,
+textarea,
+select {
+    font-family: inherit;
+    color: inherit;
+    outline: none;
+    border: none;
+    padding: 0;
+}
+
+input,
+textarea {
+    background: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-webkit-autofill:hover {
+    transition: background-color 1s 9999s;
+    -webkit-text-fill-color: var(--white-color);
+    caret-color: var(--white-color);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+i,
+em {
+    font-style: italic;
+}
+
+b,
+strong {
+    font-weight: 600;
+}
+
+p {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 162.5%;
+}
+
+span,
+h1,
+h2,
+h3,
+h4 {
+    font-family: "Libre Bodoni", sans-serif;
+    color: var(--white-color);
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 145.455%;
+}
+
+h2 {
+    font-size: 6.4rem;
+    font-weight: 500;
+    line-height: 115.625%;
+    text-transform: capitalize;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+tr {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 24px 0;
+    text-align: left;
+
+    color: var(--white-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 155.556%;
+}
+
+tfoot td {
+    padding: 28px 0;
+}
+
+tbody td {
+    height: 100%;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+// input[type="date"] {
+
+// }
+
+/* Ẩn icon mặc định cho input type="date" và type="time" */
+// input[type="date"]::-webkit-calendar-picker-indicator,
+// input[type="time"]::-webkit-calendar-picker-indicator {
+//     padding: 5px;
+//     width: 24px;
+//     height: 24px;
+//     background-color: #fff;
+// }
+
+/* Firefox (ẩn icon mặc định của date và time) */
+input[type="date"],
+input[type="time"] {
+    -moz-appearance: textfield; /* Chuyển về dạng text để ẩn biểu tượng */
+}
+
+/* Các trình duyệt Webkit (Chrome, Safari) */
+input[type="date"],
+input[type="time"] {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+// input[type="date"] {
+//     -webkit-appearance: none; /* Ẩn kiểu mặc định trên Webkit */
+//     -moz-appearance: none; /* Ẩn kiểu mặc định trên Firefox */
+//     appearance: none; /* Ẩn kiểu mặc định trên tất cả trình duyệt */
+// }

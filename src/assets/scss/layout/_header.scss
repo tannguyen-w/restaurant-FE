@@ -1,0 +1,589 @@
+@use "../abstracts";
+
+.header {
+    &__left {
+        margin-top: 50px;
+    }
+
+    &__desc--bottom {
+        max-width: 532px;
+    }
+
+    &__heading {
+        margin: 10px 0 20px;
+        font-size: 6.4rem;
+        font-weight: 500;
+        line-height: 115.625%;
+        text-transform: capitalize;
+
+        @include abstracts.screen(xxl) {
+            font-size: 5.2rem;
+        }
+
+        @include abstracts.screen(xl) {
+            font-size: 4.2rem;
+        }
+
+        @include abstracts.screen(lg) {
+            font-size: 3rem;
+        }
+
+        @include abstracts.screen(md) {
+            font-size: 3.6rem;
+            font-weight: 700;
+            line-height: 144.444%;
+        }
+    }
+
+    &__btn-underline {
+        margin-top: 40px;
+        width: 75px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--primary-color);
+
+        translate: 0;
+        transition: translate 0.2s;
+
+        &:hover {
+            translate: 0 -3px;
+        }
+    }
+
+    &__right {
+        position: relative;
+    }
+
+    &__food-main {
+        width: 370px;
+
+        @include abstracts.screen(md) {
+            margin-left: 180px;
+        }
+
+        @include abstracts.screen(xxl) {
+            width: 330px;
+        }
+
+        @include abstracts.screen(lg) {
+            width: 250px;
+        }
+
+        @include abstracts.screen(sm) {
+            margin-left: 30px;
+        }
+
+        &--price {
+            position: absolute;
+            display: block;
+            bottom: 60px;
+            left: -30px;
+            padding: 12px 16px 8px 16px;
+            user-select: none;
+
+            font-size: 2.4rem;
+            font-weight: 500;
+            line-height: 141.667%;
+            text-transform: capitalize;
+
+            background: var(--primary-color);
+
+            @include abstracts.screen(xxl) {
+                font-size: 2.2rem;
+                padding: 10px 14px 6px 14px;
+            }
+
+            @include abstracts.screen(lg) {
+                bottom: 40px;
+                font-size: 2rem;
+                padding: 6px 10px 4px 10px;
+            }
+
+            @include abstracts.screen(md) {
+                margin-left: 180px;
+            }
+
+            @include abstracts.screen(sm) {
+                margin-left: 30px;
+            }
+        }
+    }
+
+    &__food-sub {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+
+        @include abstracts.screen(lg) {
+            width: 55px;
+            height: 55px;
+        }
+
+        &--top {
+            position: absolute;
+
+            top: 50px;
+            right: 90px;
+
+            @include abstracts.screen(xxl) {
+                right: 30px;
+            }
+
+            @include abstracts.screen(lg) {
+                right: 20px;
+            }
+
+            @include abstracts.screen(sm) {
+                left: 280px;
+            }
+        }
+
+        &--mid {
+            position: absolute;
+
+            top: 170px;
+            right: 60px;
+
+            @include abstracts.screen(xxl) {
+                top: 145px;
+                right: 5px;
+            }
+
+            @include abstracts.screen(lg) {
+                top: 110px;
+                right: 0px;
+            }
+
+            @include abstracts.screen(sm) {
+                left: 296px;
+                top: 115px;
+            }
+        }
+
+        &--bottom {
+            position: absolute;
+
+            bottom: 70px;
+            right: 90px;
+
+            @include abstracts.screen(xxl) {
+                right: 30px;
+            }
+
+            @include abstracts.screen(lg) {
+                right: 15px;
+            }
+
+            @include abstracts.screen(sm) {
+                left: 280px;
+                bottom: 60px;
+            }
+        }
+    }
+}
+
+.header-food-res {
+    display: flex;
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+    overflow: hidden;
+
+    &__thumb-left {
+        display: block;
+        position: absolute;
+        width: min(100%, 419px);
+        bottom: 0;
+        left: -140px;
+
+        @include abstracts.screen(xl) {
+            width: min(100%, 350px);
+        }
+
+        @include abstracts.screen(lg) {
+            width: 300px;
+        }
+    }
+
+    &__thumb-right {
+        display: block;
+        position: absolute;
+        width: min(100%, 400px);
+        top: 0;
+        right: -100px;
+
+        @include abstracts.screen(xl) {
+            width: min(100%, 300px);
+        }
+
+        @include abstracts.screen(lg) {
+            width: 260px;
+        }
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: min(560px, 100%);
+        margin: 80px auto;
+        text-align: center;
+
+        @include abstracts.screen(lg) {
+            width: 500px;
+        }
+        @include abstracts.screen(sm) {
+            max-width: 339px;
+        }
+    }
+
+    &__desc--bottom {
+        @include abstracts.screen(lg) {
+            display: block;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        @include abstracts.screen(sm) {
+            max-width: 339px;
+
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 171.429%;
+        }
+    }
+
+    &__btn {
+        display: flex;
+        justify-content: center;
+        font-family: "Plus Jakarta Sans", sans-serif;
+    }
+}
+
+.header-drink-coffee {
+    &__left {
+        margin-top: 90px;
+        max-width: 670px;
+    }
+
+    &__heading {
+        font-size: 10rem;
+
+        @include abstracts.screen(xxl) {
+            font-size: 8.8rem;
+        }
+
+        @include abstracts.screen(md) {
+            font-size: 4.6rem;
+        }
+    }
+
+    &__btn {
+        width: 100px;
+    }
+
+    &__right {
+        position: relative;
+        margin-top: 60px;
+    }
+
+    &__border {
+        position: absolute;
+        top: 50px;
+        right: -100px;
+        width: 700px;
+        height: 450px;
+        flex-shrink: 0;
+
+        border-radius: 10px;
+        border: 3px dashed #ffca0e;
+        z-index: -1;
+
+        @include abstracts.screen(xxl) {
+            width: 600px;
+            height: 386px;
+        }
+
+        @include abstracts.screen(xl) {
+            top: 40px;
+            width: 450px;
+            height: 288px;
+        }
+
+        @include abstracts.screen(lg) {
+            top: 36px;
+            width: 450px;
+            height: 284px;
+        }
+
+        @include abstracts.screen(md) {
+            top: 30px;
+            right: 0px;
+            width: 343px;
+            height: 238px;
+        }
+    }
+
+    &__thumb {
+        width: 700px;
+        z-index: 0;
+        position: relative;
+
+        @include abstracts.screen(xxl) {
+            width: 600px;
+        }
+
+        @include abstracts.screen(xl) {
+            position: absolute;
+            width: 450px;
+            right: -130px;
+        }
+
+        @include abstracts.screen(md) {
+            right: -60px;
+            width: 383px;
+        }
+    }
+}
+
+.header-food-order {
+    &__left {
+        margin-top: 30px;
+
+        @include abstracts.screen(xl) {
+            width: 430px;
+        }
+
+        @include abstracts.screen(sm) {
+            width: 100%;
+        }
+
+        @include abstracts.screen(md) {
+            margin-top: 10px;
+        }
+    }
+
+    &__heading {
+        width: 670px;
+        font-size: 10rem;
+        font-weight: 700;
+        line-height: 118%;
+
+        @include abstracts.screen(xl) {
+            font-size: 7rem;
+            max-width: 400px;
+        }
+
+        @include abstracts.screen(lg) {
+            font-size: 6rem;
+            max-width: 600px;
+        }
+
+        @include abstracts.screen(md) {
+            font-size: 4rem;
+            width: 500px;
+        }
+
+        @include abstracts.screen(sm) {
+            font-size: 4rem;
+            width: 100%;
+        }
+    }
+
+    &__desc {
+        @include abstracts.screen(xl) {
+            max-width: 400px;
+        }
+
+        @include abstracts.screen(md) {
+            max-width: 500px;
+        }
+
+        @include abstracts.screen(sm) {
+            font-size: 1.4rem;
+            width: 100%;
+        }
+    }
+
+    &__right {
+        --width-order-right: 400px;
+        --margin-order-right: 100px;
+        --width-border-right: calc(var(--width-order-right) + var(--margin-order-right));
+
+        margin-top: 30px;
+
+        @include abstracts.screen(xl) {
+            --width-order-right: 350px;
+            --margin-order-right: 86px;
+        }
+
+        @include abstracts.screen(lg) {
+            --width-order-right: 300px;
+            --margin-order-right: 75px;
+        }
+
+        @include abstracts.screen(md) {
+            --width-order-right: 265px;
+            --margin-order-right: 50px;
+        }
+    }
+
+    &__border {
+        position: relative;
+        width: var(--width-border-right);
+        height: var(--width-border-right);
+
+        border-radius: var(--width-border-right);
+        margin-top: calc(var(--margin-order-right) / 2);
+
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), #fff);
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+    &__main {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        display: block;
+        width: calc(var(--width-border-right) - 2px);
+        height: calc(var(--width-border-right) - 2px);
+        // height: var(--width-border-right);
+        margin: auto;
+
+        background: var(--dark-color);
+        border-radius: inherit;
+        padding: calc(var(--margin-order-right) / 2);
+    }
+
+    &__sub {
+        position: absolute;
+        border-radius: 50%;
+        width: calc(var(--width-order-right) / 5);
+        height: calc(var(--width-order-right) / 5);
+    }
+
+    &__left {
+        bottom: -26px;
+        left: 100px;
+
+        @include abstracts.screen(lg) {
+            bottom: -20px;
+            left: 76px;
+        }
+
+        @include abstracts.screen(md) {
+            bottom: -20px;
+            left: 60px;
+        }
+    }
+
+    &__bottom {
+        bottom: -50px;
+        left: calc(var(--width-order-right) / 2 + 28px);
+
+        @include abstracts.screen(lg) {
+            bottom: -40px;
+            left: calc(var(--width-order-right) / 2 + 16px);
+        }
+
+        @include abstracts.screen(md) {
+            bottom: -36px;
+            left: calc(var(--width-order-right) / 2);
+        }
+    }
+
+    &__right {
+        bottom: -18px;
+        right: 66px;
+
+        @include abstracts.screen(lg) {
+            bottom: -18px;
+            left: 254px;
+        }
+
+        @include abstracts.screen(md) {
+            bottom: -22px;
+            left: 206px;
+        }
+    }
+}
+
+.header-webflow-res {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include abstracts.screen(xl) {
+        margin-top: 40px;
+    }
+
+    @include abstracts.screen(lg) {
+        margin-top: 20px;
+    }
+
+    &__heading {
+        // max-width: 1170px;
+        width: 1240px;
+        font-size: 10rem;
+        font-weight: 700;
+        line-height: 118%;
+        text-align: center;
+
+        @include abstracts.screen(xxl) {
+            width: calc(100% - 60px);
+            font-size: 8rem;
+        }
+
+        @include abstracts.screen(xl) {
+            font-size: 7rem;
+        }
+
+        @include abstracts.screen(lg) {
+            width: 100%;
+            font-size: 5.6rem;
+        }
+
+        @include abstracts.screen(md) {
+            font-size: 4rem;
+        }
+
+        @include abstracts.screen(sm) {
+            font-size: 3.4rem;
+        }
+    }
+
+    &__thumb {
+        height: 100px;
+        @include abstracts.screen(xl) {
+            height: 80px;
+        }
+
+        @include abstracts.screen(lg) {
+            height: 60px;
+        }
+
+        @include abstracts.screen(md) {
+            height: 42px;
+        }
+
+        @include abstracts.screen(sm) {
+            height: 36px;
+        }
+    }
+
+    &__desc {
+        max-width: 772px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    &__btn {
+        width: 142px;
+
+        @include abstracts.screen(md) {
+            margin-top: 16px;
+        }
+    }
+}

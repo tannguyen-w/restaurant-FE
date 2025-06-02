@@ -1,0 +1,95 @@
+@use "../abstracts";
+
+.profile {
+    background-color: var(--profile-bg);
+    padding: 30px 0;
+
+    &__sidebar {
+        border-radius: 20px;
+        background: var(--profile-sidebar-bg);
+        box-shadow: 0px 20px 60px 10px var(--profile-sidebar-shadow);
+        overflow: hidden;
+    }
+
+    // User
+    &-user {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px 20px;
+        color: #fff;
+
+        background: linear-gradient(180deg, rgba(26, 22, 46, 0) 0%, #1a162e 100%),
+            url(../../assets/images/profile/cover.jpg) no-repeat center / cover;
+        box-shadow: 0px 20px 60px 10px var(--profile-sidebar-shadow);
+
+        &__avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 4px 14px 2px rgba(0, 0, 0, 0.08);
+            background: #ebebeb content-box;
+        }
+
+        &__name {
+            margin-top: 15px;
+
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 144.444%;
+        }
+
+        &__desc {
+            margin-top: 2px;
+
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 146.667%;
+        }
+    }
+
+    // Menu
+    &-menu {
+        margin: 30px;
+
+        &__title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            line-height: 144.444%;
+        }
+
+        &__list {
+            margin-top: 11px;
+        }
+
+        &__link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 4px;
+            font-size: 1.5rem;
+            line-height: 146.667%;
+
+            border-radius: 5px;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background: var(--profile-sidebar-link-hover);
+            }
+        }
+
+        &__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 24px;
+        }
+    }
+
+    &__desc {
+        margin-bottom: 16px;
+    }
+}
