@@ -17,11 +17,14 @@
     "@ant-design/icons": "5.3.7",
     "antd": "5.18.1",
     "axios": "1.7.2",
+    "js-cookie": "^3.0.5",
     "nprogress": "0.2.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.23.1",
-    "sass": "^1.89.1"
+    "react-toastify": "^11.0.5",
+    "sass": "^1.89.1",
+    "swiper": "^11.2.8"
   },
   "devDependencies": {
     "@types/react": "18.3.3",
@@ -31,6 +34,6 @@
     "eslint-plugin-react": "7.34.2",
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-react-refresh": "0.4.7",
-    "vite": "5.3.1"
+    "vite": "^5.3.1"
   }
 }

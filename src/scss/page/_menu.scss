@@ -1,0 +1,500 @@
+@use "../abstracts";
+
+.menu {
+    margin-bottom: 80px;
+
+    &__top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 80px;
+    }
+
+    &__heading {
+        font-size: 6.4rem;
+        font-weight: 500;
+        line-height: 115.625%;
+        text-transform: capitalize;
+
+        @include abstracts.screen(md) {
+            font-size: 5rem;
+        }
+    }
+
+    &__desc {
+        width: min(601px, 100%);
+        text-align: center;
+    }
+
+    &__icon {
+        margin-top: 4px;
+        width: 189px;
+        user-select: none;
+    }
+
+    &__list {
+        margin-top: 60px;
+        position: relative;
+
+        @include abstracts.screen(md) {
+            margin-top: 30px;
+        }
+    }
+
+    &__arrow {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+
+        top: calc(50% - 66px);
+        transform: translateY(-50%);
+
+        transition: transform 0.3s ease;
+
+        @include abstracts.screen(xl) {
+            top: calc(50% - 96px);
+        }
+
+        @include abstracts.screen(lg) {
+            top: calc(50% - 100px);
+        }
+    }
+
+    &__arrow:first-child {
+        left: -34px;
+
+        &:hover {
+            opacity: 0.7; /* Giảm độ trong suốt */
+            transform: translateX(-10px) translateY(-50%); /* Di chuyển ảnh khi hover */
+        }
+    }
+
+    &__arrow:last-child {
+        right: -34px;
+
+        &:hover {
+            opacity: 0.7; /* Giảm độ trong suốt */
+            transform: translateX(10px) translateY(-50%); /* Di chuyển ảnh khi hover */
+        }
+    }
+
+    &__decor {
+        position: absolute;
+
+        &--top {
+            right: -50px;
+            top: -50px;
+
+            @include abstracts.screen(md) {
+                top: -20px;
+            }
+        }
+
+        &--bottom {
+            left: -100px;
+            bottom: 0;
+
+            @include abstracts.screen(md) {
+                bottom: 20px;
+            }
+        }
+    }
+
+    &-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        @include abstracts.screen(md) {
+            margin-top: 30px;
+        }
+
+        &__thumb {
+            width: 100%;
+        }
+
+        &__title {
+            margin-top: 18px;
+
+            font-size: 2.4rem;
+            font-weight: 500;
+            line-height: 141.667%;
+            text-transform: capitalize;
+
+            @include abstracts.screen(md) {
+                font-size: 2rem;
+            }
+        }
+
+        &__desc {
+            margin-top: 6px;
+            margin-bottom: 26px;
+
+            @include abstracts.screen(md) {
+                font-size: 1.2rem;
+                margin-bottom: 16px;
+            }
+        }
+
+        &__separate {
+            margin: auto 0 16px;
+
+            height: 1px;
+            opacity: 0.2;
+            background: var(--white-8-color);
+
+            @include abstracts.screen(md) {
+                margin: auto 0 6px;
+            }
+        }
+
+        &__act {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            @include abstracts.screen(md) {
+                margin-top: 24px;
+            }
+        }
+
+        &__link {
+            color: var(--white-color);
+            padding-bottom: 6px;
+
+            border-bottom: 1px solid var(--white-color);
+
+            translate: 0;
+            transition: translate, color, border-bottom;
+            transition-duration: 0.2s;
+
+            &:hover {
+                color: var(--primary-color);
+                translate: 0 -4px;
+                border-bottom: 1px solid var(--primary-color);
+            }
+        }
+
+        &__price {
+            font-size: 2.4rem;
+            font-weight: 500;
+            line-height: 141.667%;
+            text-transform: capitalize;
+        }
+    }
+
+    // Discover
+    &-discover {
+        margin-top: 80px;
+
+        @include abstracts.screen(lg) {
+            width: 100%;
+        }
+
+        &__left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        &__heading {
+            @include abstracts.screen(lg) {
+                font-size: 5rem;
+            }
+        }
+
+        &__desc {
+            margin-top: 16px;
+            width: 470px;
+
+            @include abstracts.screen(lg) {
+                width: 100%;
+            }
+
+            @include abstracts.screen(md) {
+                width: 470px;
+            }
+
+            @include abstracts.screen(sm) {
+                width: 100%;
+            }
+        }
+
+        &__link {
+            margin-top: 44px;
+            width: 112px;
+            color: var(--primary-color);
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--primary-color);
+
+            translate: 0;
+            transition: translate 0.2s;
+
+            &:hover {
+                translate: 0 -4px;
+            }
+        }
+
+        &__right {
+            position: relative;
+
+            @include abstracts.screen(md) {
+                margin-top: 30px;
+            }
+        }
+
+        &__icon {
+            position: absolute;
+            right: -42px;
+            top: -38px;
+            z-index: -1;
+
+            @include abstracts.screen(md) {
+                width: 60px;
+
+                right: 0px;
+                top: -27px;
+            }
+        }
+
+        &__thumb {
+            width: 100%;
+
+            @include abstracts.screen(md) {
+                width: calc(100% - 30px);
+            }
+        }
+    }
+
+    // Menu offer
+
+    &-offer {
+        margin-top: 70px;
+
+        &__heading {
+            width: 630px;
+            margin-top: 14px;
+            text-align: center;
+
+            @include abstracts.screen(lg) {
+                width: 100%;
+                font-size: 5rem;
+            }
+
+            @include abstracts.screen(sm) {
+                font-size: 4.6rem;
+            }
+        }
+
+        &__nav {
+            display: flex;
+            justify-content: center;
+            gap: 72px;
+
+            margin-top: 30px;
+
+            @include abstracts.screen(lg) {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+        }
+
+        &__btn {
+            font-family: "Libre Bodoni", sans-serif;
+            font-size: 3rem;
+            font-weight: 500;
+            line-height: 133.333%;
+            color: var(--white-color);
+            opacity: 0.5;
+
+            &--active {
+                opacity: 1;
+                border-bottom: 1px solid var(--white-color);
+            }
+        }
+    }
+
+    &-most-popular {
+        margin-top: 140px;
+
+        @include abstracts.screen(lg) {
+            margin-top: 100px;
+        }
+
+        @include abstracts.screen(md) {
+            margin-top: 50px;
+        }
+
+        &__desc {
+            margin-top: 20px;
+            text-align: center;
+            width: min(601px, 100%);
+        }
+
+        &-item {
+            &__top {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-top: 18px;
+            }
+
+            &__title {
+                margin-top: 0;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+
+                @include abstracts.screen(lg) {
+                    font-size: 2rem;
+                }
+            }
+
+            &__price {
+                margin-left: 10px;
+            }
+
+            &__desc {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            &__act {
+                @include abstracts.screen(lg) {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                @include abstracts.screen(md) {
+                    flex-direction: row;
+                    align-items: center;
+                }
+            }
+
+            &__rating {
+                display: flex;
+
+                @include abstracts.screen(lg) {
+                    margin-left: auto;
+                    margin-top: 10px;
+                }
+
+                @include abstracts.screen(md) {
+                    margin-top: 0;
+                }
+
+                & img {
+                    padding: 3px;
+                }
+            }
+        }
+
+        &__bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 36px;
+
+            @include abstracts.screen(md) {
+                margin-top: 50px;
+            }
+        }
+
+        &__link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 6px;
+
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+
+            translate: 0;
+            transition: translate 0.2s;
+
+            &:hover {
+                translate: 4px;
+            }
+        }
+    }
+
+    &-choose {
+        margin-top: 150px;
+
+        @include abstracts.screen(lg) {
+            margin-top: 100px;
+        }
+
+        @include abstracts.screen(md) {
+            margin-top: 70px;
+        }
+
+        &__heading {
+            margin-top: 10px;
+            width: min(900px, 100%);
+        }
+
+        &__desc {
+            margin-top: 20px;
+        }
+
+        &__separate {
+            margin-top: 30px;
+            height: 1px;
+            background: #37373a;
+        }
+
+        &__list {
+            margin-top: 30px;
+        }
+
+        &-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__left {
+                display: flex;
+                gap: 20px;
+            }
+
+            &__title,
+            &__price {
+                font-size: 3rem;
+                font-weight: 500;
+                line-height: 133.333%;
+
+                @include abstracts.screen(lg) {
+                    font-size: 2.2rem;
+                    height: 96px;
+                }
+            }
+
+            &__title {
+                width: min(300px, 100%);
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            &__price {
+                margin-left: 20px;
+            }
+
+            &__thumb {
+                width: 76px;
+                height: 76px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+}

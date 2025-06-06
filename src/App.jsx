@@ -1,55 +1,72 @@
-import { BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter , Routes, Route } from "react-router-dom";
 import PublicRoutes from "./routes/PublicRoutes";
 import CustomerRoutes from "./routes/CustomerRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import StaffRoutes from "./routes/StaffRoutes";
-import ManagerRoutes from "./routes/ManagerRoutes";
+import NotFound from "./pages/public/NotFound";
 import { useContext, useEffect } from "react";
-import { getMe } from "./services/user.service";
-import { AuthContext } from "./components/context/auth.context";
+import { getInfo } from "./services/userSevices";
+import { AuthContext } from "./components/context/authContext";
 import { Spin } from "antd";
 
 const App = () => {
   const { setUser, isAppLoading, setIsAppLoading } = useContext(AuthContext);
 
+    // Thêm console.log để debug
+  console.log("App component render");
+
   useEffect(() => {
-    fetchUserInfo();
-    // eslint-disable-next-line
-  }, []);
-
   const fetchUserInfo = async () => {
-    const res = await getMe();
-    if (res.data) {
-      setUser(res.data.user);
+    try {
+      // Gọi API để kiểm tra xác thực - cookies sẽ tự động được gửi
+      const userData = await getInfo();
+      console.log("User data fetched:", userData);
+      
+      if (userData && userData.id) {
+        console.log("User info fetched:", userData);
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+      // Nếu gặp lỗi 401, đã xử lý trong axiosCustomize.js
+    } finally {
+      setIsAppLoading(false);
     }
-    setIsAppLoading(false);
   };
+  
+  // LUÔN gọi fetchUserInfo(), cookies sẽ được gửi tự động
+  // Nếu không có cookies hoặc không hợp lệ, API sẽ trả về 401
+  fetchUserInfo();
+}, []);
 
-  if (isAppLoading) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <Spin />
-      </div>
-    );
-  }
 
-  return (
-    <Router>
-      <Routes>
-        <PublicRoutes />
-        <CustomerRoutes />
-        <AdminRoutes />
-        <StaffRoutes />
-        <ManagerRoutes />
-      </Routes>
-    </Router>
+  return ( <>
+  {isAppLoading === true ? (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Spin />
+        </div>
+      ) : (
+        <>
+          <BrowserRouter>
+        <Routes>
+          {PublicRoutes} 
+          {CustomerRoutes} 
+          {AdminRoutes} 
+          {StaffRoutes}
+          <Route path='*' element={<NotFound />}/>
+        </Routes>
+    </BrowserRouter>
+        </>
+      )}
+  </>
+    
   );
 };
 
