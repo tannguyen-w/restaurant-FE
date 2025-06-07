@@ -11,3 +11,22 @@
         translate: -4px;
     }
 }
+
+
+.rotate-img-left {
+  animation: spin 30s linear infinite;
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.rotate-img-right {
+  animation: spin 15s linear infinite;
+  @keyframes spin {
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+}

@@ -34,23 +34,23 @@ const Header = () => {
                 <img
                   src={foodRestaurantMain}
                   alt="Food main"
-                  className="header__food-main"
+                  className="header__food-main rotate-img-left"
                 />
                 <span className="header__food-main--price">Giá: 199.000₫</span>
                 <img
                   src={foodRestaurantTop}
                   alt="Food 2"
-                  className="header__food-sub header__food-sub--top"
+                  className="header__food-sub header__food-sub--top rotate-img-right"
                 />
                 <img
                   src={foodRestaurantMid}
                   alt="Food 3"
-                  className="header__food-sub header__food-sub--mid"
+                  className="header__food-sub header__food-sub--mid rotate-img-right"
                 />
                 <img
                   src={foodRestaurantBottom}
                   alt="Food 4"
-                  className="header__food-sub header__food-sub--bottom"
+                  className="header__food-sub header__food-sub--bottom rotate-img-right"
                 />
               </div>
             </div>
