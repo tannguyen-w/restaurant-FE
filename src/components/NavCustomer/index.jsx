@@ -164,27 +164,17 @@ const NavCustomer = () => {
     <div className="containerR">
       <div className="navbar__content">
         {/* <!-- More --> */}
-        <button
-          className="top-bar__more d-none d-lg-block "
-          onClick={toggleMenu}
-        >
+        <button className="top-bar__more d-none d-lg-block " onClick={toggleMenu}>
           <img src={moreIcon} alt="More" className="icon top-bar__more-icon" />
         </button>
 
         {/* <!-- Logo --> */}
         <Link to={"/"} className="logo">
-          <img
-            src={logoIcon}
-            alt="Nhà hàng Vạn Hoa"
-            className="icon logo__img"
-          />
+          <img src={logoIcon} alt="Nhà hàng Vạn Hoa" className="icon logo__img" />
           <h1 className="logo__title">Vạn Hoa</h1>
         </Link>
 
-        <div
-          id="navbar__main"
-          className={`navbar__main ${showMenu ? "" : "hide"}`}
-        >
+        <div id="navbar__main" className={`navbar__main ${showMenu ? "" : "hide"}`}>
           <button className="navbar__close-btn " onClick={toggleMenu}>
             <img className="icon" src={arrowLeft} alt="Arrow left" />
           </button>
@@ -219,18 +209,12 @@ const NavCustomer = () => {
         </div>
 
         {/* Overlay */}
-        {showMenu && (
-          <div className="navbar__overlay" onClick={toggleMenu}></div>
-        )}
+        {showMenu && <div className="navbar__overlay" onClick={toggleMenu}></div>}
         {/* <!-- Actions --> */}
         <div className="top-act">
           <div className="top-act__btn-wrap">
             <button className="top-act__cart" onClick={toggleCartDropdown}>
-              <img
-                src={buyIcon}
-                alt="Buy"
-                className="top-act__icon-buy top-act__icon icon"
-              />
+              <img src={buyIcon} alt="Buy" className="top-act__icon-buy top-act__icon icon" />
               <span className="top-act__quantity">{cartItems.length}</span>
             </button>
 
@@ -238,15 +222,9 @@ const NavCustomer = () => {
             {showCartDropdown && (
               <div className="act-dropdown top-act__dropdown">
                 <div className="act-dropdown__inner act-dropdown-cart__inner">
-                  <img
-                    src={arrowUpIcon}
-                    alt=""
-                    className="act-dropdown__arrow act-dropdown-cart__arrow"
-                  />
+                  <img src={arrowUpIcon} alt="" className="act-dropdown__arrow act-dropdown-cart__arrow" />
                   <div className="act-dropdown-cart__top">
-                    <h4 className="act-dropdown__title act-dropdown-cart__title">
-                      {cartItems.length} sản phẩm
-                    </h4>
+                    <h4 className="act-dropdown__title act-dropdown-cart__title">{cartItems.length} sản phẩm</h4>
                     <Link to="/cart" className="act-dropdown-cart__link">
                       Xem tất cả
                     </Link>
@@ -269,13 +247,9 @@ const NavCustomer = () => {
                             }}
                           />
                           <div className="cart-preview-item__content">
-                            <h4 className="cart-preview-item__title">
-                              {item.name}
-                            </h4>
+                            <h4 className="cart-preview-item__title">{item.name}</h4>
                             <div className="cart-preview-item__price">
-                              <span className="cart-preview-item__quantity">
-                                {item.quantity} x{" "}
-                              </span>
+                              <span className="cart-preview-item__quantity">{item.quantity} x </span>
                               <span className="cart-preview-item__unit-price">
                                 {new Intl.NumberFormat("vi-VN", {
                                   style: "currency",
@@ -289,21 +263,13 @@ const NavCustomer = () => {
                                   className="cart-preview-item__quantity-btn"
                                   onClick={() => handleDecreaseQuantity(item)}
                                 >
-                                  <img
-                                    className="icon"
-                                    src={minusIcon}
-                                    alt="Giảm số lượng"
-                                  />
+                                  <img className="icon" src={minusIcon} alt="Giảm số lượng" />
                                 </button>
                                 <button
                                   className="cart-preview-item__quantity-btn"
                                   onClick={() => handleIncreaseQuantity(item)}
                                 >
-                                  <img
-                                    className="icon"
-                                    src={plusIcon}
-                                    alt="Tăng số lượng"
-                                  />
+                                  <img className="icon" src={plusIcon} alt="Tăng số lượng" />
                                 </button>
                               </div>
                               <Popconfirm
@@ -314,9 +280,7 @@ const NavCustomer = () => {
                                 okText="Xoá"
                                 cancelText="Huỷ"
                               >
-                                <Button className="cart-preview-item__delete">
-                                  x
-                                </Button>
+                                <Button className="cart-preview-item__delete">x</Button>
                               </Popconfirm>
                             </div>
                           </div>
@@ -336,16 +300,10 @@ const NavCustomer = () => {
                       </p>
                     </div>
                     <div className="cart-sub__act">
-                      <Link
-                        to="/checkout"
-                        className="cart-sub__act--link cart-sub__payment"
-                      >
+                      <Link to="/checkout" className="cart-sub__act--link cart-sub__payment">
                         Thanh toán
                       </Link>
-                      <Link
-                        to="/cart"
-                        className="cart-sub__act--link cart-sub__detail"
-                      >
+                      <Link to="/cart" className="cart-sub__act--link cart-sub__detail">
                         Giỏ hàng
                       </Link>
                     </div>
@@ -364,22 +322,12 @@ const NavCustomer = () => {
             {showUserDropdown && (
               <div className="act-dropdown top-act__dropdown">
                 <div className="act-dropdown__inner user-menu">
-                  <img
-                    src={arrowUpIcon}
-                    alt=""
-                    className="act-dropdown__arrow top-act__arrow"
-                  />
+                  <img src={arrowUpIcon} alt="" className="act-dropdown__arrow top-act__arrow" />
 
                   <div className="user-menu__top">
-                    <img
-                      src={avatarUrl}
-                      alt="Avatar"
-                      className="user-menu__avatar"
-                    />
+                    <img src={avatarUrl} alt="Avatar" className="user-menu__avatar" />
                     <div>
-                      <p className="user-menu__name">
-                        {user && user.full_name ? user.full_name : "Người dùng"}
-                      </p>
+                      <p className="user-menu__name">{user && user.full_name ? user.full_name : "Người dùng"}</p>
                       <p>@{user ? user.username : "guest"}</p>
                     </div>
                   </div>
@@ -387,54 +335,31 @@ const NavCustomer = () => {
                   <ul className="user-menu__list">
                     <li>
                       <Link to="/profile" className="user-menu__link">
-                        <img
-                          src={userIcon}
-                          alt=""
-                          className="icon user-menu__icon"
-                        />
+                        <img src={userIcon} alt="" className="icon user-menu__icon" />
                         Hồ sơ
                       </Link>
                     </li>
                     <li>
                       <Link to="/favorites" className="user-menu__link">
-                        <img
-                          src={favouriteIcon}
-                          alt=""
-                          className="icon user-menu__icon"
-                        />
+                        <img src={favouriteIcon} alt="" className="icon user-menu__icon" />
                         Yêu thích
                       </Link>
                     </li>
                     <li className="user-menu__separate">
                       <button className="user-menu__link" id="switch-theme-btn">
-                        <img
-                          src={sunDarkIcon}
-                          alt=""
-                          className="icon user-menu__icon"
-                        />
+                        <img src={sunDarkIcon} alt="" className="icon user-menu__icon" />
                         <span>Chế độ tối</span>
                       </button>
                     </li>
                     <li className="user-menu__separate">
                       <Link to="/settings" className="user-menu__link">
-                        <img
-                          src={settingIcon}
-                          alt=""
-                          className="icon user-menu__icon"
-                        />
+                        <img src={settingIcon} alt="" className="icon user-menu__icon" />
                         Cài đặt
                       </Link>
                     </li>
                     <li>
-                      <button
-                        onClick={handleLogout}
-                        className="user-menu__link"
-                      >
-                        <img
-                          src={logoutIcon}
-                          alt=""
-                          className="icon user-menu__icon"
-                        />
+                      <button onClick={handleLogout} className="user-menu__link">
+                        <img src={logoutIcon} alt="" className="icon user-menu__icon" />
                         Đăng xuất
                       </button>
                     </li>

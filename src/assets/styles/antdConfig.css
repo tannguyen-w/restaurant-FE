@@ -1,0 +1,95 @@
+.ant-message .ant-message-custom-content span:not(.anticon) {
+  color: #000 !important;
+}
+
+/* Khôi phục font chữ mặc định cho message component */
+.ant-message,
+.ant-message .ant-message-notice,
+.ant-message .ant-message-notice-content,
+.ant-message .ant-message-custom-content,
+.ant-message .ant-message-custom-content span,
+.ant-popconfirm .ant-btn-default span,
+.ant-popconfirm .ant-btn:not(.ant-btn-primary) span,
+.ant-popconfirm .ant-btn-primary span,
+.ant-select,
+.ant-select-dropdown,
+.ant-select-item,
+.ant-select-selection-item,
+.ant-select-selection-placeholder,
+.ant-empty-description,
+.ant-select-selector {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+
+/* Khôi phục màu mặc định cho nút Hủy trong Popconfirm */
+.ant-popconfirm .ant-btn:not(.ant-btn-primary) {
+  /* Màu text mặc định của Ant Design cho nút thứ cấp */
+  color: rgba(0, 0, 0, 0.88) !important;
+  background-color: #fff !important; /* Đảm bảo nền là trắng */
+  border: 1px solid #d9d9d9 !important; /* Thêm viền để dễ nhìn */
+}
+
+/* Đảm bảo màu hover cũng đúng */
+.ant-popconfirm .ant-btn:not(.ant-btn-primary):hover {
+  color: #4096ff !important;
+  border-color: #4096ff !important;
+}
+
+/* Thêm CSS với độ ưu tiên cao hơn để đảm bảo text luôn hiển thị */
+.ant-popconfirm .ant-btn-default span,
+.ant-popconfirm .ant-btn:not(.ant-btn-primary) span {
+  color: rgba(0, 0, 0, 0.88) !important;
+}
+
+/* Đảm bảo nội dung và tiêu đề của Popconfirm hiển thị rõ */
+.ant-popconfirm .ant-popconfirm-message-title,
+.ant-popconfirm .ant-popconfirm-description {
+  color: rgba(0, 0, 0, 0.88) !important;
+}
+
+/* Khắc phục màu sắc cho Select component */
+.ant-select-dropdown {
+  background-color: #3b3b49 !important;
+  color: #d1d1d1 !important;
+}
+
+/* Màu chữ cho option */
+.ant-select-item {
+  color: #d1d1d1 !important;
+}
+
+/* Màu chữ khi hover và selected */
+.ant-select-item-option-active,
+.ant-select-item-option-selected {
+  background-color: #3b3b49 !important;
+  color: #d1d1d1 !important;
+}
+
+/* Màu chữ cho phần hiển thị selection */
+.ant-select-selection-item {
+  color: #d1d1d1 !important;
+}
+
+/* Màu placeholder */
+.ant-select-selection-placeholder {
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Màu chữ cho thông báo không có data */
+.ant-empty-description {
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Đảm bảo màu chữ cho input của select */
+.ant-select-selector {
+  color: #d1d1d1 !important;
+  background-color: #111114 !important;
+}
+
+/* Đảm bảo màu viền khi focus */
+.ant-select:focus .ant-select-selector,
+.ant-select-focused .ant-select-selector {
+  border-color: #4096ff !important;
+  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1) !important;
+}

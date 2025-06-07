@@ -12,50 +12,33 @@ import deleteIcon from "../../../assets/icons/delete.svg";
 import emptyCartIcon from "../../../assets/icons/traced-02.svg";
 
 const Cart = () => {
-  const { cartItems, cartTotal, updateQuantity, removeFromCart } =
-    useCart();
+  const { cartItems, cartTotal, updateQuantity, removeFromCart } = useCart();
   const [voucher, setVoucher] = useState("");
-  const baseUrl = "http://localhost:8081";
 
   // Tăng số lượng sản phẩm
   const handleIncreaseQuantity = (item) => {
     try {
       updateQuantity(item.id, item.quantity + 1);
-      message.success({
-        content: `Đã tăng số lượng ${item.name}`,
-        style: { color: "#000" },
-      });
+      message.success(`Đã tăng số lượng ${item.name}`);
     } catch (error) {
       console.error("Error increasing quantity:", error);
-      message.error({
-        content: "Có lỗi xảy ra khi cập nhật số lượng",
-        style: { color: "#000" },
-      });
+      message.error("Có lỗi xảy ra khi cập nhật số lượng");
     }
   };
 
   // Giảm số lượng sản phẩm
   const handleDecreaseQuantity = (item) => {
     if (item.quantity <= 1) {
-      message.info({
-        content: "Số lượng tối thiểu là 1",
-        style: { color: "#000" },
-      });
+      message.info("Số lượng tối thiểu là 1");
       return;
     }
 
     try {
       updateQuantity(item.id, item.quantity - 1);
-      message.success({
-        content: `Đã giảm số lượng ${item.name}`,
-        style: { color: "#000" },
-      });
+      message.success(`Đã giảm số lượng ${item.name}`);
     } catch (error) {
       console.error("Error decreasing quantity:", error);
-      message.error({
-        content: "Có lỗi xảy ra khi cập nhật số lượng",
-        style: { color: "#000" },
-      });
+      message.error("Có lỗi xảy ra khi cập nhật số lượng");
     }
   };
 
@@ -63,16 +46,10 @@ const Cart = () => {
   const handleRemoveItem = (item) => {
     try {
       removeFromCart(item.id);
-      message.success({
-        content: `Đã xóa ${item.name} khỏi giỏ hàng`,
-        style: { color: "#000" },
-      });
+      message.success(`Đã xóa ${item.name} khỏi giỏ hàng`);
     } catch (error) {
       console.error("Error removing item:", error);
-      message.error({
-        content: "Có lỗi xảy ra khi xóa sản phẩm",
-        style: { color: "#000" },
-      });
+      message.error("Có lỗi xảy ra khi xóa sản phẩm");
     }
   };
 
@@ -91,26 +68,17 @@ const Cart = () => {
 
   // Cập nhật giỏ hàng
   const handleUpdateCart = () => {
-    message.success({
-      content: "Đã cập nhật giỏ hàng",
-      style: { color: "#000" },
-    });
+    message.success("Đã cập nhật giỏ hàng");
   };
 
   // Áp dụng voucher
   const handleApplyVoucher = () => {
     if (!voucher.trim()) {
-      message.warning({
-        content: "Vui lòng nhập mã giảm giá",
-        style: { color: "#000" },
-      });
+      message.warning("Vui lòng nhập mã giảm giá");
       return;
     }
 
-    message.info({
-      content: "Chức năng mã giảm giá đang được phát triển",
-      style: { color: "#000" },
-    });
+    message.info("Chức năng mã giảm giá đang được phát triển");
   };
 
   return (
@@ -120,11 +88,7 @@ const Cart = () => {
         <div className="containerR">
           {cartItems.length === 0 ? (
             <div className="empty-cart">
-              <img
-                src={emptyCartIcon}
-                alt="Giỏ hàng trống"
-                className="empty-cart-icon"
-              />
+              <img src={emptyCartIcon} alt="Giỏ hàng trống" className="empty-cart-icon" />
               <h3>Giỏ hàng của bạn đang trống</h3>
               <p>Hãy thêm một vài món ăn từ thực đơn của chúng tôi</p>
               <Link to="/menu" className="btn btn--primary">
@@ -157,11 +121,7 @@ const Cart = () => {
                           cancelText="Huỷ"
                         >
                           <button className="cart-ordered__delete-btn">
-                            <img
-                              src={deleteIcon}
-                              className="cart-ordered__delete-icon"
-                              alt="Xóa"
-                            />
+                            <img src={deleteIcon} className="cart-ordered__delete-icon" alt="Xóa" />
                           </button>
                         </Popconfirm>
                       </div>
@@ -170,8 +130,8 @@ const Cart = () => {
                       <div className="cart-ordered__thumb">
                         <img
                           src={
-                            item.images && item.images.length > 0
-                              ? `${baseUrl}${item.images[0]}`
+                            item.image && item.image.length > 0
+                              ? `${item.image}`
                               : "./assets/images/menu/menu-breakfast-01.png"
                           }
                           className="cart-ordered__thumb-item"
@@ -190,9 +150,7 @@ const Cart = () => {
                           >
                             <img src={minusIcon} alt="Giảm" />
                           </button>
-                          <p className="cart-item__input-quantity cart-item__input-row">
-                            {item.quantity}
-                          </p>
+                          <p className="cart-item__input-quantity cart-item__input-row">{item.quantity}</p>
                           <button
                             className="cart-item__input-btn cart-item__input-row"
                             onClick={() => handleIncreaseQuantity(item)}
@@ -202,11 +160,7 @@ const Cart = () => {
                         </div>
                       </div>
                     </td>
-                    <td data-label="Subtotal">
-                      {formatPrice(
-                        calculateSubtotal(item.price, item.quantity)
-                      )}
-                    </td>
+                    <td data-label="Subtotal">{formatPrice(calculateSubtotal(item.price, item.quantity))}</td>
                   </tr>
                 ))}
               </tbody>
@@ -254,16 +208,10 @@ const Cart = () => {
                   <td colSpan={4}></td>
                   <td colSpan={2}>
                     <div className="cart-actions">
-                      <Link
-                        to="/menu"
-                        className="btn btn--secondary cart-continue-btn"
-                      >
+                      <Link to="/menu" className="btn btn--secondary cart-continue-btn">
                         Tiếp tục mua sắm
                       </Link>
-                      <Link
-                        to="/checkout"
-                        className="btn btn--primary cart-checkout-btn"
-                      >
+                      <Link to="/checkout" className="btn btn--primary cart-checkout-btn">
                         Tiến hành thanh toán
                       </Link>
                     </div>
