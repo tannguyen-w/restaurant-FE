@@ -1,82 +1,83 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-export const CartContext = createContext({
-  cartItems: [],
-  addToCart: () => {},
-  removeFromCart: () => {},
-  updateQuantity: () => {},
-  clearCart: () => {},  // Thêm hàm này để xóa giỏ hàng sau khi thanh toán
-  cartTotal: 0,
-});
+const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Khởi tạo giỏ hàng từ localStorage
+  // Khởi tạo giỏ hàng từ localStorage nếu có
   const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem("cartItems");
-    return savedCart ? JSON.parse(savedCart) : [];
+    const savedItems = localStorage.getItem("cartItems");
+    return savedItems ? JSON.parse(savedItems) : [];
   });
 
-  // Lưu giỏ hàng vào localStorage khi thay đổi
+  // Tính tổng giá trị giỏ hàng
+  const cartTotal = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  // Lưu giỏ hàng vào localStorage mỗi khi có thay đổi
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Các hàm xử lý giỏ hàng
+  // Thêm sản phẩm vào giỏ hàng
   const addToCart = (dish) => {
     setCartItems(prevItems => {
-      const existingItemIndex = prevItems.findIndex(item => item.id === dish.id);
+      // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+      const existingItemIndex = prevItems.findIndex(item => 
+      item.name === dish.name && item.price === dish.price
+    );
       
-      if (existingItemIndex > -1) {
-        const newItems = [...prevItems];
-        newItems[existingItemIndex] = {
-          ...newItems[existingItemIndex],
-          quantity: newItems[existingItemIndex].quantity + 1
-        };
-        return newItems;
+      if (existingItemIndex >= 0) {
+      // Nếu có rồi, tăng số lượng
+      const updatedItems = [...prevItems];
+      updatedItems[existingItemIndex].quantity += 1;
+      return updatedItems;
       } else {
+        // Nếu chưa có, thêm mới với số lượng chỉ định
         return [...prevItems, {
-          ...dish,
-          quantity: 1,
-          image: dish.images && dish.images.length > 0 
-            ? `${import.meta.env.VITE_BACKEND_URL || "http://localhost:8081"}${dish.images[0]}` 
-            : null
-        }];
+        dishId: dish.id, // Lưu id của món ăn
+        name: dish.name,
+        price: dish.price,
+        description: dish.description,
+        quantity: 1,
+        image: dish.image
+      }];
       }
     });
   };
 
-  const removeFromCart = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
-  };
-
-  const updateQuantity = (id, quantity) => {
+  // Cập nhật số lượng sản phẩm
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity < 1) return; // Không cho số lượng dưới 1
+    
     setCartItems(prevItems => 
       prevItems.map(item => 
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
+        item.id === productId 
+          ? { ...item, quantity: newQuantity } 
+          : item
       )
     );
   };
 
-  // Xóa toàn bộ giỏ hàng sau khi thanh toán thành công
-  const clearCart = () => {
-    setCartItems([]);
-    localStorage.removeItem("cartItems");
+  // Xóa sản phẩm khỏi giỏ hàng
+  const removeFromCart = (productId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
 
-  // Tính tổng giá trị giỏ hàng
-  const cartTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity, 
-    0
-  );
+  // Xóa toàn bộ giỏ hàng
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
   return (
-    <CartContext.Provider value={{
-      cartItems,
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      cartTotal
+    <CartContext.Provider value={{ 
+      cartItems, 
+      cartTotal, 
+      addToCart, 
+      updateQuantity, 
+      removeFromCart, 
+      clearCart 
     }}>
       {children}
     </CartContext.Provider>

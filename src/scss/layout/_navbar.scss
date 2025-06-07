@@ -240,6 +240,10 @@
     margin-left: auto;
     gap: 20px;
 
+    &__btn-wrap {
+        z-index: 99;
+    }
+
     &__btn-wrap,
     &__user {
         position: relative;

@@ -21,6 +21,17 @@ const Reservation = () => {
 
     const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Xác định navigation component an toàn
+  const renderNavigation = () => {
+    if (!user) return <NavUser />;
+    
+    if (user.role.name === "customer") {
+      return <NavCustomer />;
+    } else {
+      return <NavUser />;
+    }
+  };
   
   // Form state
   const [formData, setFormData] = useState({
@@ -120,7 +131,7 @@ const Reservation = () => {
       console.log("Sending reservation data:", requestData);
       
       // Call API to create reservation
-      const response = await createReservation(requestData);
+       await createReservation(requestData);
       
       // Show success message
       toast.success("Đặt bàn thành công! Nhà hàng sẽ liên hệ với bạn sớm.");
@@ -154,7 +165,7 @@ const Reservation = () => {
 
   return (
     <>
-    {user ? <NavCustomer /> : <NavUser />}
+     {renderNavigation()}
       <div className="order-01" style={{ backgroundImage: `url(${reservationBg})` }}>
         <div className="containerR">
           <h2 className="order-01__heading">Đặt bàn trực tuyến</h2>

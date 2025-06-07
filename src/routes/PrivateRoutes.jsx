@@ -20,6 +20,13 @@ const PrivateRoute = ({ children, allowedRoles }) => {
       </div>
     );
   }
+
+   // Danh sách các đường dẫn công khai
+  const publicPaths = ['/','/home', '/menu', '/about', '/contact', '/reservation', '/dishes/:id'];
+  const isPublicPage = publicPaths.includes(location.pathname);
+  
+  // Trang công khai không cần xác thực
+  if (isPublicPage) return children;
 // Chỉ kiểm tra khi đã xác thực xong
   if (!user) {
     // Lưu trang người dùng đang cố truy cập để sau khi đăng nhập có thể quay lại
@@ -34,8 +41,6 @@ const PrivateRoute = ({ children, allowedRoles }) => {
     } else if (user.role.name === "admin") {
       return <Navigate to="/admin" />;
     }
-    
-    // Fallback nếu không xác định được vai trò phù hợp
     return <Navigate to="/" />;
   }
 

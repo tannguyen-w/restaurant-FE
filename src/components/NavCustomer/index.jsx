@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 import { logout } from "../../services/authService";
 
+import { Button, message, Popconfirm } from "antd";
+
 import moreIcon from "../../assets/icons/more.svg";
 import logoIcon from "../../assets/icons/logo.svg";
 import arrowLeft from "../../assets/icons/arrow-left.svg";
@@ -16,8 +18,11 @@ import favouriteIcon from "../../assets/icons/favourite.svg";
 import settingIcon from "../../assets/icons/setting.svg";
 import sunDarkIcon from "../../assets/icons/sun-dark.svg";
 
+import minusIcon from "../../assets/icons/minus.svg";
+import plusIcon from "../../assets/icons/plus.svg";
+
 const NavCustomer = () => {
-  const { cartItems, cartTotal } = useCart();
+  const { cartItems, cartTotal, updateQuantity, removeFromCart } = useCart();
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -28,7 +33,88 @@ const NavCustomer = () => {
 
   const baseUrl = "http://localhost:8081";
 
-   // Cập nhật avatar khi user thay đổi
+  // Xử lý khi người dùng xác nhận xóa sản phẩm
+  const handleRemoveItem = (item) => {
+    try {
+      // Gọi hàm xóa sản phẩm từ context
+      removeFromCart(item.id);
+
+      // Hiển thị thông báo thành công với màu chữ đen trên nền trắng
+      message.success({
+        content: `Đã xóa ${item.name} khỏi giỏ hàng`,
+        style: {
+          color: "#000", // Đảm bảo chữ màu đen để dễ đọc
+        },
+      });
+
+      // Cập nhật localStorage
+      updateLocalStorage();
+    } catch (error) {
+      console.error("Error removing item:", error);
+      message.error({
+        content: "Có lỗi xảy ra khi xóa sản phẩm",
+        style: { color: "#000" },
+      });
+    }
+  };
+
+  // Hủy xóa sản phẩm
+  const cancelRemove = () => {
+    message.info({
+      content: "Đã hủy xóa sản phẩm",
+      style: { color: "#000" },
+    });
+  };
+
+  // Tăng số lượng sản phẩm
+  const handleIncreaseQuantity = (item) => {
+    try {
+      // Cập nhật số lượng trong context
+      updateQuantity(item.id, item.quantity + 1);
+
+      // Cập nhật localStorage
+      updateLocalStorage();
+    } catch (error) {
+      console.error("Error increasing quantity:", error);
+      message.error({
+        content: "Có lỗi xảy ra khi cập nhật số lượng",
+        style: { color: "#000" },
+      });
+    }
+  };
+
+  // Giảm số lượng sản phẩm
+  const handleDecreaseQuantity = (item) => {
+    // Nếu số lượng là 1, không giảm thêm
+    if (item.quantity <= 1) {
+      message.info({
+        content: "Số lượng tối thiểu là 1",
+        style: { color: "#000" },
+      });
+      return;
+    }
+
+    try {
+      // Cập nhật số lượng trong context
+      updateQuantity(item.id, item.quantity - 1);
+
+      // Cập nhật localStorage
+      updateLocalStorage();
+    } catch (error) {
+      console.error("Error decreasing quantity:", error);
+      message.error({
+        content: "Có lỗi xảy ra khi cập nhật số lượng",
+        style: { color: "#000" },
+      });
+    }
+  };
+
+  // Hàm cập nhật localStorage
+  const updateLocalStorage = () => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  };
+
+  // Cập nhật avatar khi user thay đổi
   useEffect(() => {
     if (user && user.avatar) {
       // Nếu avatar là đường dẫn đầy đủ (bắt đầu bằng http)
@@ -38,7 +124,7 @@ const NavCustomer = () => {
         // Nếu là đường dẫn tương đối, thêm baseUrl
         setAvatarUrl(`${baseUrl}${user.avatar}`);
       }
-    } 
+    }
     // Không cần fallback vì avatar luôn có từ BE
   }, [user]);
 
@@ -105,7 +191,7 @@ const NavCustomer = () => {
 
           <ul className="navbar__list">
             <li className="navbar__item">
-              <NavLink to={"/"} className="navbar__link">
+              <NavLink to={"/home"} className="navbar__link">
                 Home
               </NavLink>
             </li>
@@ -159,7 +245,7 @@ const NavCustomer = () => {
                   />
                   <div className="act-dropdown-cart__top">
                     <h4 className="act-dropdown__title act-dropdown-cart__title">
-                      Bạn có {cartItems.length} sản phẩm
+                      {cartItems.length} sản phẩm
                     </h4>
                     <Link to="/cart" className="act-dropdown-cart__link">
                       Xem tất cả
@@ -167,31 +253,76 @@ const NavCustomer = () => {
                   </div>
 
                   <div className="act-dropdown__list">
-                    {cartItems.map((item) => (
-                      <article className="cart-preview-item" key={item.id}>
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="cart-preview-item__img"
-                        />
-                        <div className="cart-preview-item__content">
-                          <h4 className="cart-preview-item__title">
-                            {item.name}
-                          </h4>
-                          <div className="cart-preview-item__price">
-                            <span className="cart-preview-item__quantity">
-                              {item.quantity} x{" "}
-                            </span>
-                            <span className="cart-preview-item__unit-price">
-                              {new Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              }).format(item.price)}
-                            </span>
+                    {cartItems.map((item) => {
+                      // Đặt console.log bên trong khối code nếu cần debug
+                      // console.log(item);
+
+                      return (
+                        <article className="cart-preview-item" key={item.id}>
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="cart-preview-item__img"
+                            onError={(e) => {
+                              // Fallback khi không load được ảnh
+                              e.target.src = `${baseUrl}/images/default-dish.jpg`;
+                            }}
+                          />
+                          <div className="cart-preview-item__content">
+                            <h4 className="cart-preview-item__title">
+                              {item.name}
+                            </h4>
+                            <div className="cart-preview-item__price">
+                              <span className="cart-preview-item__quantity">
+                                {item.quantity} x{" "}
+                              </span>
+                              <span className="cart-preview-item__unit-price">
+                                {new Intl.NumberFormat("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                }).format(item.price)}
+                              </span>
+                            </div>
+                            <div className="cart-preview-item__actions">
+                              <div className="cart-preview-item__quantity-control">
+                                <button
+                                  className="cart-preview-item__quantity-btn"
+                                  onClick={() => handleDecreaseQuantity(item)}
+                                >
+                                  <img
+                                    className="icon"
+                                    src={minusIcon}
+                                    alt="Giảm số lượng"
+                                  />
+                                </button>
+                                <button
+                                  className="cart-preview-item__quantity-btn"
+                                  onClick={() => handleIncreaseQuantity(item)}
+                                >
+                                  <img
+                                    className="icon"
+                                    src={plusIcon}
+                                    alt="Tăng số lượng"
+                                  />
+                                </button>
+                              </div>
+                              <Popconfirm
+                                title="Xác nhận xóa"
+                                description="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"
+                                onConfirm={() => handleRemoveItem(item)}
+                                onCancel={cancelRemove}
+                                okText="Xoá"
+                                cancelText="Huỷ"
+                              >
+                                <Button className="cart-preview-item__delete">
+                                  x
+                                </Button>
+                              </Popconfirm>
+                            </div>
                           </div>
-                        </div>
-                      </article>
-                    ))}
+                        </article>
+                      );
+                    })}
                   </div>
 
                   <div className="cart-sub user-menu__separate">
@@ -246,7 +377,9 @@ const NavCustomer = () => {
                       className="user-menu__avatar"
                     />
                     <div>
-                      <p className="user-menu__name">{user && user.full_name ? user.full_name : "Người dùng"}</p>
+                      <p className="user-menu__name">
+                        {user && user.full_name ? user.full_name : "Người dùng"}
+                      </p>
                       <p>@{user ? user.username : "guest"}</p>
                     </div>
                   </div>

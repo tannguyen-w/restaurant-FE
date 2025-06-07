@@ -1,0 +1,21 @@
+/* Đảm bảo thông báo Ant Design luôn có chữ đen */
+.ant-message-notice .ant-message-notice-content {
+  color: #000 !important;
+}
+
+/* Giữ màu biểu tượng thông báo */
+.ant-message-info .anticon {
+  color: #1890ff !important;
+}
+
+.ant-message-success .anticon {
+  color: #52c41a !important;
+}
+
+.ant-message-error .anticon {
+  color: #ff4d4f !important;
+}
+
+.ant-message-warning .anticon {
+  color: #faad14 !important;
+}

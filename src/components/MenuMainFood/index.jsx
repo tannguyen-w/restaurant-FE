@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { getDishes } from "../../services/dishService";
 import { useEffect, useState } from "react";
 
+import { useCart } from "../../components/context/cartContext";
+import { message } from "antd";
+
 // Import Swiper và modules cần thiết
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -18,10 +21,35 @@ import menuIcon from "../../assets/icons/menu-icon.svg";
 import placeholderImg from "../../assets/images/menu/menu-breakfast-01.png";
 
 const MenuMainFood = () => {
+  const { addToCart } = useCart();
+
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const baseImageUrl = "http://localhost:8081";
+
+  // Hàm xử lý khi click nút "Đặt ngay"
+  const handleAddToCart = (dish) => {
+    // Tạo object để thêm vào giỏ hàng với đầy đủ thông tin
+    const dishData = {
+      id: dish._id || dish.id,
+      name: dish.name,
+      price: dish.price,
+      description: dish.description || "Không có mô tả",
+      image: dish.images && dish.images.length > 0 
+        ? `${baseImageUrl}${dish.images[0]}` 
+        : placeholderImg
+    };
+    
+    // Thêm vào giỏ hàng
+    addToCart(dishData);
+    
+    // Hiển thị thông báo thành công
+    message.success({
+      content: `Đã thêm ${dish.name} vào giỏ hàng!`,
+      style: { color: "#000" },
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +72,6 @@ const MenuMainFood = () => {
   const mainDishes = dishes.filter(
     (dish) => dish.category === "683580d2baec28398bc6a905"
   );
-  console.log("mainDishes", mainDishes);
 
   // Format giá tiền
   const formatPrice = (price) => {
@@ -126,12 +153,12 @@ const MenuMainFood = () => {
                         <div className="menu-item__separate d-md-none"></div>
 
                         <div className="menu-item__act">
-                          <Link
-                            to={`/product-detail/${dish.id}`}
-                            className="menu-item__link"
-                          >
-                            Đặt ngay
-                          </Link>
+                          <button
+                          className="menu-item__link"
+                          onClick={() => handleAddToCart(dish)}
+                        >
+                          Đặt ngay
+                        </button>
                           <span className="menu-item__price">
                             {formatPrice(dish.price)}
                           </span>

@@ -349,6 +349,7 @@
     &__content {
       display: flex;
       flex-direction: column;
+      flex: 1;
       justify-content: space-between;
     }
 
@@ -373,6 +374,41 @@
     &__unit-price {
       font-size: 1.2rem;
       color: var(--white-8-color);
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 10px;
+    }
+
+    &__quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &__quantity-btn {
+      padding: 4px 2px;
+      height: 20px;
+      border-radius: 4px;
+      
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+
+    &__delete {
+      padding: 4px ;
+      height: 20px;
+      border-radius: 4px;
+      background-color: transparent;
+      border: none;
+
+      &:hover {
+        background-color: var(--primary-color) !important;
+      }
     }
   }
 

@@ -44,11 +44,9 @@ instance.interceptors.response.use(
       // Xóa các giá trị lưu trong localStorage 
       localStorage.removeItem("user");
       localStorage.removeItem("role");
+      localStorage.removeItem("cartItems");
       
-      // Redirect về login nếu không phải đang ở trang login
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
-      }
+      
     }
     return Promise.reject(error);
   }

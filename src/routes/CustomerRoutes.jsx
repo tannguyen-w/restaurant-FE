@@ -5,6 +5,8 @@ import Profile from "../pages/customer/profile";
 import EditProfile from "../pages/customer/EditProfile";
 import PersonalInfo from "../pages/customer/personalInfo";
 import MyOrder from "../pages/customer/MyOrder";
+import Cart from "../pages/customer/Cart";
+import Checkout from "../pages/customer/Checkout";
 
 const CustomerRoutes = [
   <Route
@@ -28,7 +30,27 @@ const CustomerRoutes = [
     <Route index element={<PersonalInfo />} />
     <Route path="/profile/edit" element={<EditProfile />} />
     <Route path="/profile/orders" element={<MyOrder />} />
-  </Route>
+    
+  </Route>,
+
+  <Route
+    key="cart"
+    path="/cart"
+    element={
+      <PrivateRoute allowedRoles={["customer"]}>
+        <Cart />
+      </PrivateRoute>
+    }
+  />,
+  <Route
+    key="checkout"
+    path="/checkout"
+    element={
+      <PrivateRoute allowedRoles={["customer"]}>
+        <Checkout />
+      </PrivateRoute>
+    }
+  />
 ];
 
 export default CustomerRoutes;

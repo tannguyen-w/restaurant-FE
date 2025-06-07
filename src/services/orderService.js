@@ -1,9 +1,9 @@
 import axios from "./axiosCustomize";
 
-const CreateOrder = async (orderData) => {
+const createOrder = async (orderData) => {
   try {
     const response = await axios.post("/order", orderData);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error creating order:", error);
     throw error;
@@ -21,4 +21,4 @@ const getMyOrders = async () => {
 }
 
 
-export { CreateOrder, getMyOrders };
+export { createOrder, getMyOrders };

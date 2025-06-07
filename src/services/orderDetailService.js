@@ -10,4 +10,14 @@ const getOrderDetails = async () => {
   }
 };
 
-export { getOrderDetails };
+const createOrderDetail = async (data) => {
+  try {
+    const response = await axios.post("/order-detail", data);
+    return response;
+  } catch (error) {
+    console.error("Error creating order detail:", error);
+    throw error;
+  }
+};
+
+export { getOrderDetails, createOrderDetail };

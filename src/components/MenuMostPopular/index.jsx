@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from '../../components/context/cartContext';
+import { useCart } from "../../components/context/cartContext";
 import { getDishes } from "../../services/dishService";
 import { getOrderDetails } from "../../services/orderDetailService";
 
@@ -8,9 +8,10 @@ import starIcon from "../../assets/icons/star.svg";
 import starEmptyIcon from "../../assets/icons/star-empty.svg";
 import arrowRightIcon from "../../assets/icons/arrow-right.svg";
 import defaultDishImage from "../../assets/images/menu/menu-all-01.png";
+import { message } from "antd";
 
 const MenuMostPopular = () => {
-   const { addToCart } = useCart();
+  const { addToCart } = useCart();
   const [dishes, setDishes] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
   const [popularDishes, setPopularDishes] = useState([]);
@@ -137,16 +138,29 @@ const MenuMostPopular = () => {
                     </Link>
 
                     <div className="menu-item__act menu-most-popular-item__act">
-                       <button
-        className="menu-item__link"
-        onClick={() => {
-          addToCart(dish);
-          // Có thể thêm thông báo thành công ở đây
-          alert(`Đã thêm ${dish.name} vào giỏ hàng!`);
-        }}
-      >
-        Đặt ngay
-      </button>
+                      <button
+                        className="menu-item__link"
+                        onClick={() => {
+                          // Tạo đối tượng dishData với đầy đủ thông tin cần lưu vào giỏ hàng
+                          const dishData = {
+                            id: dish._id,
+                            name: dish.name,
+                            price: dish.price,
+                            description: dish.description,
+                            // Đảm bảo lưu đường dẫn hình ảnh đầy đủ
+                            image:
+                              dish.images && dish.images.length > 0
+                                ? `${baseImageUrl}${dish.images[0]}`
+                                : defaultDishImage,
+                          };
+
+                          // Thêm vào giỏ hàng với đầy đủ thông tin
+                          addToCart(dishData);
+                          message.success(`Đã thêm ${dish.name} vào giỏ hàng!`);
+                        }}
+                      >
+                        Đặt ngay
+                      </button>
 
                       <div className="menu-most-popular-item__rating">
                         {/* Hiển thị 4 sao đầy và 1 sao rỗng (có thể thay bằng hệ thống đánh giá thực) */}
