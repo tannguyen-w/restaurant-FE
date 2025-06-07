@@ -3,6 +3,7 @@ import imageDish from "../../assets/images/menu/menu-all-01.png";
 
 import { getDishCategories } from "../../services/dishCategoryService";
 import { getDishes } from "../../services/dishService";
+import { Link } from "react-router-dom";
 
 const MenuChoose = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -80,7 +81,7 @@ const MenuChoose = () => {
             {limitedDishes.length > 0 ? (
               limitedDishes.map((dish) => (
                 <div className="col" key={dish.id}>
-                  <div className="menu-choose-item">
+                  <Link to={`/dishes/${dish.id}`} className="menu-choose-item">
                     <div className="menu-choose-item__left">
                       <img
                         src={
@@ -99,7 +100,7 @@ const MenuChoose = () => {
                         currency: "VND",
                       }).format(dish.price)}
                     </span>
-                  </div>
+                  </Link>
                 </div>
               ))
             ) : (
