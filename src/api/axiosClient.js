@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8888/v1/api", // điều chỉnh nếu backend chạy port khác
+  baseURL: "http://localhost:8081/v1/api", // điều chỉnh nếu backend chạy port khác
   withCredentials: true, // Hỗ trợ cookie httpOnly nếu backend set
 });
 

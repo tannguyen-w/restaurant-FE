@@ -1,4 +1,4 @@
-import { BrowserRouter , Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PublicRoutes from "./routes/PublicRoutes";
 import CustomerRoutes from "./routes/CustomerRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
@@ -8,40 +8,41 @@ import { useContext, useEffect } from "react";
 import { getInfo } from "./services/userSevices";
 import { AuthContext } from "./components/context/authContext";
 import { Spin } from "antd";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { setUser, isAppLoading, setIsAppLoading } = useContext(AuthContext);
 
-    // Thêm console.log để debug
+  // Thêm console.log để debug
   console.log("App component render");
 
   useEffect(() => {
-  const fetchUserInfo = async () => {
-    try {
-      // Gọi API để kiểm tra xác thực - cookies sẽ tự động được gửi
-      const userData = await getInfo();
-      console.log("User data fetched:", userData);
-      
-      if (userData && userData.id) {
-        console.log("User info fetched:", userData);
-        setUser(userData);
+    const fetchUserInfo = async () => {
+      try {
+        // Gọi API để kiểm tra xác thực - cookies sẽ tự động được gửi
+        const userData = await getInfo();
+        console.log("User data fetched:", userData);
+
+        if (userData && userData.id) {
+          console.log("User info fetched:", userData);
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        // Nếu gặp lỗi 401, đã xử lý trong axiosCustomize.js
+      } finally {
+        setIsAppLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-      // Nếu gặp lỗi 401, đã xử lý trong axiosCustomize.js
-    } finally {
-      setIsAppLoading(false);
-    }
-  };
-  
-  // LUÔN gọi fetchUserInfo(), cookies sẽ được gửi tự động
-  // Nếu không có cookies hoặc không hợp lệ, API sẽ trả về 401
-  fetchUserInfo();
-}, []);
+    };
 
+    // LUÔN gọi fetchUserInfo(), cookies sẽ được gửi tự động
+    // Nếu không có cookies hoặc không hợp lệ, API sẽ trả về 401
+    fetchUserInfo();
+  }, []);
 
-  return ( <>
-  {isAppLoading === true ? (
+  return (
+    <>
+      {isAppLoading === true ? (
         <div
           style={{
             position: "fixed",
@@ -55,18 +56,29 @@ const App = () => {
       ) : (
         <>
           <BrowserRouter>
-        <Routes>
-          {PublicRoutes} 
-          {CustomerRoutes} 
-          {AdminRoutes} 
-          {StaffRoutes}
-          <Route path='*' element={<NotFound />}/>
-        </Routes>
-    </BrowserRouter>
+            <Routes>
+              {PublicRoutes}
+              {CustomerRoutes}
+              {AdminRoutes}
+              {StaffRoutes}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
         </>
       )}
-  </>
-    
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 };
 
