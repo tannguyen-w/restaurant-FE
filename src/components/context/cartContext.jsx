@@ -19,7 +19,6 @@ export const CartProvider = ({ children }) => {
 
   // Thêm sản phẩm vào giỏ hàng
   const addToCart = (dish) => {
-    console.log("Adding to cart:", dish);
     setCartItems((prevItems) => {
       // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
       const existingItemIndex = prevItems.findIndex((item) => item.name === dish.name && item.price === dish.price);

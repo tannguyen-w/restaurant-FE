@@ -20,10 +20,8 @@ const App = () => {
       try {
         // Gọi API để kiểm tra xác thực - cookies sẽ tự động được gửi
         const userData = await getInfo();
-        console.log("User data fetched:", userData);
 
         if (userData && userData.id) {
-          console.log("User info fetched:", userData);
           setUser(userData);
         }
       } catch (error) {

@@ -232,9 +232,6 @@ const NavCustomer = () => {
 
                   <div className="act-dropdown__list">
                     {cartItems.map((item) => {
-                      // Đặt console.log bên trong khối code nếu cần debug
-                      // console.log(item);
-
                       return (
                         <article className="cart-preview-item" key={item.id}>
                           <img

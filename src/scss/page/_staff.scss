@@ -1,0 +1,43 @@
+.staff {
+  height: 100vh;
+  background: #fff;
+  color: #000;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &__logo {
+      display: flex;
+      gap: 20px;
+    }
+
+    &__thumbnail {
+      background: #111114;
+      border-radius: 4px;
+    }
+
+    &__rest {
+    }
+  }
+
+  &-info {
+    text-align: center;
+    padding: 10px;
+
+    &__name {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    &__role {
+      margin-top: 12px;
+      color: #000;
+    }
+  }
+}

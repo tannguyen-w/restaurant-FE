@@ -6,6 +6,7 @@ import { updateUserProfile } from "../../../services/userSevices";
 import arrowLeft from "../../../assets/icons/arrow-left.svg";
 import formErrorIcon from "../../../assets/icons/form-error.svg";
 import avatarImage from "../../../assets/images/avatar/avatar-01.png";
+import { message } from "antd";
 
 const EditProfile = () => {
   const { user, setUser } = useAuth();
@@ -64,8 +65,7 @@ const EditProfile = () => {
 
       case "email":
         if (value) {
-          const emailRegex =
-            /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+          const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
 
           if (!emailRegex.test(value)) {
             errorMessage = "Email không đúng định dạng";
@@ -180,30 +180,49 @@ const EditProfile = () => {
     e.preventDefault();
 
     if (validateForm()) {
+      // Kiểm tra có thay đổi gì không
+      const isChanged =
+        formData.full_name !== user.full_name ||
+        formData.email !== user.email ||
+        formData.phone !== user.phone ||
+        !!formData.avatar;
+
+      if (!isChanged) {
+        message.info("Bạn chưa thay đổi thông tin nào.");
+        return;
+      }
+
       setIsSubmitting(true);
 
       try {
         // Tạo FormData object để gửi dữ liệu bao gồm file
         const formDataToSend = new FormData();
 
-        if (formData.full_name)
+        if (formData.full_name && formData.full_name !== user.full_name)
           formDataToSend.append("full_name", formData.full_name);
-        if (formData.email) formDataToSend.append("email", formData.email);
-        if (formData.phone) formDataToSend.append("phone", formData.phone);
+        if (formData.email && formData.email !== user.email) formDataToSend.append("email", formData.email);
+        if (formData.phone && formData.phone !== user.phone) formDataToSend.append("phone", formData.phone);
         if (formData.avatar) formDataToSend.append("avatar", formData.avatar);
 
         // Call API to update profile
         const result = await updateUserProfile(formDataToSend);
 
         if (result) {
+          const newAvatar =
+            result.avatar && result.avatar !== "/images/avatars/default.webp" ? result.avatar : user.avatar;
           // Update user context with new data
+
           setUser({
             ...user,
             full_name: formData.full_name || user.full_name,
             email: formData.email || user.email,
             phone: formData.phone || user.phone,
-            avatar: result.avatar || user.avatar, // Lấy avatar mới từ response
+            avatar: newAvatar,
           });
+
+          if (result.avatar && result.avatar !== "/images/avatars/default.webp") {
+            setAvatarPreview(`http://localhost:8081${result.avatar}`);
+          }
 
           // Save updated user to localStorage if necessary
           const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -214,19 +233,16 @@ const EditProfile = () => {
               full_name: formData.full_name || storedUser.full_name,
               email: formData.email || storedUser.email,
               phone: formData.phone || storedUser.phone,
-              avatar: result.avatar || storedUser.avatar,
+              avatar: newAvatar,
             })
           );
 
-          // Thông báo thành công
-          alert("Cập nhật thông tin thành công!");
-
-          // Return to profile page
+          message.success("Cập nhật thông tin thành công!");
           navigate("/profile");
         }
       } catch (error) {
         console.error("Error updating profile:", error);
-        alert("Cập nhật thông tin không thành công. Vui lòng thử lại!");
+        message.error("Cập nhật thông tin không thành công. Vui lòng thử lại!");
       } finally {
         setIsSubmitting(false);
       }
@@ -241,11 +257,7 @@ const EditProfile = () => {
           <div className="col-12">
             <h2 className="cart-info__heading">
               <Link to={"/profile"}>
-                <img
-                  src={arrowLeft}
-                  alt=""
-                  className="icon cart-info__back-arrow"
-                />
+                <img src={arrowLeft} alt="" className="icon cart-info__back-arrow" />
               </Link>
               Thông tin cá nhân
             </h2>
@@ -256,12 +268,7 @@ const EditProfile = () => {
                 <div className="form__group text-center">
                   <div className="avatar-upload">
                     <img
-                      src={
-                        avatarPreview ||
-                        (user && user.avatar
-                          ? `http://localhost:8081${user.avatar}`
-                          : avatarImage)
-                      }
+                      src={avatarPreview || (user && user.avatar ? `http://localhost:8081${user.avatar}` : avatarImage)}
                       alt="Avatar"
                       className="avatar-preview"
                       style={{
@@ -272,10 +279,7 @@ const EditProfile = () => {
                         marginBottom: "15px",
                       }}
                     />
-                    <label
-                      htmlFor="avatar-input"
-                      className="btn btn--primary btn--sm"
-                    >
+                    <label htmlFor="avatar-input" className="btn btn--primary btn--sm">
                       Chọn ảnh đại diện
                     </label>
                     <input
@@ -286,26 +290,17 @@ const EditProfile = () => {
                       onChange={handleFileChange}
                       style={{ display: "none" }}
                     />
-                    {errors.avatar && (
-                      <p className="form__error mt-2">{errors.avatar}</p>
-                    )}
+                    {errors.avatar && <p className="form__error mt-2">{errors.avatar}</p>}
                   </div>
                 </div>
               </div>
               {/* <!-- Form row 1 --> */}
               <div className="form__row">
                 <div className="form__group">
-                  <label
-                    htmlFor="full-name"
-                    className="form__label form__label--medium"
-                  >
+                  <label htmlFor="full-name" className="form__label form__label--medium">
                     Họ và tên
                   </label>
-                  <div
-                    className={`form__text-input ${
-                      errors.full_name ? "form__text-input--error" : ""
-                    }`}
-                  >
+                  <div className={`form__text-input ${errors.full_name ? "form__text-input--error" : ""}`}>
                     <input
                       type="text"
                       name="full_name"
@@ -317,31 +312,16 @@ const EditProfile = () => {
                       required
                       autoFocus
                     />
-                    {errors.full_name && (
-                      <img
-                        src={formErrorIcon}
-                        alt="Error"
-                        className="form__input-icon-error"
-                      />
-                    )}
+                    {errors.full_name && <img src={formErrorIcon} alt="Error" className="form__input-icon-error" />}
                   </div>
-                  {errors.full_name && (
-                    <p className="form__error">{errors.full_name}</p>
-                  )}
+                  {errors.full_name && <p className="form__error">{errors.full_name}</p>}
                 </div>
 
                 <div className="form__group">
-                  <label
-                    htmlFor="email-address"
-                    className="form__label form__label--medium"
-                  >
+                  <label htmlFor="email-address" className="form__label form__label--medium">
                     Email
                   </label>
-                  <div
-                    className={`form__text-input ${
-                      errors.email ? "form__text-input--error" : ""
-                    }`}
-                  >
+                  <div className={`form__text-input ${errors.email ? "form__text-input--error" : ""}`}>
                     <input
                       type="email"
                       name="email"
@@ -352,36 +332,19 @@ const EditProfile = () => {
                       onChange={handleChange}
                       required
                     />
-                    {errors.email && (
-                      <img
-                        src={formErrorIcon}
-                        alt="Error"
-                        className="form__input-icon-error"
-                      />
-                    )}
+                    {errors.email && <img src={formErrorIcon} alt="Error" className="form__input-icon-error" />}
                   </div>
-                  {errors.email && (
-                    <p className={`form__error ${errors.email ? "shown" : ""}`}>
-                      {errors.email}
-                    </p>
-                  )}
+                  {errors.email && <p className={`form__error ${errors.email ? "shown" : ""}`}>{errors.email}</p>}
                 </div>
               </div>
 
               {/* <!-- Form row 2 --> */}
               <div className="form__row">
                 <div className="form__group">
-                  <label
-                    htmlFor="phone"
-                    className="form__label form__label--medium"
-                  >
+                  <label htmlFor="phone" className="form__label form__label--medium">
                     Số điện thoại
                   </label>
-                  <div
-                    className={`form__text-input ${
-                      errors.phone ? "form__text-input--error" : ""
-                    }`}
-                  >
+                  <div className={`form__text-input ${errors.phone ? "form__text-input--error" : ""}`}>
                     <input
                       type="tel"
                       name="phone"
@@ -391,27 +354,16 @@ const EditProfile = () => {
                       value={formData.phone}
                       onChange={handleChange}
                     />
-                    {errors.phone && (
-                      <img
-                        src={formErrorIcon}
-                        alt="Error"
-                        className="form__input-icon-error"
-                      />
-                    )}
+                    {errors.phone && <img src={formErrorIcon} alt="Error" className="form__input-icon-error" />}
                   </div>
-                  {errors.phone && (
-                    <p className="form__error">{errors.phone}</p>
-                  )}
+                  {errors.phone && <p className="form__error">{errors.phone}</p>}
                 </div>
 
                 <div className="form__group"></div>
               </div>
 
               <div className="form-card__bottom">
-                <Link
-                  to="/profile"
-                  className="btn btn--text form-card__btn-text"
-                >
+                <Link to="/profile" className="btn btn--text form-card__btn-text">
                   Huỷ
                 </Link>
                 <button

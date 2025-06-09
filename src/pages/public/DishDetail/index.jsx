@@ -44,7 +44,6 @@ const DishDetail = () => {
       try {
         // Truyền id vào hàm getDishById
         const dishData = await getDishById(id);
-        console.log("Dish data:", dishData);
         setDish(dishData);
       } catch (error) {
         console.error("Error fetching data:", error);

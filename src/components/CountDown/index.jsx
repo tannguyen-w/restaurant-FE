@@ -6,11 +6,11 @@ import countdownBg from "../../assets/images/foods/count-down.png";
 import countdownBgMobile from "../../assets/images/foods/count-down-02.png";
 
 const CountDown = () => {
-const countdownStyle = {
+  const countdownStyle = {
     background: `url(${countdownBg})`,
     backgroundOrigin: "content-box",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "cover"
+    backgroundSize: "cover",
   };
 
   const isMobile = window.innerWidth < 576;
@@ -21,27 +21,24 @@ const countdownStyle = {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [restData, dishData] = await Promise.all([
-          getRestaurants(),
-          getDishes()
-        ]);
-        
-        console.log("responseRest", restData);
+        const [restData, dishData] = await Promise.all([getRestaurants(), getDishes()]);
+
         setRestaurantCount(restData.totalResults || 0);
         setDishCount(dishData.totalResults || 0);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } 
+      }
     };
 
     fetchData();
   }, []);
 
-  
-
   return (
     <>
-      <div className="countdown" style={isMobile ? {...countdownStyle, background: `url(${countdownBgMobile})`} : countdownStyle}>
+      <div
+        className="countdown"
+        style={isMobile ? { ...countdownStyle, background: `url(${countdownBgMobile})` } : countdownStyle}
+      >
         <div className="containerR">
           <div className="countdown__inner">
             <ul className="countdown__list">

@@ -1,7 +1,7 @@
 import NavCustomer from "../../../components/NavCustomer";
 import Footer from "../../../components/layouts/footer";
 
-import {  NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../../../components/context/authContext";
 import { useEffect, useState } from "react";
 
@@ -26,8 +26,6 @@ const Profile = () => {
     address: "Chưa có địa chỉ",
   });
 
-
-
   useEffect(() => {
     if (user) {
       setUserProfile({
@@ -51,18 +49,12 @@ const Profile = () => {
                   {/* <!-- User --> */}
                   <div className="profile-user">
                     <img
-                      src={
-                        user && user.avatar
-                          ? `http://localhost:8081${user.avatar}`
-                          : avatarImage
-                      }
+                      src={user && user.avatar ? `http://localhost:8081${user.avatar}` : avatarImage}
                       alt=""
                       className="profile-user__avatar"
                     />
                     <h1 className="profile-user__name">{userProfile.name}</h1>
-                    <p className="profile-user__desc">
-                      Email: {userProfile.email}
-                    </p>
+                    <p className="profile-user__desc">Email: {userProfile.email}</p>
                   </div>
 
                   {/* <!-- Menu 1 --> */}
@@ -72,11 +64,7 @@ const Profile = () => {
                       <li>
                         <NavLink
                           to={"/profile/edit"}
-                          className={({ isActive }) =>
-                            isActive
-                              ? "profile-menu__link active"
-                              : "profile-menu__link"
-                          }
+                          className={({ isActive }) => (isActive ? "profile-menu__link active" : "profile-menu__link")}
                         >
                           <span className="profile-menu__icon">
                             <img src={personalIcon} alt="" className="icon" />
@@ -87,11 +75,7 @@ const Profile = () => {
                       <li>
                         <NavLink
                           to={"/profile/edit"}
-                          className={({ isActive }) =>
-                            isActive
-                              ? "profile-menu__link active"
-                              : "profile-menu__link"
-                          }
+                          className={({ isActive }) => (isActive ? "profile-menu__link active" : "profile-menu__link")}
                         >
                           <span className="profile-menu__icon">
                             <img src={addressIcon} alt="" className="icon" />
@@ -117,11 +101,7 @@ const Profile = () => {
                       <li>
                         <NavLink
                           to="/profile/orders"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "profile-menu__link active"
-                              : "profile-menu__link"
-                          }
+                          className={({ isActive }) => (isActive ? "profile-menu__link active" : "profile-menu__link")}
                         >
                           <span className="profile-menu__icon">
                             <img src={downloadIcon} alt="" className="icon" />
@@ -130,12 +110,12 @@ const Profile = () => {
                         </NavLink>
                       </li>
                       <li>
-                        <a href="#!" className="profile-menu__link">
+                        <NavLink to={"/profile/tables"} className="profile-menu__link">
                           <span className="profile-menu__icon">
                             <img src={heartIcon} alt="" className="icon" />
                           </span>
-                          Yêu thích
-                        </a>
+                          Bàn đã đặt
+                        </NavLink>
                       </li>
                       <li>
                         <a href="#!" className="profile-menu__link">
@@ -189,7 +169,6 @@ const Profile = () => {
               </div>
               <div className="col-9 col-xl-8 col-lg-7 col-md-12">
                 <Outlet context={{ userProfile, user }} />
-                
               </div>
             </div>
           </div>

@@ -17,7 +17,9 @@
 .ant-select-selection-item,
 .ant-select-selection-placeholder,
 .ant-empty-description,
-.ant-select-selector {
+.ant-select-selector,
+.ant-descriptions-item-label span,
+.ant-descriptions-item-content span {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
@@ -92,4 +94,31 @@
 .ant-select-focused .ant-select-selector {
   border-color: #4096ff !important;
   box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1) !important;
+}
+
+/* Đổi màu chữ và màu nền cho bảng Ant Design */
+.ant-table {
+  background: #23232b !important;
+  color: #fff !important;
+}
+
+.ant-table-thead > tr > th {
+  background: #23232b !important;
+  color: #fb8f2c !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: #23232b !important;
+  color: #fff !important;
+}
+
+/* Đổi màu chữ cho Tag trong bảng nếu cần */
+.ant-tag {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.ant-descriptions-item-label span,
+.ant-descriptions-item-content span {
+  color: #000 !important;
 }
