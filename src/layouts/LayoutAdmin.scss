@@ -1,0 +1,71 @@
+.dasboard {
+    position: relative;
+    width: 100vw;
+    .left-site {
+        width             : 300px;
+        background-color  : #fff;
+        position          : fixed;
+        -webkit-transition: 0.2s ease-in;
+        transition        : 0.2s ease-in;
+        height            : 100%;
+        z-index           : 11;
+        border-right      : 1px solid rgb(199, 222, 247);
+        height            : 100vh;
+    }
+    h1{
+        color: #000;
+    }
+    .brand-name {
+        min-height: 70px;
+        padding   : 0 24px;
+
+    }
+    .slide-bar-menu ul {
+        background-color  : #fff;
+
+    }
+    .ant-menu-title-content {
+        font-size: 15px;
+        color: #000000;
+    }
+
+    .body-wrapper {
+        position   : relative;
+        margin-left: 300px;
+        height     : 100vh;
+        background: #fff;
+        .app-header {
+            position  : relative;
+            z-index   : 50;
+            background: #fff;
+            padding   : 0 25px;
+            border-bottom: 1px solid rgb(199, 222, 247);
+            color: #111114;
+            .navbar {
+                min-height: 70px;
+                padding   : 0;
+            }
+        }
+    }
+    :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-expand-icon, :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-arrow {
+        color: #000000;
+    }
+    :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light .ant-menu-item-selected, :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light>.ant-menu .ant-menu-item-selected{
+        background: #ccdafa;
+    }
+    .ant-select-selector {
+        span{
+        color: #000000;
+    }
+}
+}
+.ant-btn-default {
+        span {
+        color: #000000;
+        }
+}
+.ant-upload {
+    button {
+        color: #000000;
+    }
+}

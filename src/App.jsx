@@ -8,6 +8,7 @@ import { useContext, useEffect } from "react";
 import { getInfo } from "./services/userSevices";
 import { AuthContext } from "./components/context/authContext";
 import { Spin } from "antd";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { setUser, isAppLoading, setIsAppLoading } = useContext(AuthContext);
