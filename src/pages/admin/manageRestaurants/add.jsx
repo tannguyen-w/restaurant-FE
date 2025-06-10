@@ -63,7 +63,7 @@ function AddRestaurants() {
 
   return (
     <div >
-      <h1 className="mt-5 mb-5">Thêm mới nhà hàng</h1>
+      <h1 className="mt-5 mb-5">{id ? "Chỉnh sửa nhà hàng" : "Thêm mới nhà hàng"}</h1>
       <Form
         form={form}
         layout="vertical"

@@ -38,6 +38,7 @@ function AddUser() {
             full_name: userData.full_name,
             email: userData.email,
             password: userData.password,
+            phone: userData.phone,
             role: userData.role,
             // avatar: userData.avatar ? [userData.avatar] : [],
                   avatar: [
