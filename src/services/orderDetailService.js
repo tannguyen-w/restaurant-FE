@@ -1,7 +1,7 @@
 import axios from "./axiosCustomize";
 
 const getOrderDetails = async () => {
-   try {
+  try {
     const orderDetailData = await axios.get("/order-detail/all");
     return orderDetailData;
   } catch (error) {
@@ -20,4 +20,14 @@ const createOrderDetail = async (data) => {
   }
 };
 
-export { getOrderDetails, createOrderDetail };
+const getOrderDetailById = async (id) => {
+  try {
+    const response = await axios.get(`/order-detail/order/${id}`);
+    return response;
+  } catch (error) {
+    console.error(`Error fetching order detail with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export { getOrderDetails, createOrderDetail, getOrderDetailById };

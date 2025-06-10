@@ -6,26 +6,24 @@ import { useCart } from "../../components/context/cartContext";
 import { message } from "antd";
 
 // Import Swiper và modules cần thiết
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import menuIcon from "../../assets/icons/menu-icon.svg";
 import placeholderImg from "../../assets/images/menu/menu-breakfast-01.png";
 
-
 const MenuSoup = () => {
-   const { addToCart } = useCart();
+  const { addToCart } = useCart();
 
-    const [dishes, setDishes] = useState([]);
+  const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const baseImageUrl = "http://localhost:8081";
-
 
   // Hàm xử lý khi click nút "Đặt ngay"
   const handleAddToCart = (dish) => {
@@ -35,14 +33,12 @@ const MenuSoup = () => {
       name: dish.name,
       price: dish.price,
       description: dish.description || "Không có mô tả",
-      image: dish.images && dish.images.length > 0 
-        ? `${baseImageUrl}${dish.images[0]}` 
-        : placeholderImg
+      image: dish.images && dish.images.length > 0 ? `${baseImageUrl}${dish.images[0]}` : placeholderImg,
     };
-    
+
     // Thêm vào giỏ hàng
     addToCart(dishData);
-    
+
     // Hiển thị thông báo thành công
     message.success({
       content: `Đã thêm ${dish.name} vào giỏ hàng!`,
@@ -50,7 +46,7 @@ const MenuSoup = () => {
     });
   };
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -68,10 +64,7 @@ useEffect(() => {
     fetchData();
   }, []);
 
-  const soupDishes = dishes.filter(
-    (dish) => dish.category === "6836b7c699b6d14f8e91a0b1"
-  );
-  console.log("soupDishes", soupDishes);
+  const soupDishes = dishes.filter((dish) => dish.category === "6836b7c699b6d14f8e91a0b1");
 
   // Format giá tiền
   const formatPrice = (price) => {
@@ -83,15 +76,14 @@ useEffect(() => {
 
   return (
     <>
-        <div className="containerR">
-    <div className="menu">
-        <div className="menu__top">
+      <div className="containerR">
+        <div className="menu">
+          <div className="menu__top">
             <h2 className="menu__heading">Món súp</h2>
             <img src={menuIcon} alt="" className="menu__icon" />
-        </div>
+          </div>
 
-        <div className="menu__list">
-
+          <div className="menu__list">
             {loading ? (
               <div className="text-center py-5">Đang tải món ăn...</div>
             ) : error ? (
@@ -103,8 +95,8 @@ useEffect(() => {
                   spaceBetween={20}
                   slidesPerView={3}
                   navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
                   }}
                   breakpoints={{
                     320: {
@@ -125,10 +117,7 @@ useEffect(() => {
                   {soupDishes.map((dish) => (
                     <SwiperSlide key={dish.id}>
                       <div className="menu-item">
-                        <Link
-                          to={`/dishes/${dish.id}`}
-                          className="menu-item__link-detail"
-                        >
+                        <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
                           <img
                             src={
                               dish.images && dish.images.length > 0
@@ -142,22 +131,15 @@ useEffect(() => {
                             }}
                           />
                           <h3 className="menu-item__title">{dish.name}</h3>
-                          <p className="menu-item__desc">
-                            {dish.description || "Không có mô tả cho món ăn này."}
-                          </p>
+                          <p className="menu-item__desc">{dish.description || "Không có mô tả cho món ăn này."}</p>
                         </Link>
                         <div className="menu-item__separate d-md-none"></div>
 
                         <div className="menu-item__act">
-                          <button
-                          className="menu-item__link"
-                          onClick={() => handleAddToCart(dish)}
-                        >
-                          Đặt ngay
-                        </button>
-                          <span className="menu-item__price">
-                            {formatPrice(dish.price)}
-                          </span>
+                          <button className="menu-item__link" onClick={() => handleAddToCart(dish)}>
+                            Đặt ngay
+                          </button>
+                          <span className="menu-item__price">{formatPrice(dish.price)}</span>
                         </div>
                         <div className="menu-item__separate d-none d-md-block"></div>
                       </div>
@@ -171,12 +153,11 @@ useEffect(() => {
             ) : (
               <div className="text-center py-5">Không có món chính nào.</div>
             )}
+          </div>
         </div>
-    </div>
-</div>
-    
+      </div>
     </>
   );
-}
+};
 
 export default MenuSoup;

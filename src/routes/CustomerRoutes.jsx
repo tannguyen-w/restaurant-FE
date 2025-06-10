@@ -7,6 +7,7 @@ import PersonalInfo from "../pages/customer/personalInfo";
 import MyOrder from "../pages/customer/MyOrder";
 import Cart from "../pages/customer/Cart";
 import Checkout from "../pages/customer/Checkout";
+import MyTable from "../pages/customer/MyTable";
 
 const CustomerRoutes = [
   <Route
@@ -30,7 +31,7 @@ const CustomerRoutes = [
     <Route index element={<PersonalInfo />} />
     <Route path="/profile/edit" element={<EditProfile />} />
     <Route path="/profile/orders" element={<MyOrder />} />
-    
+    <Route path="/profile/tables" element={<MyTable />} />
   </Route>,
 
   <Route
@@ -50,7 +51,7 @@ const CustomerRoutes = [
         <Checkout />
       </PrivateRoute>
     }
-  />
+  />,
 ];
 
 export default CustomerRoutes;

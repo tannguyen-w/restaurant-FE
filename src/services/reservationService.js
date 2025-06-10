@@ -8,16 +8,16 @@ const createReservation = async (reservationData) => {
     console.error("Error creating reservation:", error);
     throw error;
   }
-}
+};
 
 const getMyReservations = async () => {
   try {
-    const response = await axios.get(`/reservations/my-reservations`);
-    return response.data;
+    const response = await axios.get(`/reservation/me`);
+    return response;
   } catch (error) {
     console.error("Error fetching reservations:", error);
     throw error;
   }
 };
 
-export {createReservation, getMyReservations}
+export { createReservation, getMyReservations };

@@ -21,10 +21,8 @@ const App = () => {
       try {
         // Gọi API để kiểm tra xác thực - cookies sẽ tự động được gửi
         const userData = await getInfo();
-        console.log("User data fetched:", userData);
 
         if (userData && userData.id) {
-          console.log("User info fetched:", userData);
           setUser(userData);
         }
       } catch (error) {
@@ -66,18 +64,6 @@ const App = () => {
           </BrowserRouter>
         </>
       )}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 };

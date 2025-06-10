@@ -6,19 +6,19 @@ import { useCart } from "../../components/context/cartContext";
 import { message } from "antd";
 
 // Import Swiper và modules cần thiết
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import menuIcon from "../../assets/icons/menu-icon.svg";
 import placeholderImg from "../../assets/images/menu/menu-breakfast-01.png";
 
 const MenuDrink = () => {
-    const { addToCart } = useCart();
+  const { addToCart } = useCart();
 
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,27 +26,25 @@ const MenuDrink = () => {
   const baseImageUrl = "http://localhost:8081";
 
   // Hàm xử lý khi click nút "Đặt ngay"
-    const handleAddToCart = (dish) => {
-      // Tạo object để thêm vào giỏ hàng với đầy đủ thông tin
-      const dishData = {
-        id: dish._id || dish.id,
-        name: dish.name,
-        price: dish.price,
-        description: dish.description || "Không có mô tả",
-        image: dish.images && dish.images.length > 0 
-          ? `${baseImageUrl}${dish.images[0]}` 
-          : placeholderImg
-      };
-      
-      // Thêm vào giỏ hàng
-      addToCart(dishData);
-      
-      // Hiển thị thông báo thành công
-      message.success({
-        content: `Đã thêm ${dish.name} vào giỏ hàng!`,
-        style: { color: "#000" },
-      });
+  const handleAddToCart = (dish) => {
+    // Tạo object để thêm vào giỏ hàng với đầy đủ thông tin
+    const dishData = {
+      id: dish._id || dish.id,
+      name: dish.name,
+      price: dish.price,
+      description: dish.description || "Không có mô tả",
+      image: dish.images && dish.images.length > 0 ? `${baseImageUrl}${dish.images[0]}` : placeholderImg,
     };
+
+    // Thêm vào giỏ hàng
+    addToCart(dishData);
+
+    // Hiển thị thông báo thành công
+    message.success({
+      content: `Đã thêm ${dish.name} vào giỏ hàng!`,
+      style: { color: "#000" },
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,10 +64,7 @@ const MenuDrink = () => {
     fetchData();
   }, []);
 
-  const drinkDish = dishes.filter(
-    (dish) => dish.category === "683580d2baec28398bc6a906"
-  );
-  console.log("drinkDish", drinkDish);
+  const drinkDish = dishes.filter((dish) => dish.category === "683580d2baec28398bc6a906");
 
   // Format giá tiền
   const formatPrice = (price) => {
@@ -88,7 +83,6 @@ const MenuDrink = () => {
           </div>
 
           <div className="menu__list">
-
             {loading ? (
               <div className="text-center py-5">Đang tải món ăn...</div>
             ) : error ? (
@@ -100,8 +94,8 @@ const MenuDrink = () => {
                   spaceBetween={20}
                   slidesPerView={3}
                   navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
                   }}
                   breakpoints={{
                     320: {
@@ -122,10 +116,7 @@ const MenuDrink = () => {
                   {drinkDish.map((dish) => (
                     <SwiperSlide key={dish.id}>
                       <div className="menu-item">
-                        <Link
-                          to={`/dishes/${dish.id}`}
-                          className="menu-item__link-detail"
-                        >
+                        <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
                           <img
                             src={
                               dish.images && dish.images.length > 0
@@ -139,22 +130,15 @@ const MenuDrink = () => {
                             }}
                           />
                           <h3 className="menu-item__title">{dish.name}</h3>
-                          <p className="menu-item__desc">
-                            {dish.description || "Không có mô tả cho món ăn này."}
-                          </p>
+                          <p className="menu-item__desc">{dish.description || "Không có mô tả cho món ăn này."}</p>
                         </Link>
                         <div className="menu-item__separate d-md-none"></div>
 
                         <div className="menu-item__act">
-                          <button
-                          className="menu-item__link"
-                          onClick={() => handleAddToCart(dish)}
-                        >
-                          Đặt ngay
-                        </button>
-                          <span className="menu-item__price">
-                            {formatPrice(dish.price)}
-                          </span>
+                          <button className="menu-item__link" onClick={() => handleAddToCart(dish)}>
+                            Đặt ngay
+                          </button>
+                          <span className="menu-item__price">{formatPrice(dish.price)}</span>
                         </div>
                         <div className="menu-item__separate d-none d-md-block"></div>
                       </div>
@@ -168,7 +152,6 @@ const MenuDrink = () => {
             ) : (
               <div className="text-center py-5">Không có món chính nào.</div>
             )}
-         
           </div>
         </div>
       </div>

@@ -8,17 +8,17 @@ const createOrder = async (orderData) => {
     console.error("Error creating order:", error);
     throw error;
   }
-}
+};
 
-const getMyOrders = async () => {
+const getMyOrders = async (params) => {
   try {
-    const response = await axios.get("/order/my-orders");
-    return response.data;
+    const response = await axios.get("/order/my-orders", { params });
+
+    return response;
   } catch (error) {
     console.error("Error fetching my orders:", error);
     throw error;
   }
-}
-
+};
 
 export { createOrder, getMyOrders };

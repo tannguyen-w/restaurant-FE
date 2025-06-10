@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../../components/context/authContext";
-import {message, Button} from "antd";
+import { message, Button } from "antd";
 
 import { login } from "../../../services/authService";
-import {getInfo} from "../../../services/userSevices";
+import { getInfo } from "../../../services/userSevices";
 
 import logo from "../../../assets/icons/logo.svg";
 import intro from "../../../assets/images/auth/intro.svg";
@@ -22,48 +22,47 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  
-  try {
-    const response = await login(username, password);
-    
-    if (response && response.user) {
-      // Lưu thông tin người dùng vào context
-      const userData = await getInfo();
-      console.log("User data Login:", userData);
-      setUser(userData);
-      
-      // Lưu thông tin cần thiết vào localStorage
-      localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("role", response.user.role.name);
-      
-      message.success("Đăng nhập thành công!");
-      
-      // Điều hướng theo role
-      switch(response.user.role.name) {
-        case "admin":
-          navigate("/admin/dashboard");
-          break;
-        case "staff":
-          navigate("/staff");
-          break;
-        case "customer":
-          navigate("/");
-          break;
-        default:
-          navigate("/");
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await login(username, password);
+
+      if (response && response.user) {
+        // Lưu thông tin người dùng vào context
+        const userData = await getInfo();
+        setUser(userData);
+
+        // Lưu thông tin cần thiết vào localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("role", response.user.role.name);
+
+        message.success("Đăng nhập thành công!");
+
+        // Điều hướng theo role
+        switch (response.user.role.name) {
+          case "admin":
+            navigate("/admin");
+            break;
+          case "staff":
+            navigate("/staff");
+            break;
+          case "customer":
+            navigate("/");
+            break;
+          default:
+            navigate("/");
+        }
+      } else {
+        message.error("Đăng nhập thất bại!");
       }
-    } else {
-      message.error("Đăng nhập thất bại!");
+    } catch (error) {
+      console.error("Login error:", error);
+      message.error(error.response?.data?.message || "Đăng nhập thất bại!");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Login error:", error);
-    message.error(error.response?.data?.message || "Đăng nhập thất bại!");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <>
@@ -72,8 +71,7 @@ const LoginPage = () => {
         <div className="auth__intro d-md-none">
           <img src={intro} alt="" className="auth__intro-img" />
           <p className="auth__intro--text">
-            The best of luxury brand values, high quality products, and
-            innovative services
+            The best of luxury brand values, high quality products, and innovative services
           </p>
         </div>
 
@@ -82,19 +80,13 @@ const LoginPage = () => {
           <div className="auth__content-inner">
             {/* <!-- Logo --> */}
             <Link to={"/"} className="auth__content-logo logo">
-              <img
-                src={logo}
-                alt="Nhà hàng Vạn Hoa"
-                className="icon logo__img"
-              />
-              <h2 className="auth__title--heading logo__title">
-                Nhà hàng Vạn Hoa
-              </h2>
-                </Link>
+              <img src={logo} alt="Nhà hàng Vạn Hoa" className="icon logo__img" />
+              <h2 className="auth__title--heading logo__title">Nhà hàng Vạn Hoa</h2>
+            </Link>
             <h1 className="auth__heading">Chào mừng trở lại</h1>
             <p className="auth__desc">
-              Chào mừng bạn quay lại để đăng nhập. Là khách hàng quay lại, bạn
-              có quyền truy cập vào tất cả thông tin đã lưu trước đó của mình.
+              Chào mừng bạn quay lại để đăng nhập. Là khách hàng quay lại, bạn có quyền truy cập vào tất cả thông tin đã
+              lưu trước đó của mình.
             </p>
             <form onSubmit={handleSubmit} className="form auth__form">
               <div className="form__group">
@@ -109,11 +101,7 @@ const LoginPage = () => {
                     autoFocus
                   />
                   <img src={messageIcon} alt="" className="form__input-icon" />
-                  <img
-                    src={fromError}
-                    alt=""
-                    className="form__input-icon-error"
-                  />
+                  <img src={fromError} alt="" className="form__input-icon-error" />
                 </div>
                 <p className="form__error">Tên tài khoản sai</p>
               </div>
@@ -130,31 +118,19 @@ const LoginPage = () => {
                     required
                   />
                   <img src={lock} alt="" className="form__input-icon" />
-                  <img
-                    src={fromError}
-                    alt=""
-                    className="form__input-icon-error"
-                  />
+                  <img src={fromError} alt="" className="form__input-icon-error" />
                 </div>
               </div>
 
               <div className="form__group form__group--inline">
                 <label className="form__checkbox">
-                  <input
-                    type="checkbox"
-                    name=""
-                    id=""
-                    className="checkbox__input d-none"
-                  />
+                  <input type="checkbox" name="" id="" className="checkbox__input d-none" />
                   <span className="form__checkbox-label">Đặt làm mặc định</span>
                 </label>
               </div>
 
               <div className="form__group auth__btn-group">
-                <Button
-                  loading={loading} type="primary" htmlType="submit"
-                  className="btn auth__btn form__submit-btn"
-                >
+                <Button loading={loading} type="primary" htmlType="submit" className="btn auth__btn form__submit-btn">
                   {loading ? "Đang xử lý..." : "Đăng nhập"}
                 </Button>
                 <button className="btn auth__btn">
@@ -166,7 +142,7 @@ const LoginPage = () => {
 
             <p className="auth__text">
               Chưa có tài khoản?
-              <Link to={"/register"}  className="auth__link auth__text-link">
+              <Link to={"/register"} className="auth__link auth__text-link">
                 Đăng ký
               </Link>
             </p>

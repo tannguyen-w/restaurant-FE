@@ -22,18 +22,12 @@ const MenuMostPopular = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [orderDetailData, dishData] = await Promise.all([
-          getOrderDetails(),
-          getDishes(),
-        ]);
+        const [orderDetailData, dishData] = await Promise.all([getOrderDetails(), getDishes()]);
 
         setOrderDetails(orderDetailData.results || []);
         setDishes(dishData.results || []);
 
-        calculatePopularDishes(
-          orderDetailData.results || [],
-          dishData.results || []
-        );
+        calculatePopularDishes(orderDetailData.results || [], dishData.results || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -78,9 +72,7 @@ const MenuMostPopular = () => {
       ...dish,
       soldQuantity: dishQuantityMap[dish._id] || 0,
     }));
-    const sortedDishes = dishesWithQuantity.sort(
-      (a, b) => b.soldQuantity - a.soldQuantity
-    );
+    const sortedDishes = dishesWithQuantity.sort((a, b) => b.soldQuantity - a.soldQuantity);
 
     const top3Dishes = sortedDishes.slice(0, 3);
 
@@ -93,8 +85,8 @@ const MenuMostPopular = () => {
         <div className="menu__top">
           <h2 className="menu__heading">Món ăn bán chạy nhất</h2>
           <p className="menu-most-popular__desc">
-            Danh sách các món ăn được yêu thích nhất tại nhà hàng chúng tôi. Đây
-            là những món đã được nhiều khách hàng lựa chọn và đánh giá cao.
+            Danh sách các món ăn được yêu thích nhất tại nhà hàng chúng tôi. Đây là những món đã được nhiều khách hàng
+            lựa chọn và đánh giá cao.
           </p>
         </div>
 
@@ -104,10 +96,7 @@ const MenuMostPopular = () => {
               popularDishes.map((dish, index) => (
                 <div className="col" key={dish.id}>
                   <div className="menu-item">
-                    <Link
-                      to={`/dishes/${dish.id}`}
-                      className="menu-item__link-detail"
-                    >
+                    <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
                       <img
                         ref={(el) => (imageRefs.current[index] = el)}
                         src={
@@ -122,9 +111,7 @@ const MenuMostPopular = () => {
                         className="menu-item__thumb"
                       />
                       <div className="menu-most-popular-item__top">
-                        <h3 className="menu-item__title menu-most-popular-item__title">
-                          {dish.name}
-                        </h3>
+                        <h3 className="menu-item__title menu-most-popular-item__title">{dish.name}</h3>
                         <span className="menu-item__price menu-most-popular-item__price">
                           {new Intl.NumberFormat("vi-VN", {
                             style: "currency",
@@ -143,7 +130,7 @@ const MenuMostPopular = () => {
                         onClick={() => {
                           // Tạo đối tượng dishData với đầy đủ thông tin cần lưu vào giỏ hàng
                           const dishData = {
-                            id: dish._id,
+                            id: dish.id,
                             name: dish.name,
                             price: dish.price,
                             description: dish.description,
