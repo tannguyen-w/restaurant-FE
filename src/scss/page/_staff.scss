@@ -1,6 +1,6 @@
 .staff {
   height: 100vh;
-  background: #fff;
+  background-color: #fff;
   color: #000;
 
   &-header {
@@ -17,9 +17,6 @@
     &__thumbnail {
       background: #111114;
       border-radius: 4px;
-    }
-
-    &__rest {
     }
   }
 
@@ -38,6 +35,31 @@
     &__role {
       margin-top: 12px;
       color: #000;
+    }
+  }
+
+  &-content {
+    height: 100%;
+    display: flex;
+
+    &__component {
+      flex: 1;
+    }
+
+    &__header {
+      color: #000;
+    }
+  }
+
+  &-order {
+    &__id span {
+      color: #1677ff !important;
+    }
+
+    &-filter {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
     }
   }
 }

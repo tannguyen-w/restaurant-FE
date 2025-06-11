@@ -4,7 +4,7 @@ import { AuthContext } from "../../../components/context/authContext";
 import { message, Button } from "antd";
 
 import { login } from "../../../services/authService";
-import { getInfo } from "../../../services/userSevices";
+import { getInfo } from "../../../services/userServices";
 
 import logo from "../../../assets/icons/logo.svg";
 import intro from "../../../assets/images/auth/intro.svg";

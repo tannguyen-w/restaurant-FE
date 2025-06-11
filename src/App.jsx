@@ -5,7 +5,7 @@ import AdminRoutes from "./routes/AdminRoutes";
 import StaffRoutes from "./routes/StaffRoutes";
 import NotFound from "./pages/public/NotFound";
 import { useContext, useEffect } from "react";
-import { getInfo } from "./services/userSevices";
+import { getInfo } from "./services/userServices";
 import { AuthContext } from "./components/context/authContext";
 import { Spin } from "antd";
 

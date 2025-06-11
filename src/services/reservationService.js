@@ -10,9 +10,9 @@ const createReservation = async (reservationData) => {
   }
 };
 
-const getMyReservations = async () => {
+const getMyReservations = async (params) => {
   try {
-    const response = await axios.get(`/reservation/me`);
+    const response = await axios.get(`/reservation/me`, { params });
     return response;
   } catch (error) {
     console.error("Error fetching reservations:", error);
@@ -20,4 +20,13 @@ const getMyReservations = async () => {
   }
 };
 
-export { createReservation, getMyReservations };
+const checkTableReservation = async ({ tableId, date, time }) => {
+  const res = await axios.get(`/reservation/${tableId}/check-reservation`, {
+    params: { date, time },
+  });
+  // Giả sử BE trả về { reserved: true/false }
+  console.log("Check table reservation response:", res);
+  return res;
+};
+
+export { createReservation, getMyReservations, checkTableReservation };

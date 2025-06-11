@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../components/context/authContext";
-import { updateUserProfile } from "../../../services/userSevices";
+import { updateUserProfile } from "../../../services/userServices";
 
 import arrowLeft from "../../../assets/icons/arrow-left.svg";
 import formErrorIcon from "../../../assets/icons/form-error.svg";

@@ -20,6 +20,26 @@ const createOrderDetail = async (data) => {
   }
 };
 
+const updateOrderDetail = async (id, data) => {
+  try {
+    const response = await axios.put(`/order-detail/${id}`, data);
+    return response;
+  } catch (error) {
+    console.error(`Error updating order detail with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+const deleteOrderDetail = async (id) => {
+  try {
+    const response = await axios.delete(`/order-detail/${id}`);
+    return response;
+  } catch (error) {
+    console.error(`Error deleting order detail with ID ${id}:`, error);
+    throw error;
+  }
+};
+
 const getOrderDetailById = async (id) => {
   try {
     const response = await axios.get(`/order-detail/order/${id}`);
@@ -30,4 +50,4 @@ const getOrderDetailById = async (id) => {
   }
 };
 
-export { getOrderDetails, createOrderDetail, getOrderDetailById };
+export { getOrderDetails, createOrderDetail, getOrderDetailById, updateOrderDetail, deleteOrderDetail };

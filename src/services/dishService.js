@@ -1,7 +1,7 @@
 import axios from "./axiosCustomize";
 
 const getDishes = async () => {
-   try {
+  try {
     const dishesData = await axios.get("/dishes");
     return dishesData;
   } catch (error) {
@@ -9,7 +9,6 @@ const getDishes = async () => {
     throw error;
   }
 };
-
 
 const getDishById = async (id) => {
   try {
@@ -21,4 +20,14 @@ const getDishById = async (id) => {
   }
 };
 
-export { getDishes, getDishById };
+const getDishesByRestaurant = async (restaurantId) => {
+  try {
+    const dishesData = await axios.get(`/dishes/restaurant/${restaurantId}`);
+    return dishesData;
+  } catch (error) {
+    console.error(`Error fetching dishes for restaurant ${restaurantId}:`, error);
+    throw error;
+  }
+};
+
+export { getDishes, getDishById, getDishesByRestaurant };

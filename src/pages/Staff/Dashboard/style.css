@@ -1,0 +1,38 @@
+.ant-table-thead,
+.ant-table-thead > tr > th {
+  background: #ffff !important;
+  color: #fb8f2c !important;
+}
+
+.ant-select-selector,
+.ant-table,
+.ant-table-container,
+.ant-table-content,
+.ant-table-tbody > tr > td {
+  background: #ffff !important;
+  color: #000 !important;
+}
+
+.ant-form-item-control-input-content input,
+.ant-select-selection-item,
+.ant-select-item-option-content,
+.ant-input,
+.ant-modal-body span,
+.ant-select-selection-search-input,
+.ant-select-selection-item {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+.ant-select-selector {
+  color: #d1d1d1;
+  background-color: #111114;
+}
+
+.ant-select-dropdown {
+  background-color: #fff !important;
+}
+
+.ant-spin-dot-item {
+  background-color: #ff4d4f !important; /* Đổi thành màu đỏ */
+}

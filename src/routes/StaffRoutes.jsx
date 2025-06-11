@@ -11,7 +11,7 @@ const StaffRoutes = [
         <Dashboard />
       </PrivateRoute>
     }
-  />
+  />,
 ];
 
 export default StaffRoutes;

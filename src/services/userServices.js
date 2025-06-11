@@ -36,4 +36,14 @@ const updateUserProfile = async (userData) => {
   }
 };
 
-export { getInfo, getAllUsers, updateUserProfile };
+const getCustomers = async () => {
+  try {
+    const response = await axios.get("/user/customers");
+    return response;
+  } catch (error) {
+    console.error("Error fetching customers:", error);
+    throw error;
+  }
+};
+
+export { getInfo, getAllUsers, updateUserProfile, getCustomers };

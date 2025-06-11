@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { getAllUsers } from "../../../services/userSevices";
+import { getAllUsers } from "../../../services/userServices";
 import { registerUser } from "../../../services/authService";
 
 import introArrow from "../../../assets/images/auth/intro-arrow.svg";
@@ -120,18 +120,13 @@ const Register = () => {
         <div className="auth__intro">
           {/* <!-- Logo --> */}
           <Link to={"/"} className="auth__intro-logo logo d-none d-md-flex">
-            <img
-              src={logoIcon}
-              alt="Nhà hàng Vạn Hoa"
-              className="icon logo__img"
-            />
+            <img src={logoIcon} alt="Nhà hàng Vạn Hoa" className="icon logo__img" />
             <h1 className="logo__title">Nhà hàng Vạn Hoa</h1>
           </Link>
 
           <img src={introImage} alt="" className="auth__intro-img" />
           <p className="auth__intro--text">
-            The best of luxury brand values, high quality products, and
-            innovative services
+            The best of luxury brand values, high quality products, and innovative services
           </p>
 
           <button className="auth__intro-next d-none d-md-flex ">
@@ -144,17 +139,11 @@ const Register = () => {
           <div className="auth__content-inner">
             {/* <!-- Logo --> */}
             <Link to={"/"} className="auth__content-logo logo">
-              <img
-                src={logoIcon}
-                alt="Nhà hàng Vạn Hoa"
-                className="icon logo__img"
-              />
+              <img src={logoIcon} alt="Nhà hàng Vạn Hoa" className="icon logo__img" />
               <h2 className="auth__title--heading logo__title">Vạn Hoa</h2>
             </Link>
             <h1 className="auth__heading">Đăng ký</h1>
-            <p className="auth__desc">
-              Hãy tạo tài khoản để mua sắm như chuyên gia và tiết kiệm chi phí.
-            </p>
+            <p className="auth__desc">Hãy tạo tài khoản để mua sắm như chuyên gia và tiết kiệm chi phí.</p>
             <form onSubmit={handleSubmit} className="form auth__form">
               <div className="form__group">
                 <div className="form__text-input">
@@ -168,25 +157,13 @@ const Register = () => {
                     autoFocus
                   />
                   <img src={messageIcon} alt="" className="form__input-icon" />
-                  {errors.username && (
-                    <img
-                      src={formErrorIcon}
-                      alt=""
-                      className="form__input-icon-error"
-                    />
-                  )}
+                  {errors.username && <img src={formErrorIcon} alt="" className="form__input-icon-error" />}
                 </div>
-                {errors.username && (
-                  <p className="form__error">{errors.username} đã tồn tại</p>
-                )}
+                {errors.username && <p className="form__error">{errors.username} đã tồn tại</p>}
               </div>
 
               <div className="form__group">
-                <div
-                  className={`form__text-input ${
-                    errors.password ? "form__text-input--error" : ""
-                  }`}
-                >
+                <div className={`form__text-input ${errors.password ? "form__text-input--error" : ""}`}>
                   <input
                     type="password"
                     placeholder="Mật khẩu"
@@ -197,25 +174,13 @@ const Register = () => {
                     required
                   />
                   <img src={lockIcon} alt="" className="form__input-icon" />
-                  {errors.password && (
-                    <img
-                      src={formErrorIcon}
-                      alt=""
-                      className="form__input-icon-error"
-                    />
-                  )}
+                  {errors.password && <img src={formErrorIcon} alt="" className="form__input-icon-error" />}
                 </div>
-                {errors.password && (
-                  <p className="form__error">{errors.password}</p>
-                )}
+                {errors.password && <p className="form__error">{errors.password}</p>}
               </div>
 
               <div className="form__group">
-                <div
-                  className={`form__text-input ${
-                    errors.confirmPassword ? "form__text-input--error" : ""
-                  }`}
-                >
+                <div className={`form__text-input ${errors.confirmPassword ? "form__text-input--error" : ""}`}>
                   <input
                     type="password"
                     placeholder="Nhập lại mật khẩu"
@@ -226,41 +191,23 @@ const Register = () => {
                     minLength={6}
                   />
                   <img src={lockIcon} alt="" className="form__input-icon" />
-                  <img
-                    src={formErrorIcon}
-                    alt=""
-                    className="form__input-icon-error"
-                  />
+                  <img src={formErrorIcon} alt="" className="form__input-icon-error" />
                 </div>
               </div>
 
               <div className="form__group form__group--inline">
                 <label className="form__checkbox">
-                  <input
-                    type="checkbox"
-                    name=""
-                    id=""
-                    className="checkbox__input d-none"
-                  />
-                  <span className="form__checkbox-label">
-                    Đặt làm mặc định{" "}
-                  </span>
+                  <input type="checkbox" name="" id="" className="checkbox__input d-none" />
+                  <span className="form__checkbox-label">Đặt làm mặc định </span>
                 </label>
 
-                <Link
-                  to={"/reset-password"}
-                  className="auth__link form__pull-right"
-                >
+                <Link to={"/reset-password"} className="auth__link form__pull-right">
                   Quên mật khẩu?
                 </Link>
               </div>
 
               <div className="form__group auth__btn-group">
-                <button
-                  type="submit"
-                  className="btn auth__btn form__submit-btn"
-                  disabled={isSubmitting}
-                >
+                <button type="submit" className="btn auth__btn form__submit-btn" disabled={isSubmitting}>
                   {isSubmitting ? "Đang xử lý..." : "Đăng ký"}
                 </button>
                 <button className="btn auth__btn">

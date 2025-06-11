@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { getMyReservations } from "../../../services/reservationService";
-import { Tag, Spin } from "antd";
+import { Tag, Spin, Pagination } from "antd";
 
 const MyTable = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userId = user?.id;
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // const userId = user?.id;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 4;
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const res = await getMyReservations(userId);
+        const res = await getMyReservations({ page: currentPage, limit: pageSize });
+
         setReservations(res.results || []);
       } catch {
         setReservations([]);
@@ -21,6 +25,20 @@ const MyTable = () => {
       }
     };
     fetchReservations();
+  }, [currentPage]);
+
+  const [totalResults, setTotalResults] = useState(0);
+  useEffect(() => {
+    const fetchTotal = async () => {
+      try {
+        const response = await getMyReservations({ page: 1, limit: 1 });
+        setTotalResults(response.totalResults || 0);
+      } catch {
+        setTotalResults(0);
+      }
+    };
+    fetchTotal();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -64,6 +82,18 @@ const MyTable = () => {
           ))
         )}
       </div>
+      {/* Pagination */}
+      {!loading && totalResults > pageSize && (
+        <div style={{ marginTop: 24, textAlign: "end" }}>
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={totalResults}
+            onChange={setCurrentPage}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
     </>
   );
 };

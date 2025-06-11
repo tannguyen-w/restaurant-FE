@@ -2,23 +2,29 @@ import NavCustomer from "../../../components/NavCustomer";
 import NavUser from "../../../components/NavUser";
 import Footer from "../../../components/layouts/footer";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../components/context/authContext";
 import { createReservation } from "../../../services/reservationService";
+import { getRestaurants } from "../../../services/restaurantServices";
+import { getTablesByRestaurant } from "../../../services/tableService";
+import { checkTableReservation } from "../../../services/reservationService";
 
-import personalIcon from "../../../assets/icons/personal.svg";
 import callIcon from "../../../assets/icons/call.svg";
 import calendarIcon from "../../../assets/icons/calender.svg";
 import timeIcon from "../../../assets/icons/time-circle.svg";
 import arrowDownIcon from "../../../assets/icons/arrow-down.svg";
-import emailIcon from "../../../assets/icons/message.svg";
 import reservationBg from "../../../assets/images/order/order-01.png";
 import { message } from "antd";
 
 const Reservation = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Thêm state cho nhà hàng và bàn
+  const [restaurants, setRestaurants] = useState([]);
+  const [tables, setTables] = useState([]);
+  const [availableTables, setAvailableTables] = useState([]);
 
   // Xác định navigation component an toàn
   const renderNavigation = () => {
@@ -34,10 +40,47 @@ const Reservation = () => {
   // Form state
   const [formData, setFormData] = useState({
     phone: user?.phone || "",
+    restaurant: "",
+    table: "",
     numberOfPeople: "1",
     date: "",
     time: "",
   });
+
+  // Fetch danh sách nhà hàng khi mở form
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const res = await getRestaurants();
+        setRestaurants(res.results || []);
+      } catch {
+        setRestaurants([]);
+      }
+    };
+    fetchRestaurants();
+  }, []);
+
+  // Fetch danh sách bàn khi chọn nhà hàng
+  useEffect(() => {
+    if (!formData.restaurant) {
+      setTables([]);
+      setAvailableTables([]);
+      setFormData((prev) => ({ ...prev, table: "" }));
+      return;
+    }
+    const fetchTables = async () => {
+      try {
+        const res = await getTablesByRestaurant(formData.restaurant);
+        setTables(res || []);
+        // Lọc bàn available
+        setAvailableTables((res || []).filter((t) => t.status === "available"));
+      } catch {
+        setTables([]);
+        setAvailableTables([]);
+      }
+    };
+    fetchTables();
+  }, [formData.restaurant]);
 
   // Form errors state
   const [errors, setErrors] = useState({});
@@ -52,7 +95,9 @@ const Reservation = () => {
       ...formData,
       [name]: value,
     });
-
+    if (name === "restaurant") {
+      setFormData((prev) => ({ ...prev, table: "" }));
+    }
     // Clear error when user types
     if (errors[name]) {
       setErrors({
@@ -71,7 +116,12 @@ const Reservation = () => {
     } else if (!/^[0-9]{10}$/.test(formData.phone)) {
       newErrors.phone = "Số điện thoại không hợp lệ";
     }
-
+    if (!formData.restaurant) {
+      newErrors.restaurant = "Vui lòng chọn nhà hàng";
+    }
+    if (!formData.table) {
+      newErrors.table = "Vui lòng chọn bàn";
+    }
     if (!formData.date) {
       newErrors.date = "Vui lòng chọn ngày";
     }
@@ -82,14 +132,6 @@ const Reservation = () => {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
-
-  // Format time slot (HH:MM to HHh format)
-  const formatTimeSlot = (time) => {
-    if (!time) return "";
-    const hour = time.split(":")[0];
-    const minute = time.split(":")[1];
-    return `${hour}h:${minute}`;
   };
 
   // Handle form submission
@@ -111,19 +153,32 @@ const Reservation = () => {
     setIsSubmitting(true);
 
     try {
+      // Kiểm tra bàn đã có người đặt chưa
+      const isReserved = await checkTableReservation({
+        tableId: formData.table,
+        date: formData.date,
+        time: formData.time,
+      });
+      if (isReserved) {
+        message.warning("Bàn này đã có người đặt vào thời gian này. Vui lòng chọn bàn hoặc thời gian khác.");
+        setIsSubmitting(false);
+        return;
+      }
+
       // Format reservation time to ISO string with seconds & milliseconds
       const reservationDate = new Date(`${formData.date}T${formData.time}`);
       const isoString = reservationDate.toISOString();
 
       // Format timeSlot as HHh
-      const timeSlot = formatTimeSlot(formData.time);
 
       const requestData = {
         customer: user.id, // Gửi ID người dùng hiện tại
         phone: formData.phone,
+        restaurant: formData.restaurant,
+        table: formData.table,
         number_of_people: parseInt(formData.numberOfPeople),
         reservation_time: isoString,
-        timeSlot: timeSlot,
+        timeSlot: formData.time,
       };
 
       // Call API to create reservation
@@ -135,13 +190,15 @@ const Reservation = () => {
       // Reset form
       setFormData({
         phone: user?.phone || "",
+        restaurant: "",
+        table: "",
         numberOfPeople: "1",
         date: "",
         time: "",
       });
     } catch (error) {
-      console.error("Error creating reservation:", error);
       message.error(error.response?.data?.message || "Đặt bàn không thành công. Vui lòng thử lại sau.");
+      console.error("Error creating reservation:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -167,17 +224,23 @@ const Reservation = () => {
             <div className="row row-cols-3 g-3 row-cols-lg-2 row-cols-sm-1 g-sm-2">
               {/* <!-- Item 1 --> */}
               <div className="col">
-                <div className="order-01__group">
-                  <input
-                    type="text"
-                    placeholder={user ? "Tên của bạn" : "Đăng nhập để đặt bàn"}
-                    className="order-01__input"
-                    value={user?.full_name || ""}
-                    readOnly
-                    disabled
-                  />
-                  <img src={personalIcon} alt="" className="order-01__icon" />
+                <div className={`order-01__group ${errors.restaurant ? "error" : ""}`}>
+                  <select
+                    name="restaurant"
+                    className="order-01__input order-01__select"
+                    value={formData.restaurant}
+                    onChange={handleChange}
+                  >
+                    <option value="">Chọn nhà hàng</option>
+                    {restaurants.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                  <img src={arrowDownIcon} alt="" className="order-01__icon" />
                 </div>
+                {errors.restaurant && <p className="text-danger small mt-1">{errors.restaurant}</p>}
               </div>
 
               {/* <!-- Item 2 --> */}
@@ -198,17 +261,24 @@ const Reservation = () => {
 
               {/* <!-- Item 3 --> */}
               <div className="col">
-                <div className="order-01__group">
-                  <input
-                    type="email"
-                    placeholder={user ? "Email" : "Đăng nhập để đặt bàn"}
-                    className="order-01__input"
-                    value={user?.email || ""}
-                    readOnly
-                    disabled
-                  />
-                  <img src={emailIcon} alt="" className="order-01__icon" />
+                <div className={`order-01__group ${errors.table ? "error" : ""}`}>
+                  <select
+                    name="table"
+                    className="order-01__input order-01__select"
+                    value={formData.table}
+                    onChange={handleChange}
+                    disabled={!formData.restaurant}
+                  >
+                    <option value="">Chọn bàn</option>
+                    {availableTables.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name} ({t.capacity} người)
+                      </option>
+                    ))}
+                  </select>
+                  <img src={arrowDownIcon} alt="" className="order-01__icon" />
                 </div>
+                {errors.table && <p className="text-danger small mt-1">{errors.table}</p>}
               </div>
 
               {/* <!-- Item 4 --> */}
@@ -254,16 +324,26 @@ const Reservation = () => {
               {/* <!-- Item 6 --> */}
               <div className="col">
                 <div className={`order-01__group ${errors.time ? "error" : ""}`}>
-                  <input
-                    type="time"
+                  <select
                     name="time"
-                    className="order-01__input"
+                    className="order-01__input order-01__select"
                     id="time-input"
                     value={formData.time}
                     onChange={handleChange}
-                    min="10:00"
-                    max="22:00"
-                  />
+                  >
+                    <option value="">Chọn giờ</option>
+                    <option value="10:00">10h</option>
+                    <option value="11:00">11h</option>
+                    <option value="12:00">12h</option>
+                    <option value="13:00">13h</option>
+                    <option value="14:00">14h</option>
+                    <option value="15:00">15h</option>
+                    <option value="16:00">16h</option>
+                    <option value="17:00">17h</option>
+                    <option value="18:00">18h</option>
+                    <option value="19:00">19h</option>
+                    <option value="20:00">20h</option>
+                  </select>
                   <img src={timeIcon} alt="" className="order-01__icon" id="time-icon" />
                 </div>
                 {errors.time && <p className="text-danger small mt-1">{errors.time}</p>}
