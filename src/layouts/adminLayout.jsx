@@ -106,17 +106,17 @@ const LayoutAdmin = ({children}) => {
                 },
                 {
                   key: "15",
-                  label: "Supplier Management",
+                  label: "Quản lý nhà cung cấp",
                 //   disabled: role === 2 ? false : true,
                   children: [
                     {
                       key: "16",
-                      label: "Add Supplier",
+                      label: "Thêm mới nhà cung cấp",
                       onClick: () => navigate("/admin/supplier/add"),
                     },
                     {
                       key: "17",
-                      label: "List Supplier",
+                      label: "Danh sách nhà cung cấp",
                       onClick: () => navigate("/admin/supplier/list"),
                     },
                   ],
