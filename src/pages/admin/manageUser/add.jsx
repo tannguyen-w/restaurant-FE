@@ -155,7 +155,7 @@ function AddUser() {
         >
           <Input />
         </Form.Item>
-                <Form.Item
+          <Form.Item
           label="Số điện thoại"
           name="phone"
           rules={[
@@ -180,12 +180,15 @@ function AddUser() {
             },
           ]}
         >
-          <Select placeholder="Chọn vai trò">
-            {listRole.map((role) => (
+          <Select placeholder="Chọn vai trò" style={{backgroundColor: "white"}}>
+          <Option value="68358036c25a7c884d0af042">Nhân viên nhà hàng</Option>
+          <Option value="68358036c25a7c884d0af041">Quản lý nhà hàng</Option>
+          <Option value="">Chọn vai trò</Option>
+            {/* {listRole.map((role) => (
               <Option key={role.id} value={role.id}>
                 {role.description}
               </Option>
-            ))}
+            ))} */}
           </Select>
         </Form.Item>
         <Form.Item
