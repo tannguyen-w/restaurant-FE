@@ -157,17 +157,17 @@ const LayoutAdmin = ({children}) => {
                 },
                 {
                   key: "26",
-                  label: "Table Management",
+                  label: "Quản lý bàn",
                 //   disabled: role === 2 ? false : true,
                   children: [
                     {
                       key: "27",
-                      label: "Add Table",
+                      label: "Thêm mới bàn",
                       onClick: () => navigate("/admin/table/add"),
                     },
                     {
                       key: "28",
-                      label: "List Table",
+                      label: "Danh sách bàn",
                       onClick: () => navigate("/admin/table/list"),
                     },
                   ],
@@ -299,7 +299,7 @@ const LayoutAdmin = ({children}) => {
             </div>
           </nav>
         </header>
-        <div className="container mt-3">{children}</div>
+        <div className="container mt-3 layout-admin">{children}</div>
       </div>
     </div>
   );
