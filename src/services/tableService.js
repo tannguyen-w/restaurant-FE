@@ -9,7 +9,15 @@ const getAllTables = async () => {
     throw error;
   }
 }
-
+const getAllTablesByPage = async (page) => {
+  try {
+    const response = await axios.get(`/table?page=${page}&limit=10`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching tables:", error);
+    throw error;
+  }
+}
 const getAvailableTables = async () => {
   try {
     const response = await axios.get("/table/available");
@@ -20,4 +28,44 @@ const getAvailableTables = async () => {
   }
 }
 
-export { getAllTables, getAvailableTables };
+const getTableById = async (id) => {
+  try {
+    const response = await axios.get(`/table/${id}`);
+    return response; // Trả về thông tin bàn theo ID
+  } catch (error) {
+    console.error("Error fetching table by ID:", error);
+    throw error;
+  }
+}
+
+const createTable = async (tableData) => {
+  try {
+    const response = await axios.post("/table", tableData);
+    return response; // Trả về thông tin bàn mới tạo
+  } catch (error) {
+    console.error("Error creating table:", error);
+    throw error;
+  }
+}
+
+const updateTable = async (id, tableData) => {
+  try {
+    const response = await axios.put(`/table/${id}`, tableData);
+    return response; // Trả về thông tin bàn đã cập nhật
+  } catch (error) {
+    console.error("Error updating table:", error);
+    throw error;
+  }
+}
+
+const deleteTable = async (id) => {
+  try {
+    const response = await axios.delete(`/table/${id}`);
+    return response; // Trả về thông tin bàn đã xóa
+  } catch (error) {
+    console.error("Error deleting table:", error);
+    throw error;
+  }
+}
+
+export { getAllTables, getAvailableTables, getTableById, createTable, updateTable, deleteTable,getAllTablesByPage };

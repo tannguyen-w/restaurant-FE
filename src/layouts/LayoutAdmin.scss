@@ -69,3 +69,14 @@
         color: #000000;
     }
 }
+.layout-admin {
+    p, h1, h2, h3, h4, h5, h6 {
+        color: #000000;
+    }
+    .ant-select-selector {
+        background-color: #fff !important;
+        span {
+            color: #000000 !important;  
+        }
+    }
+}

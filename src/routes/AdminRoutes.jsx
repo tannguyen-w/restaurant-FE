@@ -8,6 +8,8 @@ import ManageRestaurents from "../pages/admin/manageRestaurants";
 import AddRestaurants from "../pages/admin/manageRestaurants/add";
 import Supplier from "../pages/admin/supplier";
 import Addsupplier from "../pages/admin/supplier/add";
+import ListTable from "../pages/admin/table";
+import AddTable from "../pages/admin/table/add";
 
 const AdminRoutes = [
   <Route
@@ -116,6 +118,39 @@ const AdminRoutes = [
       <PrivateRoute allowedRoles={["admin"]}>
         <LayoutAdmin>
           <Addsupplier />
+        </LayoutAdmin>
+      </PrivateRoute>
+    }
+  />,
+  <Route
+    key="admin-table-list"
+    path="/admin/table/list"
+    element={
+      <PrivateRoute allowedRoles={["admin"]}>
+        <LayoutAdmin>
+          <ListTable />
+        </LayoutAdmin>
+      </PrivateRoute>
+    }
+  />,
+    <Route
+    key="admin-table-add"
+    path="/admin/table/add"
+    element={
+      <PrivateRoute allowedRoles={["admin"]}>
+        <LayoutAdmin>
+          <AddTable />
+        </LayoutAdmin>
+      </PrivateRoute>
+    }
+  />,
+      <Route
+    key="admin-table-add"
+    path="/admin/table/edit/:id"
+    element={
+      <PrivateRoute allowedRoles={["admin"]}>
+        <LayoutAdmin>
+          <AddTable />
         </LayoutAdmin>
       </PrivateRoute>
     }
