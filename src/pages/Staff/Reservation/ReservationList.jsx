@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { debounce } from "lodash";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Table, Tag, Spin, Button, message, Modal, Form, Input, InputNumber, DatePicker, Select, Space } from "antd";
 import { useAuth } from "../../../components/context/authContext";
 import moment from "moment";
 import { getReservationsByRestaurant, updateReservation } from "../../../services/reservationService";
 import { getTablesByRestaurant } from "../../../services/tableService";
+import Search from "../../../components/admin/search";
 
 const ReservationList = () => {
   const { user } = useAuth();
@@ -17,16 +17,16 @@ const ReservationList = () => {
   const [tables, setTables] = useState([]);
   const [form] = Form.useForm();
 
-  const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const pageSize = 10;
 
-  const debouncedSearch = debounce((value) => {
-    setSearchKeyword(value);
-    setCurrentPage(1);
-  }, 500);
+  const handleSearchResults = useCallback((results, total) => {
+    setReservations(results);
+    setTotalResults(total);
+  }, []);
 
+  const memoizedParams = useMemo(() => ({}), []);
   // Status colors
   const statusColors = {
     pending: "gold",
@@ -61,11 +61,6 @@ const ReservationList = () => {
           limit: pageSize,
         };
 
-        // Thêm tham số tìm kiếm nếu có
-        if (searchKeyword.trim()) {
-          params.search = searchKeyword.trim();
-        }
-
         // Gọi API với các tham số
         const res = await getReservationsByRestaurant(restaurantId, params);
 
@@ -83,7 +78,7 @@ const ReservationList = () => {
     };
 
     fetchReservations();
-  }, [restaurantId, currentPage, pageSize, searchKeyword]);
+  }, [restaurantId, currentPage, pageSize]);
 
   // Thêm useEffect mới để load danh sách bàn
   useEffect(() => {
@@ -276,16 +271,13 @@ const ReservationList = () => {
     <div>
       <h1 className="staff-content__header">Danh sách bàn đặt</h1>
       <div className="staff-reservation-filter">
-        <Input.Search
-          placeholder="Tìm kiếm theo tên khách hàng hoặc SĐT"
-          style={{ width: 300, marginLeft: 16 }}
-          value={searchKeyword}
-          onChange={(e) => debouncedSearch(e.target.value)}
-          onSearch={(value) => {
-            setSearchKeyword(value);
-            setCurrentPage(1); // Reset về trang 1 khi tìm kiếm
-          }}
-          allowClear // Khi xóa tìm kiếm, sẽ hiển thị lại tất cả
+        <Search
+          placeholder="Tìm kiếm đơn hàng theo tên, SĐT..."
+          fetchData={getReservationsByRestaurant}
+          onSearchResults={handleSearchResults}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          additionalParams={memoizedParams}
         />
       </div>
       <div className="staff-reservation">

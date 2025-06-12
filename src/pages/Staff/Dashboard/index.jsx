@@ -2,18 +2,46 @@ import { Button } from "antd";
 import logo from "../../../assets/icons/logo.svg";
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useState } from "react";
-import OrderList from "../Order/orderList";
-import OrderAdd from "../Order/orderAdd";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../../../components/context/authContext";
-
 import "./style.css";
-import ReservationList from "../Reservation/ReservationList";
-import ReservationAdd from "../Reservation/ReservationAdd";
 
 const DashboardStaff = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("1");
+
+  // Mapping URL paths to menu keys
+  const pathToKeyMap = {
+    "/staff/order": "1",
+    "/staff/order/add": "2",
+    "/staff/reservation": "3",
+    "/staff/reservation/add": "4",
+    "/staff/table": "5",
+    "/staff/inventory": "6",
+    "/staff/inventory/add": "7",
+  };
+
+  // Key to path mapping (reverse of the above)
+  const keyToPathMap = {
+    1: "/staff/order",
+    2: "/staff/order/add",
+    3: "/staff/reservation",
+    4: "/staff/reservation/add",
+    5: "/staff/table",
+    6: "/staff/inventory",
+    7: "/staff/inventory/add",
+  };
+
+  // Set selected key based on current URL when component mounts
+  useEffect(() => {
+    const path = location.pathname;
+    if (pathToKeyMap[path]) {
+      setSelectedKey(pathToKeyMap[path]);
+    }
+  }, [location]);
 
   const items = [
     {
@@ -49,13 +77,12 @@ const DashboardStaff = () => {
     },
   ];
 
-  const renderContent = () => {
-    if (selectedKey === "1") return <OrderList />;
-    if (selectedKey === "2") return <OrderAdd />;
-    if (selectedKey === "3") return <ReservationList />;
-    if (selectedKey === "4") return <ReservationAdd />;
-    // Có thể bổ sung các case khác ở đây
-    return <div style={{ minHeight: 400 }} />;
+  // Handle menu item click - navigate to the corresponding URL
+  const handleMenuClick = ({ key }) => {
+    setSelectedKey(key);
+    if (keyToPathMap[key]) {
+      navigate(keyToPathMap[key]);
+    }
   };
 
   return (
@@ -63,6 +90,7 @@ const DashboardStaff = () => {
       <div className="staff">
         <div className="containerR">
           <div className="staff-header">
+            {/* Header content unchanged */}
             <div className="staff-header__logo">
               <img src={logo} alt="Logo" className="staff-header__thumbnail" />
               <div className="staff-header__rest">
@@ -88,9 +116,11 @@ const DashboardStaff = () => {
               defaultOpenKeys={["sub1"]}
               mode="inline"
               items={items}
-              onClick={({ key }) => setSelectedKey(key)}
+              onClick={handleMenuClick}
             />
-            <div style={{ flex: 1 }}>{renderContent()}</div>
+            <div style={{ flex: 1 }}>
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>

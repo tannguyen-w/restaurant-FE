@@ -8,6 +8,7 @@ import { useContext, useEffect } from "react";
 import { getInfo } from "./services/userServices";
 import { AuthContext } from "./components/context/authContext";
 import { Spin } from "antd";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { setUser, isAppLoading, setIsAppLoading } = useContext(AuthContext);
@@ -39,6 +40,17 @@ const App = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"/>
       {isAppLoading === true ? (
         <div
           style={{

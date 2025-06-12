@@ -9,9 +9,14 @@ NProgress.configure({
 const instance = axios.create({ 
   baseURL: import.meta.env.VITE_BACKEND_URL,  
   withCredentials: true, // QUAN TRỌNG: cho phép gửi/nhận cookies với mỗi request
-  headers: {
-    "Content-Type": "application/json",
-  }
+  // headers: {
+  //   "Content-Type": "application/json",
+  // }
+  // Theo ChatGPT, không cần thiết phải đặt Content-Type là application/json
+  // Với API dùng JSON: Axios tự set application/json
+  // Với API dùng FormData: Axios tự set multipart/form-data với boundary ✅
+  // Có cái "Content-Type": "application/json", không cần thiết vì Axios sẽ tự động xử lý
+
 });
 
 // Interceptor cho requests

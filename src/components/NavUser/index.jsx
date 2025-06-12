@@ -13,12 +13,8 @@ const NavUser = () => {
         </button>
 
         {/* <!-- Logo --> */}
-        <Link to={"/"}  className="logo">
-          <img
-            src={logoIcon}
-            alt="Nhà hàng Vạn Hoa"
-            className="icon logo__img"
-          />
+        <Link to={"/"} className="logo">
+          <img src={logoIcon} alt="Nhà hàng Vạn Hoa" className="icon logo__img" />
           <h1 className="logo__title">Vạn Hoa</h1>
         </Link>
 
@@ -59,7 +55,7 @@ const NavUser = () => {
         <div className="navbar__overlay "></div>
         {/* <!-- Actions --> */}
         <div className="top-act">
-          <Link to={"/login"} className="top-act__btn btn btn--text d-md-none">
+          <Link to={"/login"} className="top-act__btn btn btn--text">
             Sign in
           </Link>
           <Link to={"/register"} className="top-act__btn btn top-act__sign-up">

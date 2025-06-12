@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { debounce } from "lodash";
+import { useEffect, useMemo, useState } from "react";
+import Search from "../../../components/admin/search";
+
 import { Table, Tag, Spin, Button, Modal, message, InputNumber, Select, Input } from "antd";
 import { useAuth } from "../../../components/context/authContext";
 import { getOrdersByRestaurant, updateOrderStatus, updateOrder } from "../../../services/orderService";
@@ -28,7 +29,6 @@ const OrderList = () => {
   const [tables, setTables] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
-  const [searchKeyword, setSearchKeyword] = useState("");
 
   const [paymentModalVisible, setPaymentModalVisible] = useState(false);
   const [payingOrder, setPayingOrder] = useState(null);
@@ -42,10 +42,11 @@ const OrderList = () => {
   const [totalResults, setTotalResults] = useState(0);
   const pageSize = 10;
 
-  const debouncedSearch = debounce((value) => {
-    setSearchKeyword(value);
-    setCurrentPage(1);
-  }, 500);
+  // Hàm xử lý kết quả tìm kiếm từ component Search
+  const handleSearchResults = (searchedOrders, count) => {
+    setOrders(searchedOrders);
+    setTotalResults(count);
+  };
 
   const statusTransitions = {
     pending: ["preparing", "cancelled"], // pending -> preparing
@@ -69,6 +70,14 @@ const OrderList = () => {
     cancelled: "red",
   };
 
+  const memoizedParams = useMemo(
+    () => ({
+      orderType: filter !== "all" ? filter : undefined,
+      status: statusFilter !== "all" ? statusFilter : undefined,
+    }),
+    [filter, statusFilter]
+  );
+
   // Lấy danh sách bàn khi mở modal và cho phép chỉnh sửa
   useEffect(() => {
     if (editingOrder && (editingOrder.status === "pending" || editingOrder.status === "preparing")) {
@@ -90,11 +99,6 @@ const OrderList = () => {
         // Thêm status vào params nếu statusFilter không phải "all"
         if (statusFilter !== "all") {
           params.status = statusFilter;
-        }
-
-        // Thêm từ khóa tìm kiếm nếu có
-        if (searchKeyword.trim()) {
-          params.search = searchKeyword.trim();
         }
 
         const res = await getOrdersByRestaurant(restaurantId, params);
@@ -120,7 +124,7 @@ const OrderList = () => {
       }
     };
     fetchOrders();
-  }, [restaurantId, currentPage, pageSize, filter, statusFilter, searchKeyword]);
+  }, [restaurantId, currentPage, pageSize, filter, statusFilter]);
 
   // Lấy danh sách món ăn khi mở modal
   useEffect(() => {
@@ -229,7 +233,6 @@ const OrderList = () => {
       const params = { page: currentPage, limit: pageSize };
       if (filter !== "all") params.orderType = filter;
       if (statusFilter !== "all") params.status = statusFilter;
-      if (searchKeyword.trim()) params.search = searchKeyword.trim();
 
       const res = await getOrdersByRestaurant(restaurantId, params);
       setOrders(res.results || []);
@@ -250,7 +253,6 @@ const OrderList = () => {
       const params = { page: currentPage, limit: pageSize };
       if (filter !== "all") params.orderType = filter;
       if (statusFilter !== "all") params.status = statusFilter;
-      if (searchKeyword.trim()) params.search = searchKeyword.trim();
 
       const res = await getOrdersByRestaurant(restaurantId, params);
       setOrders(res.results || []);
@@ -320,7 +322,6 @@ const OrderList = () => {
       const params = { page: currentPage, limit: pageSize };
       if (filter !== "all") params.orderType = filter;
       if (statusFilter !== "all") params.status = statusFilter;
-      if (searchKeyword.trim()) params.search = searchKeyword.trim();
 
       const res = await getOrdersByRestaurant(restaurantId, params);
       setOrders(res.results || []);
@@ -722,16 +723,13 @@ const OrderList = () => {
             Dine-in
           </Button>
         </div>
-        <Input.Search
-          placeholder="Tìm kiếm theo tên khách hàng hoặc SĐT"
-          style={{ width: 300, marginLeft: 16 }}
-          value={searchKeyword}
-          onChange={(e) => debouncedSearch(e.target.value)}
-          onSearch={(value) => {
-            setSearchKeyword(value);
-            setCurrentPage(1); // Reset về trang 1 khi tìm kiếm
-          }}
-          allowClear // Khi xóa tìm kiếm, sẽ hiển thị lại tất cả
+        <Search
+          placeholder="Tìm kiếm đơn hàng theo tên, SĐT..."
+          fetchData={getOrdersByRestaurant}
+          onSearchResults={handleSearchResults}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          additionalParams={memoizedParams}
         />
         <div className="staff-order-filter__status">
           <Select
