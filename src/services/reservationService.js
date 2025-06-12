@@ -20,6 +20,16 @@ const getMyReservations = async (params) => {
   }
 };
 
+const getReservationsByRestaurant = async (restaurantId, params) => {
+  try {
+    const response = await axios.get(`/reservation/restaurant/${restaurantId}`, { params });
+    return response;
+  } catch (error) {
+    console.error("Error fetching reservations by table:", error);
+    throw error;
+  }
+};
+
 const checkTableReservation = async ({ tableId, date, time }) => {
   const res = await axios.get(`/reservation/${tableId}/check-reservation`, {
     params: { date, time },
@@ -29,4 +39,14 @@ const checkTableReservation = async ({ tableId, date, time }) => {
   return res;
 };
 
-export { createReservation, getMyReservations, checkTableReservation };
+const updateReservation = async (id, data) => {
+  try {
+    const response = await axios.put(`/reservation/${id}`, data);
+    return response;
+  } catch (error) {
+    console.error("Error updating reservation:", error);
+    throw error;
+  }
+};
+
+export { createReservation, getMyReservations, checkTableReservation, getReservationsByRestaurant, updateReservation };

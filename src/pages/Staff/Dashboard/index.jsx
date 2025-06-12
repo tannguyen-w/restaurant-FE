@@ -2,13 +2,14 @@ import { Button } from "antd";
 import logo from "../../../assets/icons/logo.svg";
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import OrderList from "../Order/orderList";
 import OrderAdd from "../Order/orderAdd";
 import { useAuth } from "../../../components/context/authContext";
 
 import "./style.css";
+import ReservationList from "../Reservation/ReservationList";
+import ReservationAdd from "../Reservation/ReservationAdd";
 
 const DashboardStaff = () => {
   const { user } = useAuth();
@@ -51,6 +52,8 @@ const DashboardStaff = () => {
   const renderContent = () => {
     if (selectedKey === "1") return <OrderList />;
     if (selectedKey === "2") return <OrderAdd />;
+    if (selectedKey === "3") return <ReservationList />;
+    if (selectedKey === "4") return <ReservationAdd />;
     // Có thể bổ sung các case khác ở đây
     return <div style={{ minHeight: 400 }} />;
   };
