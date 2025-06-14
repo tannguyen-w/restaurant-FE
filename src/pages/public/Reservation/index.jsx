@@ -159,7 +159,7 @@ const Reservation = () => {
         date: formData.date,
         time: formData.time,
       });
-      if (isReserved) {
+      if (!isReserved.success && !isReserved.available) {
         message.warning("Bàn này đã có người đặt vào thời gian này. Vui lòng chọn bàn hoặc thời gian khác.");
         setIsSubmitting(false);
         return;
@@ -196,6 +196,8 @@ const Reservation = () => {
         date: "",
         time: "",
       });
+
+      navigate("/profile/tables")
     } catch (error) {
       message.error(error.response?.data?.message || "Đặt bàn không thành công. Vui lòng thử lại sau.");
       console.error("Error creating reservation:", error);

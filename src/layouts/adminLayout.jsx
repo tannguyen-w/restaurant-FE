@@ -17,7 +17,7 @@ const LayoutAdmin = ({ children }) => {
     </div>
   );
   return (
-    <div className="dasboard">
+    <div className="dashboard">
       <aside className="left-site">
         <div>
           <div className="brand-name d-flex align-items-center justify-content-between">

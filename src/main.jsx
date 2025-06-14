@@ -8,7 +8,6 @@ import { ConfigProvider } from "antd";
 import "./assets/styles/antdConfig.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
   <AuthWrapper>
     <CartProvider>
       <ConfigProvider
@@ -30,5 +29,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </ConfigProvider>
     </CartProvider>
   </AuthWrapper>
-  // </React.StrictMode>
 );

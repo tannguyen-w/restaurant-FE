@@ -118,7 +118,7 @@ const MyOrder = () => {
                   {totals[order.id] === undefined ? <Spin size="small" /> : totals[order.id].toLocaleString() + " đ"}
                 </div>
                 <div className="custom-table-cell">
-                  <Tag color={order.status === "completed" ? "green" : order.status === "cancelled" ? "red" : "blue"}>
+                  <Tag color={order.status === "finished" ? "green" : order.status === "cancelled" ? "red" : order.status === "served" ? "cyan" : order.status === "pending" ? "gold" : "blue"}>
                     {order.status}
                   </Tag>
                 </div>
@@ -135,6 +135,7 @@ const MyOrder = () => {
               pageSize={pageSize}
               total={totalResults}
               onChange={setCurrentPage}
+              showTotal={(totals, range) => `${range[0]}-${range[1]} của ${totals} đơn hàng`}
               showSizeChanger={false}
             />
           </div>
