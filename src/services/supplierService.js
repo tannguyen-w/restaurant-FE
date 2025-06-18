@@ -1,7 +1,9 @@
 import axios from "./axiosCustomize";
-const getAllSuppliers = async () => {
+
+const getAllSuppliers = async (params) => {
   try {
-    const response = await axios.get("/supplier");
+    const response = await axios.get("/supplier", { params });
+    // response.data.results: Danh sách nhà cung cấp
     return response; // Trả về danh sách nhà cung cấp
   } catch (error) {
     console.error("Error fetching suppliers:", error);
@@ -17,7 +19,7 @@ const getSupplierById = async (id) => {
     throw error;
   }
 }
-const addSupplier = async (supplierData) => {
+const createSupplier = async (supplierData) => {
   try {
     const response = await axios.post("/supplier", supplierData);
     return response; // Trả về thông tin nhà cung cấp đã thêm
@@ -44,4 +46,4 @@ const deleteSupplier = async (id) => {
     throw error;
   }
 }
-export { getAllSuppliers, getSupplierById, addSupplier, updateSupplier, deleteSupplier };
+export { getAllSuppliers, getSupplierById, createSupplier, updateSupplier, deleteSupplier };

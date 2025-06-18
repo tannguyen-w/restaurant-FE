@@ -6,8 +6,8 @@ NProgress.configure({
   trickleSpeed: 100,
 });
 
-const instance = axios.create({ 
-  baseURL: import.meta.env.VITE_BACKEND_URL,  
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true, // QUAN TRỌNG: cho phép gửi/nhận cookies với mỗi request
   // headers: {
   //   "Content-Type": "application/json",
@@ -16,7 +16,6 @@ const instance = axios.create({
   // Với API dùng JSON: Axios tự set application/json
   // Với API dùng FormData: Axios tự set multipart/form-data với boundary ✅
   // Có cái "Content-Type": "application/json", không cần thiết vì Axios sẽ tự động xử lý
-
 });
 
 // Interceptor cho requests
@@ -41,17 +40,15 @@ instance.interceptors.response.use(
   },
   function (error) {
     NProgress.done();
-    
+
     // Xử lý lỗi 401 (Unauthorized)
     if (error.response && error.response.status === 401) {
       // Không cần xóa cookies vì chỉ server mới có thể xóa HttpOnly cookies
-      
-      // Xóa các giá trị lưu trong localStorage 
+
+      // Xóa các giá trị lưu trong localStorage
       localStorage.removeItem("user");
       localStorage.removeItem("role");
       localStorage.removeItem("cartItems");
-      
-      
     }
     return Promise.reject(error);
   }

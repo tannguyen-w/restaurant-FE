@@ -1,9 +1,9 @@
 import axios from "./axiosCustomize";
 
-const getAllTables = async () => {
+const getAllTables = async (params) => {
   try {
-    const response = await axios.get("/table");
-    return response.results; // Trả về danh sách bàn
+    const response = await axios.get("/table", {params});
+    return response; // Trả về danh sách bàn
   } catch (error) {
     console.error("Error fetching tables:", error);
     throw error;
@@ -20,10 +20,11 @@ const getAvailableTables = async () => {
   }
 };
 
-const getTablesByRestaurant = async (restaurantId) => {
+const getTablesByRestaurant = async (restaurantId, params) => {
   try {
-    const response = await axios.get(`/table/restaurant/${restaurantId}`);
-    return response.results; // Trả về danh sách bàn theo nhà hàng
+    const response = await axios.get(`/table/restaurant/${restaurantId}`, { params });
+    
+    return response; // Trả về danh sách bàn theo nhà hàng
   } catch (error) {
     console.error("Error fetching tables by restaurant:", error);
     throw error;

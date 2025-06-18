@@ -3,6 +3,8 @@
 }
 
 /* Khôi phục font chữ mặc định cho message component */
+.ant-dropdown-menu-title-content span,
+.ant-table-cell span,
 .ant-message,
 .ant-message .ant-message-notice,
 .ant-message .ant-message-notice-content,
@@ -122,6 +124,9 @@
   font-size: 14px;
 }
 
+.ant-table-cell span,
+.ant-table-column-title,
+.anticon ,
 .ant-btn span,
 .ant-menu-title-content,
 .ant-descriptions-item-label span,

@@ -1,14 +1,21 @@
 import { Button } from "antd";
 import logo from "../../../assets/icons/logo.svg";
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import { useNavigate, useLocation, Outlet, Link } from "react-router-dom";
 import { useAuth } from "../../../components/context/authContext";
 import "./style.css";
+import RevenueChart from "./revenueChart";
+import { logout } from "../../../services/authService";
+
 
 const DashboardStaff = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("1");
@@ -19,9 +26,8 @@ const DashboardStaff = () => {
     "/staff/order/add": "2",
     "/staff/reservation": "3",
     "/staff/reservation/add": "4",
-    "/staff/table": "5",
-    "/staff/inventory": "6",
-    "/staff/inventory/add": "7",
+    "/staff/warehouse": "5",
+    "/staff/warehouse/add": "6",
   };
 
   // Key to path mapping (reverse of the above)
@@ -30,9 +36,8 @@ const DashboardStaff = () => {
     2: "/staff/order/add",
     3: "/staff/reservation",
     4: "/staff/reservation/add",
-    5: "/staff/table",
-    6: "/staff/inventory",
-    7: "/staff/inventory/add",
+    5: "/staff/warehouse",
+    6: "/staff/warehouse/add",
   };
 
   // Set selected key based on current URL when component mounts
@@ -42,6 +47,25 @@ const DashboardStaff = () => {
       setSelectedKey(pathToKeyMap[path]);
     }
   }, [location]);
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Gọi API đăng xuất
+
+      // Cập nhật trạng thái đăng nhập trong context
+      setUser(null);
+
+      // Xóa token và thông tin người dùng từ localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+
+      // Chuyển hướng về trang đăng nhập
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   const items = [
     {
@@ -60,7 +84,6 @@ const DashboardStaff = () => {
       children: [
         { key: "3", label: "Danh sách" },
         { key: "4", label: "Thêm mới" },
-        { key: "5", label: "Trạng thái" },
       ],
     },
     {
@@ -71,8 +94,8 @@ const DashboardStaff = () => {
       label: "Quản lý kho",
       icon: <SettingOutlined />,
       children: [
-        { key: "6", label: "Danh sách nguyên liệu" },
-        { key: "7", label: "Nhập nguyên liệu" },
+        { key: "5", label: "Danh sách nguyên liệu" },
+        { key: "6", label: "Nhập nguyên liệu" },
       ],
     },
   ];
@@ -92,18 +115,32 @@ const DashboardStaff = () => {
           <div className="staff-header">
             {/* Header content unchanged */}
             <div className="staff-header__logo">
-              <img src={logo} alt="Logo" className="staff-header__thumbnail" />
+              <Link to="/staff">
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="staff-header__thumbnail"
+                />
+              </Link>
               <div className="staff-header__rest">
                 <div className="staff-header__rest-name">Vạn Hoa</div>
-                <div className="staff-header__rest-sub">Chi nhánh: {user.restaurant.name}</div>
-                <div className="staff-header__rest-address">Địa chỉ: {user.restaurant.address}</div>
+                <div className="staff-header__rest-sub">
+                  Chi nhánh: {user.restaurant.name}
+                </div>
+                <div className="staff-header__rest-address">
+                  Địa chỉ: {user.restaurant.address}
+                </div>
               </div>
             </div>
             <div className="staff-info">
-              <span className="staff-info__name">Xin chào, {user.full_name}</span>
-              <span className="staff-info__role">Chức vụ: {user.role.description}</span>
+              <span className="staff-info__name">
+                Xin chào, {user.full_name}
+              </span>
+              <span className="staff-info__role">
+                Chức vụ: {user.role.description}
+              </span>
             </div>
-            <div className="staff-action">
+            <div onClick={handleLogout} className="staff-action">
               <Button type="primary">Đăng xuất</Button>
             </div>
           </div>
@@ -112,14 +149,13 @@ const DashboardStaff = () => {
             <Menu
               style={{ width: 256 }}
               selectedKeys={[selectedKey]}
-              defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
               mode="inline"
               items={items}
               onClick={handleMenuClick}
             />
             <div style={{ flex: 1 }}>
-              <Outlet />
+              {location.pathname === "/staff" ? <RevenueChart /> : <Outlet />}
             </div>
           </div>
         </div>

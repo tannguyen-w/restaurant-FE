@@ -22,10 +22,9 @@ const getAllUsers = async () => {
   }
 };
 
-const getStaff = async () => {
+const getStaff = async (params) => {
   try {
-    const staffData = await axios.get("/user/staffs");
-    console.log("Staff data fetched:", staffData);
+    const staffData = await axios.get("/user/staffs", {params });
     return staffData;
   } catch (error) {
     console.error("Error fetching staff data:", error);
@@ -34,20 +33,8 @@ const getStaff = async () => {
 };
 
 const createStaff = async (userData) => {
-  let formData = new FormData();
-  formData.append("username", userData.username);
-  formData.append("password", userData.password);
-  formData.append("role", userData.role);
-  formData.append("email", userData.email);
-  formData.append("full_name", userData.full_name);
-  formData.append("phone", userData.phone);
-
-  if (userData.avatar[0].originFileObj) {
-    formData.append("avatar", userData.avatar[0].originFileObj);
-  }
   try {
-    const response = await axios.post("/user", formData);
-    console.log("Staff created:", response);
+    const response = await axios.post("/user", userData);
     return response;
   } catch (error) {
     console.error("Error creating staff:", error);
@@ -58,7 +45,6 @@ const createStaff = async (userData) => {
 const getUserById = async (id) => {
   try {
     const response = await axios.get(`/user/${id}`);
-    console.log("User data fetched by ID:", response);
     return response;
   } catch (error) {
     console.error("Error fetching user by ID:", error);
@@ -67,19 +53,8 @@ const getUserById = async (id) => {
 };
 
 const updateStaff = async (id, userData) => {
-  let formData = new FormData();
-  // formData.append("username", userData.username);
-  // formData.append("password", userData.password);
-  formData.append("role", userData.role);
-  formData.append("full_name", userData.full_name);
-  formData.append("email", userData.email);
-  formData.append("phone", userData.phone);
-  if (userData.avatar[0].originFileObj) {
-    formData.append("avatar", userData.avatar[0].originFileObj);
-  }
   try {
-    const response = await axios.put(`/user/${id}`, formData);
-    console.log("Staff update:", response);
+    const response = await axios.put(`/user/${id}`, userData);
     return response;
   } catch (error) {
     console.error("Error update staff:", error);
@@ -110,16 +85,6 @@ const updateUserProfile = async (userData) => {
     throw error;
   }
 };
-const getRoles = async () => {
-  try {
-    const response = await axios.get("/role");
-    console.log("Roles fetched:", response);
-    return response;
-  } catch (error) {
-    console.error("Error fetching roles:", error);
-    throw error;
-  }
-};
 
 const getCustomers = async () => {
   try {
@@ -140,6 +105,5 @@ export {
   getUserById,
   updateStaff,
   deleteStaff,
-  getRoles,
   getCustomers,
 };

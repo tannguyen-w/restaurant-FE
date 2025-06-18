@@ -28,6 +28,7 @@ const OrderAdd = () => {
         status: "pending",
         orderTime: new Date(),
       });
+      
       message.success("Tạo đơn hàng thành công!");
       form.resetFields();
       setTimeout(() => {

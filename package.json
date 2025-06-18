@@ -14,8 +14,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.3.0",
     "@ant-design/icons": "5.3.7",
     "antd": "5.18.1",
+    "antd-img-crop": "^4.25.0",
     "axios": "1.7.2",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
@@ -26,7 +28,8 @@
     "react-router-dom": "6.23.1",
     "react-toastify": "^11.0.5",
     "sass": "^1.89.1",
-    "swiper": "^11.2.8"
+    "swiper": "^11.2.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "18.3.3",

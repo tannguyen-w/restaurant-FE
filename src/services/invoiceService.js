@@ -20,4 +20,14 @@ const getCheckOrderInvoice = async (orderId) => {
   }
 };
 
-export { createInvoice, getCheckOrderInvoice };
+const getAllInvoices = async (params) => {
+  try {
+    const response = await axios.get("/invoice", { params });
+    return response;
+  } catch (error) {
+    console.error("Error fetching all invoices:", error);
+    throw error;
+  }
+};
+
+export { createInvoice, getCheckOrderInvoice, getAllInvoices };

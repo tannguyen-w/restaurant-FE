@@ -1,9 +1,9 @@
 import axios from "./axiosCustomize";
 
-const getRestaurants = async () => {
+const getRestaurants = async (params) => {
    try {
     // Vì interceptor đã trả về response.data nên không cần .data nữa
-    const restaurantData = await axios.get("/restaurants");
+    const restaurantData = await axios.get("/restaurants", {params});
     return restaurantData;
   } catch (error) {
     console.error("Error fetching user info:", error);
@@ -31,7 +31,7 @@ const updateRestaurant = async (id, data) => {
   }
 };
 
-const addRestaurant = async (data) => {
+const createRestaurant = async (data) => {
   try {
     const response = await axios.post("/restaurants", data);
     return response;
@@ -51,4 +51,4 @@ const getRestaurantById = async (id) => {
   }
 }
 
-export { getRestaurants,deleteRestaurant,updateRestaurant,addRestaurant,getRestaurantById };
+export { getRestaurants,deleteRestaurant,updateRestaurant,createRestaurant,getRestaurantById };
