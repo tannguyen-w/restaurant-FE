@@ -40,4 +40,14 @@ const deleteImportInvoice = async (id) => {
   }
 }
 
-export { createImportInvoice, getImportInvoices, updateImportInvoice, deleteImportInvoice };
+const getImportInvoiceById = async (id) => {
+  try {
+    const response = await axios.get(`/import-invoice/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching import invoice by ID:", error);
+    throw error;
+  }
+}
+
+export { createImportInvoice, getImportInvoices, updateImportInvoice, deleteImportInvoice, getImportInvoiceById };

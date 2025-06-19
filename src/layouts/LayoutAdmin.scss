@@ -2,7 +2,7 @@
     position: relative;
     width: 100vw;
     .left-site {
-        width             : 300px;
+        width             : 200px;
         background-color  : #fff;
         position          : fixed;
         -webkit-transition: 0.2s ease-in;
@@ -31,7 +31,7 @@
 
     .body-wrapper {
         position   : relative;
-        margin-left: 300px;
+        margin-left: 200px;
         height     : 100vh;
         background: #fff;
         .app-header {

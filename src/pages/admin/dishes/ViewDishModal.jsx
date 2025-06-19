@@ -6,6 +6,8 @@ const ViewDishModal = ({ visible, dish, onCancel }) => {
   const [comboItems, setComboItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
+    const imageURL = "http://localhost:8081";
+
   // Fetch combo items if this is a combo dish
   useEffect(() => {
     if (visible && dish && dish.isCombo) {
@@ -19,7 +21,7 @@ const ViewDishModal = ({ visible, dish, onCancel }) => {
     setLoading(true);
     try {
       const response = await getComboItems(dishId);
-      setComboItems(response.results || []);
+      setComboItems(response || []);
     } catch (error) {
       console.error('Error fetching combo items:', error);
       message.error('Không thể tải danh sách món trong combo');
@@ -71,7 +73,7 @@ const ViewDishModal = ({ visible, dish, onCancel }) => {
                       width={120}
                       height={120}
                       style={{ objectFit: 'cover', margin: '0 8px' }}
-                      src={image}
+                      src={imageURL + image}
                       alt={`${dish.name} - ${index + 1}`}
                     />
                   ))}

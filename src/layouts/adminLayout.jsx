@@ -79,72 +79,28 @@ const LayoutAdmin = () => {
                 {
                   key: "20",
                   label: "Quản lý nguyên liệu",
-                  //   disabled: role === 2 ? false : true,
-                  children: [
-                    {
-                      key: "21",
-                      label: "Thêm mới nguyên liệu",
-                      onClick: () => navigate("/admin/ingredient/add"),
-                    },
-                    {
-                      key: "22",
-                      label: "Danh sách nguyên liệu",
-                      onClick: () => navigate("/admin/ingredient/list"),
-                    },
-                  ],
+                  onClick: () => navigate("/admin/ingredient"),
                 },
                 
                 {
                   key: "29",
                   label: "Quản lý công thức",
-                  //   disabled: role === 2 ? false : true,
-                  children: [
-                    {
-                      key: "30",
-                      label: "Thêm mới công thức",
-                      onClick: () => navigate("/admin/dish-ingredient/add"),
-                    },
-                    {
-                      key: "31",
-                      label: "Danh sách công thức",
-                      onClick: () => navigate("/admin/dish-ingredient/list"),
-                    },
-                  ],
+                   onClick: () => navigate("/admin/recipes"),
                 },
-             
+                {
+                  key: "30",
+                  label: "Quản lý nhập kho",
+                   onClick: () => navigate("/admin/warehouse"),
+                },
                 {
                   key: "38",
                   label: "Quản lý đặt bàn",
-                  //   disabled: role === 2 ? false : true,
-                  children: [
-                    {
-                      key: "39",
-                      label: "Thêm mới đặt bàn",
-                      onClick: () => navigate("/admin/reservation/add"),
-                    },
-                    {
-                      key: "40",
-                      label: "Danh sách đặt bàn",
-                      onClick: () => navigate("/admin/reservation/list"),
-                    },
-                  ],
+                   onClick: () => navigate("/admin/reservation"),
                 },
                 {
                   key: "41",
                   label: "Quản lý đơn hàng",
-                  //   disabled: role === 2 ? false : true,
-                  children: [
-                    {
-                      key: "42",
-                      label: "Thêm mới đơn hàng",
-                      onClick: () => navigate("/admin/order/add"),
-                    },
-                    {
-                      key: "43",
-                      label: "Danh sách đơn hàng",
-                      onClick: () => navigate("/admin/order/list"),
-                    },
-                  ],
+                  onClick: () => navigate("/admin/order"),
                 },
               ]}
             />

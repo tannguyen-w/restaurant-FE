@@ -2,7 +2,7 @@ import axios from "./axiosCustomize";
 
 const getDishes = async (params) => {
   try {
-    const dishesData = await axios.get("/dishes", params);
+    const dishesData = await axios.get("/dishes", {params });
     return dishesData;
   } catch (error) {
     console.error("Error fetching all dish:", error);
@@ -50,9 +50,9 @@ const createDish = async (data) => {
   }
 };
 
-const updateDish = async (id, data) => {
+const updateDish = async (id, formData) => {
   try {
-    const response = await axios.put(`/dishes/${id}`, data);
+    const response = await axios.put(`/dishes/${id}`, formData);
     return response;
   } catch (error) {
     console.error(`Error updating dish with id ${id}:`, error);

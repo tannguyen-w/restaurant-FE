@@ -3,6 +3,7 @@
 }
 
 /* Khôi phục font chữ mặc định cho message component */
+.ant-list-item-meta-title,
 .ant-dropdown-menu-title-content span,
 .ant-table-cell span,
 .ant-message,

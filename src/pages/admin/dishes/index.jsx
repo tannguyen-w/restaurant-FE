@@ -24,6 +24,8 @@ const ManageDish = () => {
     pageSize: 10,
     total: 0,
   });
+
+  const imageURL = "http://localhost:8081";
   
   // Filters
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -209,7 +211,7 @@ const ManageDish = () => {
             width={80} 
             height={80}
             style={{ objectFit: 'cover' }}
-            src={images[0]} 
+            src={imageURL + images[0]} 
             alt="Món ăn"
             placeholder={
               <div style={{ width: 80, height: 80, background: '#f0f0f0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

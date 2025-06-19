@@ -32,8 +32,7 @@ import {
 } from "../../../services/comboService";
 import { useAuth } from "../../../components/context/authContext";
 
-const imageURL = "http://localhost:8081";  
-
+const imageURL = "http://localhost:8081";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -53,20 +52,22 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
   const [comboItems, setComboItems] = useState([]);
   const [availableDishes, setAvailableDishes] = useState([]);
 
-   const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewTitle, setPreviewTitle] = useState("");
 
   const { user } = useAuth();
   const userRestaurantId = user?.restaurant?.id;
 
-    // Hàm chuyển đổi URL tương đối thành URL đầy đủ
+  // Hàm chuyển đổi URL tương đối thành URL đầy đủ
   const getFullImageUrl = (relativePath) => {
-    if (!relativePath) return '';
-    if (relativePath.startsWith('http')) return relativePath;
-    
+    if (!relativePath) return "";
+    if (relativePath.startsWith("http")) return relativePath;
+
     // Loại bỏ dấu / ở đầu nếu có
-    const path = relativePath.startsWith('/') ? relativePath.substring(1) : relativePath;
+    const path = relativePath.startsWith("/")
+      ? relativePath.substring(1)
+      : relativePath;
     return `${imageURL}/${path}`;
   };
 
@@ -113,29 +114,23 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
       }
 
       // Handle images
-      if (
-        dishData.images &&
-        Array.isArray(dishData.images) &&
-        dishData.images.length > 0
-      ) {
-         const imageList = dishData.images.map((path, index) => {
-          const fullUrl = getFullImageUrl(path);
-          
-          return {
-            uid: `-${index}`,
-            name: path.split('/').pop() || `image-${index}.jpg`,
-            status: 'done',
-            url: fullUrl,
-            originalPath: path // Lưu đường dẫn gốc để khi update
-          };
-        });
+      if (dishData.images && Array.isArray(dishData.images) && dishData.images.length > 0) {
+      const imageList = dishData.images.map((path, index) => {
+        const fullUrl = getFullImageUrl(path);
 
-        
-        
-        setFileList(imageList);
-      } else {
-        setFileList([]);
-      }
+        return {
+          uid: `-${index}`,
+          name: path.split("/").pop() || `image-${index}.jpg`,
+          status: "done",
+          url: fullUrl,
+          originalPath: path, // Lưu đường dẫn gốc để khi update
+        };
+      });
+
+      setFileList(imageList);
+    } else {
+      setFileList([]);
+    }
 
       // If it's a combo, fetch combo details and available dishes
       if (dishData.isCombo) {
@@ -179,14 +174,14 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
 
   // Handle image preview
   const handlePreview = async (file) => {
-    console.log("Previewing file:", file);
-    
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
 
   // Handle image change
@@ -194,7 +189,7 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
     setFileList(newFileList);
   };
 
-    // Helper function to convert file to base64
+  // Helper function to convert file to base64
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -204,99 +199,99 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
     });
   };
 
-
-
   // Handle form submit
   const handleSubmit = async () => {
     try {
-      const values = await form.validateFields();
-      setLoading(true);
+    const values = await form.validateFields();
+    setLoading(true);
 
-      // Prepare form data for multipart/form-data
-      const formData = new FormData();
+    // Prepare form data for multipart/form-data
+    const formData = new FormData();
 
-      // Add basic fields
-      formData.append("name", values.name);
-      formData.append("price", values.price);
-      formData.append("description", values.description || "");
-      formData.append("category", values.category);
-      formData.append("isCombo", isCombo);
+    // Add basic fields
+    formData.append("name", values.name);
+    formData.append("price", values.price);
+    formData.append("description", values.description || "");
+    formData.append("category", values.category);
+    formData.append("isCombo", isCombo);
 
-      // Set restaurant ID
-      const restaurantId = isAdmin ? values.restaurant : userRestaurantId;
-      formData.append("restaurant", restaurantId);
+    // Set restaurant ID
+    const restaurantId = isAdmin ? values.restaurant : userRestaurantId;
+    formData.append("restaurant", restaurantId);
 
-      // Handle images
-      const newImages = fileList
-        .filter((file) => file.originFileObj)
-        .map((file) => file.originFileObj);
+    // === XỬ LÝ HÌNH ẢNH ===
+    
+    // 1. Xử lý hình ảnh mới (các file vừa upload) - thêm từng file vào formData
+    const newImages = fileList.filter(file => file.originFileObj);
+    newImages.forEach(file => {
+      formData.append('images', file.originFileObj);
+    });
 
-      newImages.forEach((file) => {
-        formData.append("images", file);
-      });
-
-       // Xử lý hình ảnh cũ giữ lại (không bị xóa)
-    const images = fileList
-      .filter(file => !file.originFileObj && file.url)
+    // 2. Xử lý hình ảnh cũ cần giữ lại - lưu đường dẫn gốc
+    const keepImagePaths = fileList
+      .filter(file => !file.originFileObj && (file.url || file.originalPath))
       .map(file => {
-        // Nếu có originalPath, sử dụng originalPath
-        if (file.originalPath) return file.originalPath;
-        
-        // Nếu URL bắt đầu bằng API_BASE_URL, chuyển về đường dẫn tương đối
-        if (file.url.startsWith(imageURL)) {
-          return file.url.replace(imageURL, '').replace(/^\//, '');
+        // Ưu tiên sử dụng originalPath nếu có
+        if (file.originalPath) {
+          return file.originalPath;
         }
         
+        // Nếu không, trích xuất đường dẫn từ URL đầy đủ
+        const urlParts = file.url.split('/dishes/');
+        if (urlParts.length > 1) {
+          return 'dishes/' + urlParts[1];
+        }
+        
+        // Trường hợp không xác định được đường dẫn
         return file.url;
       });
 
-      formData.append("images", JSON.stringify(images));
-      
-      // Save dish details
-       await updateDish(dishId.id, formData);
-      
+    // 3. Chuyển mảng đường dẫn ảnh cũ thành JSON và thêm vào formData
+    formData.append('images', JSON.stringify(keepImagePaths));
 
-      // Handle saving combo items if this is a combo
-      if (isCombo) {
-        // 1. Process items to be deleted first
-        const deletePromises = itemsToDelete.map((itemId) =>
-          deleteComboItem(itemId)
-        );
-        await Promise.all(deletePromises);
-        
+    // Save dish details
+    await updateDish(dishId.id, formData);
 
-        // 2. Update existing items with changed quantities
-        const updatePromises = comboItems
-          .filter((item) => item.id && item.isModified)
-          .map((item) => updateComboItem(item.id, item.quantity));
-        await Promise.all(updatePromises);
-
-        // 3. Add new items
-        const addPromises = comboItems
-          .filter((item) => !item.id) // new items don't have id
-          .map((item) =>
-            createComboItem({
-              combo: dishId.id,
-              dish: item.dish.id,
-              quantity: item.quantity,
-            })
-          );
-        await Promise.all(addPromises);
-      }
-
-      message.success("Cập nhật món ăn thành công");
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (error) {
-      console.error("Error updating dish:", error);
-      message.error(
-        "Không thể cập nhật món ăn: " +
-          (error.response?.data?.message || "Đã có lỗi xảy ra")
+    // Handle saving combo items if this is a combo
+    if (isCombo) {
+      // 1. Process items to be deleted first
+      const deletePromises = itemsToDelete.map((itemId) =>
+        deleteComboItem(itemId)
       );
-    } finally {
-      setLoading(false);
+      await Promise.all(deletePromises);
+
+      // 2. Update existing items with changed quantities
+      const updatePromises = comboItems
+        .filter((item) => item.id && item.isModified)
+        .map((item) => updateComboItem(item.id, item.quantity));
+      await Promise.all(updatePromises);
+
+      // 3. Add new items
+      const addPromises = comboItems
+        .filter((item) => !item.id) // new items don't have id
+        .map((item) =>
+          createComboItem({
+            combo: dishId.id,
+            dish: item.dish.id,
+            quantity: item.quantity,
+          })
+        );
+      await Promise.all(addPromises);
     }
+
+    message.success("Cập nhật món ăn thành công");
+    if (onSuccess) {
+      onSuccess();
+    }
+  } catch (error) {
+    console.error("Error updating dish:", error);
+    message.error(
+      "Không thể cập nhật món ăn: " +
+        (error.response?.data?.message || "Đã có lỗi xảy ra")
+    );
+  } finally {
+    setLoading(false);
+  }
   };
 
   // Add dish to combo
@@ -451,7 +446,7 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
     },
   ];
 
-    // Custom upload button
+  // Custom upload button
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -559,9 +554,9 @@ const EditDishModal = ({ visible, dishId, onCancel, onSuccess, isAdmin }) => {
               footer={null}
               onCancel={() => setPreviewOpen(false)}
             >
-              <img alt="Preview" style={{ width: '100%' }} src={previewImage} />
+              <img alt="Preview" style={{ width: "100%" }} src={previewImage} />
             </Modal>
-            <div style={{ marginTop: 8, color: '#888' }}>
+            <div style={{ marginTop: 8, color: "#888" }}>
               Tối đa 5 hình, kích thước tối đa 5MB mỗi hình
             </div>
           </Form.Item>
