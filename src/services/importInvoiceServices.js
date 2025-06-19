@@ -43,7 +43,7 @@ const deleteImportInvoice = async (id) => {
 const getImportInvoiceById = async (id) => {
   try {
     const response = await axios.get(`/import-invoice/${id}`);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error fetching import invoice by ID:", error);
     throw error;

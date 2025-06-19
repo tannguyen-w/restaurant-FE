@@ -15,7 +15,7 @@ const OrderAdd = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getTablesByRestaurant(user.restaurant.id).then((res) => setTables(res || []));
+    getTablesByRestaurant(user.restaurant.id).then((res) => setTables(res.results || []));
     getCustomers().then((res) => setCustomers(res || []));
   }, [user.restaurant.id]);
 

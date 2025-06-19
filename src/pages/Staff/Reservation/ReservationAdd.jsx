@@ -49,9 +49,13 @@ const ReservationAdd = () => {
 
   // Load bàn và khách hàng khi component mount
   useEffect(() => {
-    getTablesByRestaurant(user.restaurant.id).then((res) => {
-      setTables(res || []);
-      setAvailableTables(res || []);
+
+    const params = {
+    limit: 500
+  };
+    getTablesByRestaurant(user.restaurant.id, params).then((res) => {
+      setTables(res.results || []);
+      setAvailableTables(res.results || []);
     });
     getCustomers().then((res) => setCustomers(res || []));
     
@@ -133,6 +137,8 @@ const ReservationAdd = () => {
       setLoading(false);
     }
   };
+
+  
 
   return (
     <div>
