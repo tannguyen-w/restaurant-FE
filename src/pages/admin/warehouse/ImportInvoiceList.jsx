@@ -1,26 +1,10 @@
-import { useState, useEffect } from 'react';
-import { 
-  Table, 
-  Button, 
-  Space, 
-  Input, 
-  DatePicker, 
-  Select, 
-  Row, 
-  Col,
-  Popconfirm,
-  message,
-  Tag
-} from 'antd';
-import { 
-  EyeOutlined, 
-  DeleteOutlined, 
-  ReloadOutlined
-} from '@ant-design/icons';
-import moment from 'moment';
-import { getImportInvoices, deleteImportInvoice } from '../../../services/importInvoiceServices';
-import { getAllSuppliers } from '../../../services/supplierService';
-import { useAuth } from '../../../components/context/authContext';
+import { useState, useEffect } from "react";
+import { Table, Button, Space, DatePicker, Select, Row, Col, Popconfirm, message, Tag } from "antd";
+import { EyeOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import moment from "moment";
+import { getImportInvoices, deleteImportInvoice } from "../../../services/importInvoiceServices";
+import { getAllSuppliers } from "../../../services/supplierService";
+import { useAuth } from "../../../components/context/authContext";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -31,18 +15,17 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
-    total: 0
+    total: 0,
   });
   const [filters, setFilters] = useState({
-    search: '',
     dateRange: null,
-    supplier: null
+    supplier: null,
   });
   const [suppliers, setSuppliers] = useState([]);
-  
+
   const { user } = useAuth();
-  const isAdmin = user?.role.name === 'admin';
-  const isManager = user?.role.name === 'manager';
+  const isAdmin = user?.role.name === "admin";
+  const isManager = user?.role.name === "manager";
   const canEditDelete = isAdmin || isManager;
 
   useEffect(() => {
@@ -56,12 +39,11 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
       const params = {
         page: pagination.current,
         limit: pagination.pageSize,
-        search: filters.search || undefined,
       };
 
       if (filters.dateRange && filters.dateRange.length === 2) {
-        params.startDate = filters.dateRange[0].format('YYYY-MM-DD');
-        params.endDate = filters.dateRange[1].format('YYYY-MM-DD');
+        params.startDate = filters.dateRange[0].format("YYYY-MM-DD");
+        params.endDate = filters.dateRange[1].format("YYYY-MM-DD");
       }
 
       if (filters.supplier) {
@@ -72,11 +54,11 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
       setInvoices(response.results || []);
       setPagination({
         ...pagination,
-        total: response.totalResults || 0
+        total: response.totalResults || 0,
       });
     } catch (error) {
-      console.error('Failed to fetch invoices:', error);
-      message.error('Không thể tải danh sách phiếu nhập');
+      console.error("Failed to fetch invoices:", error);
+      message.error("Không thể tải danh sách phiếu nhập");
     } finally {
       setLoading(false);
     }
@@ -87,7 +69,7 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
       const response = await getAllSuppliers();
       setSuppliers(response.results || []);
     } catch (error) {
-      console.error('Failed to fetch suppliers:', error);
+      console.error("Failed to fetch suppliers:", error);
     }
   };
 
@@ -95,13 +77,8 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
     setPagination({
       ...pagination,
       current: newPagination.current,
-      pageSize: newPagination.pageSize
+      pageSize: newPagination.pageSize,
     });
-  };
-
-  const handleSearch = (value) => {
-    setFilters({ ...filters, search: value });
-    setPagination({ ...pagination, current: 1 });
   };
 
   const handleDateChange = (dates) => {
@@ -116,9 +93,8 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
 
   const resetFilters = () => {
     setFilters({
-      search: '',
       dateRange: null,
-      supplier: null
+      supplier: null,
     });
     setPagination({ ...pagination, current: 1 });
   };
@@ -126,62 +102,53 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
   const handleDeleteInvoice = async (id) => {
     try {
       await deleteImportInvoice(id);
-      message.success('Xóa phiếu nhập thành công');
+      message.success("Xóa phiếu nhập thành công");
       fetchInvoices();
     } catch (error) {
-      console.error('Failed to delete invoice:', error);
-      message.error('Không thể xóa phiếu nhập');
+      console.error("Failed to delete invoice:", error);
+      message.error("Không thể xóa phiếu nhập");
     }
   };
 
   const columns = [
     {
-      title: 'Mã phiếu',
-      key: 'id',
-      render: record => (
-        <Tag color="blue">
-          #{record.id.substring(record.id.length - 8).toUpperCase()}
-        </Tag>
-      ),
+      title: "Mã phiếu",
+      key: "id",
+      render: (record) => <Tag color="blue">#{record.id.substring(record.id.length - 8).toUpperCase()}</Tag>,
     },
     {
-      title: 'Ngày nhập',
-      dataIndex: 'import_date',
-      key: 'import_date',
-      render: date => moment(date).format('DD/MM/YYYY'),
+      title: "Ngày nhập",
+      dataIndex: "import_date",
+      key: "import_date",
+      render: (date) => moment(date).format("DD/MM/YYYY"),
       sorter: (a, b) => new Date(a.import_date) - new Date(b.import_date),
     },
     {
-      title: 'Nhà cung cấp',
-      dataIndex: ['supplier', 'name'],
-      key: 'supplier',
-      render: (text) => text || 'Không xác định',
+      title: "Nhà cung cấp",
+      dataIndex: ["supplier", "name"],
+      key: "supplier",
+      render: (text) => text || "Không xác định",
     },
     {
-      title: 'Nhân viên',
-      dataIndex: ['staff', 'full_name'],
-      key: 'staff',
-      render: (text) => text || 'Không xác định',
+      title: "Nhân viên",
+      dataIndex: ["staff", "full_name"],
+      key: "staff",
+      render: (text) => text || "Không xác định",
     },
     {
-      title: 'Tổng tiền',
-      dataIndex: 'total_amount',
-      key: 'total_amount',
-      render: amount => `${(amount || 0).toLocaleString('vi-VN')} VND`,
+      title: "Tổng tiền",
+      dataIndex: "total_amount",
+      key: "total_amount",
+      render: (amount) => `${(amount || 0).toLocaleString("vi-VN")} VND`,
       sorter: (a, b) => a.total_amount - b.total_amount,
     },
     {
-      title: 'Thao tác',
-      key: 'action',
+      title: "Thao tác",
+      key: "action",
       render: (_, record) => (
         <Space size="small">
-          <Button 
-            type="primary" 
-            icon={<EyeOutlined />} 
-            onClick={() => onViewInvoice(record)} 
-            size="small"
-          />
-          
+          <Button type="primary" icon={<EyeOutlined />} onClick={() => onViewInvoice(record)} size="small" />
+
           {canEditDelete && (
             <Popconfirm
               title="Bạn có chắc muốn xóa phiếu nhập này?"
@@ -189,11 +156,7 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
               okText="Có"
               cancelText="Không"
             >
-              <Button 
-                danger 
-                icon={<DeleteOutlined />} 
-                size="small" 
-              />
+              <Button danger icon={<DeleteOutlined />} size="small" />
             </Popconfirm>
           )}
         </Space>
@@ -204,34 +167,25 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
   return (
     <div className="import-invoice-list">
       <Row gutter={[16, 16]} className="filter-row">
-        <Col span={8}>
-          <Input.Search
-            placeholder="Tìm kiếm phiếu nhập"
-            allowClear
-            value={filters.search}
-            onChange={e => setFilters({ ...filters, search: e.target.value })}
-            onSearch={handleSearch}
-          />
-        </Col>
         <Col span={7}>
           <RangePicker
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             value={filters.dateRange}
             onChange={handleDateChange}
             format="DD/MM/YYYY"
-            placeholder={['Từ ngày', 'Đến ngày']}
+            placeholder={["Từ ngày", "Đến ngày"]}
           />
         </Col>
         <Col span={7}>
-          <Select 
-          key="supplier"
-            style={{ width: '100%' }}
+          <Select
+            key="supplier"
+            style={{ width: "100%" }}
             placeholder="Chọn nhà cung cấp"
             allowClear
             value={filters.supplier}
             onChange={handleSupplierChange}
           >
-            {suppliers.map(supplier => (
+            {suppliers.map((supplier) => (
               <Option key={supplier.id} value={supplier.id}>
                 {supplier.name}
               </Option>
@@ -239,11 +193,7 @@ const ImportInvoiceList = ({ onViewInvoice }) => {
           </Select>
         </Col>
         <Col span={2}>
-          <Button 
-            icon={<ReloadOutlined />} 
-            onClick={resetFilters}
-            title="Đặt lại bộ lọc"
-          />
+          <Button icon={<ReloadOutlined />} onClick={resetFilters} title="Đặt lại bộ lọc" />
         </Col>
       </Row>
 
