@@ -1,16 +1,14 @@
-import { Menu,  Button } from "antd";
+import { Menu, Button } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import "./LayoutAdmin.scss";
 import { logout } from "../services/authService";
 import { useAuth } from "../components/context/authContext";
 
-
-
 const LayoutAdmin = () => {
   const navigate = useNavigate();
-   const { user, setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
-    const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       await logout(); // Gọi API đăng xuất
 
@@ -20,7 +18,6 @@ const LayoutAdmin = () => {
       // Xóa token và thông tin người dùng từ localStorage
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-
 
       // Chuyển hướng về trang đăng nhập
       navigate("/login");
@@ -63,39 +60,37 @@ const LayoutAdmin = () => {
                   key: "8",
                   label: "Quản lý món ăn",
                   onClick: () => navigate("/admin/dishes"),
-                  
                 },
                 {
                   key: "15",
                   label: "Quản lý nhà cung cấp",
                   onClick: () => navigate("/admin/supplier"),
                 },
-                   {
+                {
                   key: "26",
                   label: "Quản lý bàn",
-                    onClick: () => navigate("/admin/table"),
-                 
+                  onClick: () => navigate("/admin/table"),
                 },
                 {
                   key: "20",
                   label: "Quản lý nguyên liệu",
                   onClick: () => navigate("/admin/ingredient"),
                 },
-                
+
                 {
                   key: "29",
                   label: "Quản lý công thức",
-                   onClick: () => navigate("/admin/recipes"),
+                  onClick: () => navigate("/admin/recipes"),
                 },
                 {
                   key: "30",
                   label: "Quản lý nhập kho",
-                   onClick: () => navigate("/admin/warehouse"),
+                  onClick: () => navigate("/admin/warehouse"),
                 },
                 {
                   key: "38",
                   label: "Quản lý đặt bàn",
-                   onClick: () => navigate("/admin/reservation"),
+                  onClick: () => navigate("/admin/reservation"),
                 },
                 {
                   key: "41",
@@ -110,33 +105,26 @@ const LayoutAdmin = () => {
       <div className="body-wrapper">
         <header className="app-header">
           <div className="staff-header">
-                      {/* Header content unchanged */}
-                      <div className="staff-header__logo">
-                    
-                        <div className="staff-header__rest">
-                          <div className="staff-header__rest-name">Vạn Hoa</div>
-                          <div className="staff-header__rest-sub">
-                            Chi nhánh: {user.restaurant.name}
-                          </div>
-                          <div className="staff-header__rest-address">
-                            Địa chỉ: {user.restaurant.address}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="staff-info">
-                        <span className="staff-info__name">
-                          Xin chào, {user.full_name}
-                        </span>
-                        <span className="staff-info__role">
-                          Chức vụ: {user.role.description}
-                        </span>
-                      </div>
-                      <div onClick={handleLogout} className="staff-action">
-                        <Button type="primary">Đăng xuất</Button>
-                      </div>
-                    </div>
+            {/* Header content unchanged */}
+            <div className="staff-header__logo">
+              <div className="staff-header__rest">
+                <div className="staff-header__rest-name">Vạn Hoa</div>
+                <div className="staff-header__rest-sub">Chi nhánh: {user.restaurant.name}</div>
+                <div className="staff-header__rest-address">Địa chỉ: {user.restaurant.address}</div>
+              </div>
+            </div>
+            <div className="staff-info">
+              <span className="staff-info__name">Xin chào, {user.full_name}</span>
+              <span className="staff-info__role">Chức vụ: {user.role.description}</span>
+            </div>
+            <div onClick={handleLogout} className="staff-action">
+              <Button type="primary">Đăng xuất</Button>
+            </div>
+          </div>
         </header>
-        <div className="container mt-3 layout-admin"><Outlet/></div>
+        <div className="container mt-3 layout-admin">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

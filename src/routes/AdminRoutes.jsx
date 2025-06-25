@@ -11,6 +11,8 @@ import ManageRestaurant from "../pages/admin/manageRestaurants";
 import RecipeManagement from "../pages/admin/dishIngredient";
 import IngredientManagement from "../pages/admin/ingredient";
 import WarehouseManagement from "../pages/admin/warehouse";
+// import AdminReservationManagement from "../pages/admin/reservation";
+import AdminReservationList from "../pages/admin/reservation/AdminReservationList";
 
 const AdminRoutes = [
   <Route
@@ -25,18 +27,10 @@ const AdminRoutes = [
       </PrivateRoute>
     }
   >
-    <Route
-      key="admin-dashboard"
-      path="/admin/dashboard"
-      element={<AdminDashboard />}
-    />
+    <Route key="admin-dashboard" path="/admin/dashboard" element={<AdminDashboard />} />
     <Route key="admin-user" path="/admin/user" element={<ManageUser />} />
     ,
-    <Route
-      key="admin-restaurant"
-      path="/admin/restaurant"
-      element={<ManageRestaurant />}
-    />
+    <Route key="admin-restaurant" path="/admin/restaurant" element={<ManageRestaurant />} />
     ,
     <Route key="admin-supplier" path="/admin/supplier" element={<Supplier />} />
     ,
@@ -48,6 +42,7 @@ const AdminRoutes = [
     <Route key="admin-recipes" path="/admin/recipes" element={<RecipeManagement />} />
     ,
     <Route key="admin-warehouse" path="/admin/warehouse" element={<WarehouseManagement />} />
+    <Route key="admin-reservation" path="/admin/reservation" element={<AdminReservationList />} />
   </Route>,
 ];
 

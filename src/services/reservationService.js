@@ -3,9 +3,19 @@ import axios from "./axiosCustomize";
 const createReservation = async (reservationData) => {
   try {
     const response = await axios.post("/reservation", reservationData);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error creating reservation:", error);
+    throw error;
+  }
+};
+
+const getReservations = async (params) => {
+  try {
+    const response = await axios.get("/reservation", { params });
+    return response;
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
     throw error;
   }
 };
@@ -49,4 +59,22 @@ const updateReservation = async (id, data) => {
   }
 };
 
-export { createReservation, getMyReservations, checkTableReservation, getReservationsByRestaurant, updateReservation };
+const deleteReservation = async (id) => {
+  try {
+    const response = await axios.delete(`/reservation/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error deleting reservation:", error);
+    throw error;
+  }
+};
+
+export {
+  createReservation,
+  getMyReservations,
+  checkTableReservation,
+  getReservations,
+  getReservationsByRestaurant,
+  deleteReservation,
+  updateReservation,
+};

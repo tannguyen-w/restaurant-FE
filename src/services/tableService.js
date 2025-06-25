@@ -2,7 +2,7 @@ import axios from "./axiosCustomize";
 
 const getAllTables = async (params) => {
   try {
-    const response = await axios.get("/table", {params});
+    const response = await axios.get("/table", { params });
     return response; // Trả về danh sách bàn
   } catch (error) {
     console.error("Error fetching tables:", error);
@@ -23,7 +23,7 @@ const getAvailableTables = async () => {
 const getTablesByRestaurant = async (restaurantId, params) => {
   try {
     const response = await axios.get(`/table/restaurant/${restaurantId}`, { params });
-    
+
     return response; // Trả về danh sách bàn theo nhà hàng
   } catch (error) {
     console.error("Error fetching tables by restaurant:", error);
