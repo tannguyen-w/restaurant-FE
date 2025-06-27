@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { getDishes } from "../../services/dishService";
+import { getDishesByRestaurant } from "../../services/dishService";
 import { useEffect, useState } from "react";
 
 import { useCart } from "../../components/context/cartContext";
@@ -50,7 +50,7 @@ const MenuDrink = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const dishData = await getDishes();
+        const dishData = await getDishesByRestaurant("68358036c25a7c884d0af047", { limit: 1000 });
         setDishes(dishData.results || []);
         setError(null);
       } catch (error) {
@@ -64,7 +64,7 @@ const MenuDrink = () => {
     fetchData();
   }, []);
 
-  const drinkDish = dishes.filter((dish) => dish.category === "683580d2baec28398bc6a906");
+  const drinkDish = dishes.filter((dish) => dish.category?.id === "683580d2baec28398bc6a906");
 
   // Format giá tiền
   const formatPrice = (price) => {
@@ -117,18 +117,20 @@ const MenuDrink = () => {
                     <SwiperSlide key={dish.id}>
                       <div className="menu-item">
                         <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
-                          <img
-                            src={
-                              dish.images && dish.images.length > 0
-                                ? `${baseImageUrl}${dish.images[0]}`
-                                : placeholderImg
-                            }
-                            alt={dish.name}
-                            className="menu-item__thumb"
-                            onError={(e) => {
-                              e.target.src = placeholderImg;
-                            }}
-                          />
+                          <div className="menu-item__thumb-container">
+                            <img
+                              src={
+                                dish.images && dish.images.length > 0
+                                  ? `${baseImageUrl}${dish.images[0]}`
+                                  : placeholderImg
+                              }
+                              alt={dish.name}
+                              className="menu-item__thumb"
+                              onError={(e) => {
+                                e.target.src = placeholderImg;
+                              }}
+                            />
+                          </div>
                           <h3 className="menu-item__title">{dish.name}</h3>
                           <p className="menu-item__desc">{dish.description || "Không có mô tả cho món ăn này."}</p>
                         </Link>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../components/context/cartContext";
-import { getDishes } from "../../services/dishService";
+import { getDishesByRestaurant } from "../../services/dishService";
 import { getOrderDetails } from "../../services/orderDetailService";
 
 import starIcon from "../../assets/icons/star.svg";
@@ -22,12 +22,15 @@ const MenuMostPopular = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [orderDetailData, dishData] = await Promise.all([getOrderDetails(), getDishes()]);
+        const [orderDetailData, dishData] = await Promise.all([
+          getOrderDetails(),
+          getDishesByRestaurant("68358036c25a7c884d0af047", { limit: 1000 }),
+        ]);
 
         setOrderDetails(orderDetailData.results || []);
         setDishes(dishData.results || []);
 
-        calculatePopularDishes(orderDetailData.results || [], dishData.results || []);
+        calculatePopularDishes(orderDetails || [], dishes || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -97,19 +100,21 @@ const MenuMostPopular = () => {
                 <div className="col" key={dish.id}>
                   <div className="menu-item">
                     <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
-                      <img
-                        ref={(el) => (imageRefs.current[index] = el)}
-                        src={
-                          dish.images && dish.images.length > 0
-                            ? (() => {
-                                const imageUrl = `${baseImageUrl}${dish.images[0]}`;
-                                return imageUrl;
-                              })()
-                            : defaultDishImage
-                        }
-                        alt={dish.name}
-                        className="menu-item__thumb"
-                      />
+                      <div className="menu-item__thumb-container">
+                        <img
+                          ref={(el) => (imageRefs.current[index] = el)}
+                          src={
+                            dish.images && dish.images.length > 0
+                              ? (() => {
+                                  const imageUrl = `${baseImageUrl}${dish.images[0]}`;
+                                  return imageUrl;
+                                })()
+                              : defaultDishImage
+                          }
+                          alt={dish.name}
+                          className="menu-item__thumb"
+                        />
+                      </div>
                       <div className="menu-most-popular-item__top">
                         <h3 className="menu-item__title menu-most-popular-item__title">{dish.name}</h3>
                         <span className="menu-item__price menu-most-popular-item__price">

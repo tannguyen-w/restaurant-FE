@@ -61,4 +61,14 @@ const updateOrder = async (orderId, orderData) => {
   }
 };
 
-export { createOrder, getMyOrders, getAllOrders, getOrdersByRestaurant, updateOrderStatus, updateOrder };
+const deleteOrder = async (orderId) => {
+  try {
+    const response = await axios.delete(`/order/${orderId}`);
+    return response;
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    throw error;
+  }
+};
+
+export { createOrder, getMyOrders, getAllOrders, getOrdersByRestaurant, deleteOrder, updateOrderStatus, updateOrder };

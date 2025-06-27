@@ -2,7 +2,7 @@ import axios from "./axiosCustomize";
 
 const getDishes = async (params) => {
   try {
-    const dishesData = await axios.get("/dishes", {params });
+    const dishesData = await axios.get("/dishes", { params });
     return dishesData;
   } catch (error) {
     console.error("Error fetching all dish:", error);
@@ -20,9 +20,9 @@ const getDishById = async (id) => {
   }
 };
 
-const getDishesByRestaurant = async (restaurantId) => {
+const getDishesByRestaurant = async (restaurantId, params) => {
   try {
-    const dishesData = await axios.get(`/dishes/restaurant/${restaurantId}`);
+    const dishesData = await axios.get(`/dishes/restaurant/${restaurantId}`, { params });
     return dishesData;
   } catch (error) {
     console.error(`Error fetching dishes for restaurant ${restaurantId}:`, error);
@@ -80,4 +80,13 @@ const getComboItems = async (comboId) => {
   }
 };
 
-export { getDishes, getDishById, getDishesByRestaurant , deleteDish, createDish, updateDish, addComboItem, getComboItems };
+export {
+  getDishes,
+  getDishById,
+  getDishesByRestaurant,
+  deleteDish,
+  createDish,
+  updateDish,
+  addComboItem,
+  getComboItems,
+};

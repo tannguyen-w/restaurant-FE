@@ -45,23 +45,21 @@ const MyTable = () => {
   }, []);
 
   function formatDate(dateString) {
-  // Tạo đối tượng Date từ chuỗi ISO
-  const date = new Date(dateString);
-  
-  // Lấy ngày, tháng, năm và đảm bảo luôn có 2 chữ số
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() trả về 0-11
-  const year = date.getFullYear();
-  
-  // Trả về chuỗi định dạng dd/mm/yyyy
-  return `${day}/${month}/${year}`;
-}
+    // Tạo đối tượng Date từ chuỗi ISO
+    const date = new Date(dateString);
+
+    // Lấy ngày, tháng, năm và đảm bảo luôn có 2 chữ số
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth() trả về 0-11
+    const year = date.getFullYear();
+
+    // Trả về chuỗi định dạng dd/mm/yyyy
+    return `${day}/${month}/${year}`;
+  }
 
   return (
     <>
-      <h1 style={{ color: "#fff", margin: "24px 0 16px 0" }}>
-        Thông tin bàn đã đặt
-      </h1>
+      <h1 style={{ color: "#fff", margin: "24px 0 16px 0" }}>Thông tin bàn đã đặt</h1>
 
       <div style={{ background: "#23232b", borderRadius: 8, padding: 24 }}>
         {loading ? (
@@ -85,27 +83,27 @@ const MyTable = () => {
                 <div className="row">
                   <div className="col">
                     <div style={{ marginBottom: 8, color: "#1890ff" }}>
-                      {item?.restaurant.name || "Nhà hàng không xác định"}
+                      {item?.restaurant?.name || "Nhà hàng không xác định"}
                     </div>
                     <div style={{ marginBottom: 8 }}>
-                      <b>Bàn đặt:</b> {item.table.name}
+                      <b>Bàn đặt:</b> {item.table?.name || "Chưa xác định"}
                     </div>
                     <div style={{ marginBottom: 8 }}>
-                      <b>Ngày đặt:</b> {formatDate(item.reservation_time) }
+                      <b>Ngày đặt:</b> {formatDate(item.reservation_time)}
                     </div>
                     <div style={{ marginBottom: 8 }}>
-                      <b>Số điện thoại:</b> {item.phone}
+                      <b>Số điện thoại:</b> {item.phone || "Chưa xác định"}
                     </div>
                   </div>
                   <div className="col">
                     <div style={{ marginBottom: 8 }}>
-                      <b>Địa chỉ:</b> {item.restaurant.address}
+                      <b>Địa chỉ:</b> {item.restaurant?.address || "Chưa xác định"}
                     </div>
                     <div style={{ marginBottom: 8 }}>
                       <b>Số người:</b> {item.number_of_people}
                     </div>
                     <div style={{ marginBottom: 8 }}>
-                      <b>Thời gian đặt:</b> {item.timeSlot}
+                      <b>Thời gian đặt:</b> {item.timeSlot || "Chưa xác định"}
                     </div>
                     <div>
                       <b>Trạng thái:</b>{" "}
@@ -120,7 +118,7 @@ const MyTable = () => {
                             : "red"
                         }
                       >
-                        {item.status}
+                        {item.status || "Không xác định"}
                       </Tag>
                     </div>
                   </div>

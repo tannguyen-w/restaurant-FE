@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
-import { getDishes } from "../../services/dishService";
+import { getDishesByRestaurant } from "../../services/dishService";
 import { useEffect, useState } from "react";
 
 import { useCart } from "../../components/context/cartContext";
 import { message } from "antd";
 
 // Import Swiper và modules cần thiết
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import menuDecorTop from "../../assets/icons/menu-decor-01.svg";
 import menuDecorBottom from "../../assets/icons/menu-decor-02.svg";
@@ -36,14 +35,12 @@ const MenuMainFood = () => {
       name: dish.name,
       price: dish.price,
       description: dish.description || "Không có mô tả",
-      image: dish.images && dish.images.length > 0 
-        ? `${baseImageUrl}${dish.images[0]}` 
-        : placeholderImg
+      image: dish.images && dish.images.length > 0 ? `${baseImageUrl}${dish.images[0]}` : placeholderImg,
     };
-    
+
     // Thêm vào giỏ hàng
     addToCart(dishData);
-    
+
     // Hiển thị thông báo thành công
     message.success({
       content: `Đã thêm ${dish.name} vào giỏ hàng!`,
@@ -55,7 +52,7 @@ const MenuMainFood = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const dishData = await getDishes();
+        const dishData = await getDishesByRestaurant("68358036c25a7c884d0af047", { limit: 1000 });
         setDishes(dishData.results || []);
         setError(null);
       } catch (error) {
@@ -69,9 +66,7 @@ const MenuMainFood = () => {
     fetchData();
   }, []);
 
-  const mainDishes = dishes.filter(
-    (dish) => dish.category === "683580d2baec28398bc6a905"
-  );
+  const mainDishes = dishes.filter((dish) => dish.category?.id === "683580d2baec28398bc6a905");
 
   // Format giá tiền
   const formatPrice = (price) => {
@@ -90,11 +85,7 @@ const MenuMainFood = () => {
           </div>
 
           <div className="menu__list">
-            <img
-              src={menuDecorTop}
-              alt=""
-              className="menu__decor menu__decor--top d-sm-none"
-            />
+            <img src={menuDecorTop} alt="" className="menu__decor menu__decor--top d-sm-none" />
 
             {loading ? (
               <div className="text-center py-5">Đang tải món ăn...</div>
@@ -107,8 +98,8 @@ const MenuMainFood = () => {
                   spaceBetween={20}
                   slidesPerView={3}
                   navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
                   }}
                   breakpoints={{
                     320: {
@@ -129,39 +120,31 @@ const MenuMainFood = () => {
                   {mainDishes.map((dish) => (
                     <SwiperSlide key={dish.id}>
                       <div className="menu-item">
-                        <Link
-                          to={`/dishes/${dish.id}`}
-                          className="menu-item__link-detail"
-                        >
-                          <img
-                            src={
-                              dish.images && dish.images.length > 0
-                                ? `${baseImageUrl}${dish.images[0]}`
-                                : placeholderImg
-                            }
-                            alt={dish.name}
-                            className="menu-item__thumb"
-                            onError={(e) => {
-                              e.target.src = placeholderImg;
-                            }}
-                          />
+                        <Link to={`/dishes/${dish.id}`} className="menu-item__link-detail">
+                          <div className="menu-item__thumb-container">
+                            <img
+                              src={
+                                dish.images && dish.images.length > 0
+                                  ? `${baseImageUrl}${dish.images[0]}`
+                                  : placeholderImg
+                              }
+                              alt={dish.name}
+                              className="menu-item__thumb"
+                              onError={(e) => {
+                                e.target.src = placeholderImg;
+                              }}
+                            />
+                          </div>
                           <h3 className="menu-item__title">{dish.name}</h3>
-                          <p className="menu-item__desc">
-                            {dish.description || "Không có mô tả cho món ăn này."}
-                          </p>
+                          <p className="menu-item__desc">{dish.description || "Không có mô tả cho món ăn này."}</p>
                         </Link>
                         <div className="menu-item__separate d-md-none"></div>
 
                         <div className="menu-item__act">
-                          <button
-                          className="menu-item__link"
-                          onClick={() => handleAddToCart(dish)}
-                        >
-                          Đặt ngay
-                        </button>
-                          <span className="menu-item__price">
-                            {formatPrice(dish.price)}
-                          </span>
+                          <button className="menu-item__link" onClick={() => handleAddToCart(dish)}>
+                            Đặt ngay
+                          </button>
+                          <span className="menu-item__price">{formatPrice(dish.price)}</span>
                         </div>
                         <div className="menu-item__separate d-none d-md-block"></div>
                       </div>
@@ -176,12 +159,7 @@ const MenuMainFood = () => {
               <div className="text-center py-5">Không có món chính nào.</div>
             )}
 
-            <img
-              src={menuDecorBottom}
-              alt=""
-              className="menu__decor menu__decor--bottom d-sm-none"
-            />
-           
+            <img src={menuDecorBottom} alt="" className="menu__decor menu__decor--bottom d-sm-none" />
           </div>
         </div>
       </div>

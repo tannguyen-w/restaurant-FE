@@ -30,4 +30,24 @@ const getAllInvoices = async (params) => {
   }
 };
 
-export { createInvoice, getCheckOrderInvoice, getAllInvoices };
+const updateInvoice = async (invoiceId, invoiceData) => {
+  try {
+    const response = await axios.put(`/invoice/${invoiceId}`, invoiceData);
+    return response;
+  } catch (error) {
+    console.error("Error updating invoice:", error);
+    throw error;
+  }
+};
+
+const deleteInvoice = async (invoiceId) => {
+  try {
+    const response = await axios.delete(`/invoice/${invoiceId}`);
+    return response;
+  } catch (error) {
+    console.error("Error deleting invoice:", error);
+    throw error;
+  }
+};
+
+export { createInvoice, getCheckOrderInvoice, getAllInvoices, updateInvoice, deleteInvoice };

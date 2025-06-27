@@ -11,8 +11,8 @@ import ManageRestaurant from "../pages/admin/manageRestaurants";
 import RecipeManagement from "../pages/admin/dishIngredient";
 import IngredientManagement from "../pages/admin/ingredient";
 import WarehouseManagement from "../pages/admin/warehouse";
-// import AdminReservationManagement from "../pages/admin/reservation";
 import AdminReservationList from "../pages/admin/reservation/AdminReservationList";
+import AdminOrderList from "../pages/admin/order/AdminOrderList";
 
 const AdminRoutes = [
   <Route
@@ -43,6 +43,7 @@ const AdminRoutes = [
     ,
     <Route key="admin-warehouse" path="/admin/warehouse" element={<WarehouseManagement />} />
     <Route key="admin-reservation" path="/admin/reservation" element={<AdminReservationList />} />
+    <Route key="admin-order" path="/admin/order" element={<AdminOrderList />} />
   </Route>,
 ];
 

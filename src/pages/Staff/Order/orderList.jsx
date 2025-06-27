@@ -81,7 +81,7 @@ const OrderList = () => {
   // Lấy danh sách bàn khi mở modal và cho phép chỉnh sửa
   useEffect(() => {
     if (editingOrder && (editingOrder.status === "pending" || editingOrder.status === "preparing")) {
-      getTablesByRestaurant(restaurantId).then((res) => setTables(res || []));
+      getTablesByRestaurant(restaurantId).then((res) => setTables(res.results || []));
     }
   }, [editingOrder, restaurantId]);
 

@@ -2,9 +2,7 @@ import axios from "./axiosCustomize";
 
 const getInfo = async () => {
   try {
-    const userData = await axios.get("/user/me", {
-      withCredentials: true, // Đảm bảo cookies được gửi trong request
-    });
+    const userData = await axios.get("/user/me");
     return userData;
   } catch (error) {
     console.error("Error fetching user info:", error);
@@ -24,7 +22,7 @@ const getAllUsers = async () => {
 
 const getStaff = async (params) => {
   try {
-    const staffData = await axios.get("/user/staffs", {params });
+    const staffData = await axios.get("/user/staffs", { params });
     return staffData;
   } catch (error) {
     console.error("Error fetching staff data:", error);
