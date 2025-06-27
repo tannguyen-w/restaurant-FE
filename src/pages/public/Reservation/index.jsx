@@ -71,9 +71,9 @@ const Reservation = () => {
     const fetchTables = async () => {
       try {
         const res = await getTablesByRestaurant(formData.restaurant);
-        setTables(res || []);
+        setTables(res.results || []);
         // Lọc bàn available
-        setAvailableTables((res || []).filter((t) => t.status === "available"));
+        setAvailableTables((tables || []).filter((t) => t.status === "available"));
       } catch {
         setTables([]);
         setAvailableTables([]);
@@ -197,7 +197,7 @@ const Reservation = () => {
         time: "",
       });
 
-      navigate("/profile/tables")
+      navigate("/profile/tables");
     } catch (error) {
       message.error(error.response?.data?.message || "Đặt bàn không thành công. Vui lòng thử lại sau.");
       console.error("Error creating reservation:", error);
