@@ -17,9 +17,6 @@ import AdminOrderList from "../pages/admin/order/AdminOrderList";
 const AdminRoutes = [
   <Route
     key="admin"
-    Add
-    commentMore
-    actions
     path="/admin/"
     element={
       <PrivateRoute allowedRoles={["manager", "admin"]}>

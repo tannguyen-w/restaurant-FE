@@ -61,7 +61,7 @@ const LayoutAdmin = () => {
       <aside className="left-site">
         <div>
           <div className="brand-name d-flex align-items-center justify-content-between">
-            {user && user.role.name === "admin" && (
+            {user && (user.role.name === "admin" || "manager") && (
               <>
                 <Link to="/admin/dashboard">
                   <div className="name-brand text-nowrap mt-3">

@@ -19,8 +19,6 @@ const MenuChoose = () => {
           getDishCategories(),
           getDishesByRestaurant("68358036c25a7c884d0af047", { limit: 1000 }),
         ]);
-        console.log("Dish Categories:", dishCateData);
-        console.log("Dishes:", dishData);
 
         setCategories(dishCateData.results || []);
         setDishes(dishData.results || []);

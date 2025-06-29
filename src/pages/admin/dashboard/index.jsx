@@ -13,6 +13,7 @@ import {
   Badge,
   Divider,
   Select,
+  message,
 } from "antd";
 import {
   UserOutlined,
@@ -32,10 +33,12 @@ import "moment/locale/vi";
 import { getRestaurants } from "../../../services/restaurantServices";
 import { Option } from "antd/es/mentions";
 import { getStatistics } from "../../../services/statisticService";
+import { useAuth } from "../../../components/context/authContext";
 
 const { Title, Text } = Typography;
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -54,27 +57,81 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const response = await getRestaurants();
-        setRestaurants(response.results || []);
+        // Nếu là manager, chỉ hiển thị thông tin nhà hàng của họ
+        if (user && user.role && user.role.name === "manager" && user.restaurant) {
+          // Thiết lập nhà hàng được chọn là nhà hàng của manager
+          setSelectedRestaurant(user.restaurant.id);
+          // Chỉ hiển thị nhà hàng của manager trong danh sách (để đơn giản giao diện)
+        } else {
+          // Nếu là admin, tải tất cả các nhà hàng
+          const response = await getRestaurants();
+          setRestaurants(response.results || []);
+        }
       } catch (error) {
         console.error("Lỗi khi tải danh sách nhà hàng:", error);
       }
     };
 
     fetchRestaurants();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
+    // Nếu là manager và nhà hàng đã được set từ useEffect trên
+    // Không cho phép thay đổi selectedRestaurant thành null
+    if (user && user.role && user.role.name === "manager" && selectedRestaurant === null && user.restaurant) {
+      setSelectedRestaurant(user.restaurant.id);
+      return;
+    }
+    // Tách hàm tạo dữ liệu mẫu để code sạch hơn
+    const useFallbackData = () => {
+      // Giả lập dữ liệu cho từng nhà hàng (trong thực tế sẽ lấy từ API)
+      const restaurantMultiplier = selectedRestaurant ? ((parseInt(selectedRestaurant) % 3) + 1) / 2 : 1;
+
+      setStats({
+        totalRevenue: Math.round(23456000 * restaurantMultiplier),
+        todayOrders: Math.round(12 * restaurantMultiplier),
+        activeReservations: Math.round(4 * restaurantMultiplier),
+        totalCustomers: Math.round(80 * restaurantMultiplier),
+        recentOrders: generateMockOrders(),
+        upcomingReservations: generateMockReservations(),
+        topDishes: generateMockTopDishes(),
+        orderStatusCount: {
+          pending: Math.round(2 * restaurantMultiplier),
+          preparing: Math.round(3 * restaurantMultiplier),
+          served: Math.round(5 * restaurantMultiplier),
+          finished: Math.round(40 * restaurantMultiplier),
+          cancelled: Math.round(2 * restaurantMultiplier),
+        },
+        weeklyRevenue: [
+          Math.round(1200000 * restaurantMultiplier),
+          Math.round(1500000 * restaurantMultiplier),
+          Math.round(2100000 * restaurantMultiplier),
+          Math.round(900000 * restaurantMultiplier),
+          Math.round(2600000 * restaurantMultiplier),
+          Math.round(3700000 * restaurantMultiplier),
+          Math.round(2400000 * restaurantMultiplier),
+        ],
+      });
+    };
+
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
         // Sử dụng service để lấy data từ API, truyền restaurantId nếu có
-        console.log(selectedRestaurant);
         let response;
-        if (selectedRestaurant == null) {
-          response = await getStatistics();
-        } else {
+        // Đảm bảo luôn có restaurantId nếu user là manager
+        if (user && user.role && user.role.name === "manager") {
+          // Manager luôn phải chỉ định một nhà hàng cụ thể
+          if (!selectedRestaurant && user.restaurant) {
+            setSelectedRestaurant(user.restaurant.id);
+          }
+          response = await getStatistics(selectedRestaurant || user.restaurant?.id);
+        } else if (selectedRestaurant) {
+          // Admin xem thống kê một nhà hàng cụ thể
           response = await getStatistics(selectedRestaurant);
+        } else {
+          // Admin xem thống kê tổng hợp
+          response = await getStatistics();
         }
         // Trong trường hợp thực tế, API sẽ trả về dữ liệu theo nhà hàng
         // Hiện tại, tôi đang dùng dữ liệu mẫu và giả lập việc thay đổi dữ liệu theo nhà hàng
@@ -98,61 +155,42 @@ const Dashboard = () => {
             },
             weeklyRevenue: response.weeklyRevenue || Array(7).fill(0),
           });
-        } else {
-          console.warn("API không trả về dữ liệu hợp lệ, sử dụng dữ liệu mẫu");
-          if (!selectedRestaurant) {
-            setStats({
-              totalRevenue: response.totalRevenue,
-              todayOrders: response.todayOrders,
-              activeReservations: response.activeReservations,
-              totalCustomers: response.totalCustomers,
-              recentOrders: response.recentOrders,
-              upcomingReservations: response.upcomingReservations,
-              topDishes: response.topDishes,
-              orderStatusCount: response.orderStatusCount,
-              weeklyRevenue: response.weeklyRevenue,
-            });
-          } else {
-            // Giả lập dữ liệu cho từng nhà hàng (trong thực tế sẽ lấy từ API)
-            // Đổi số liệu ngẫu nhiên để mô phỏng dữ liệu khác nhau giữa các nhà hàng
-            const restaurantMultiplier = ((parseInt(selectedRestaurant) % 3) + 1) / 2;
-
-            setStats({
-              totalRevenue: Math.round(23456000 * restaurantMultiplier),
-              todayOrders: Math.round(12 * restaurantMultiplier),
-              activeReservations: Math.round(4 * restaurantMultiplier),
-              totalCustomers: Math.round(80 * restaurantMultiplier),
-              recentOrders: generateMockOrders(),
-              upcomingReservations: generateMockReservations(),
-              topDishes: generateMockTopDishes(),
-              orderStatusCount: {
-                pending: Math.round(2 * restaurantMultiplier),
-                preparing: Math.round(3 * restaurantMultiplier),
-                served: Math.round(5 * restaurantMultiplier),
-                finished: Math.round(40 * restaurantMultiplier),
-                cancelled: Math.round(2 * restaurantMultiplier),
-              },
-              weeklyRevenue: [
-                Math.round(1200000 * restaurantMultiplier),
-                Math.round(1500000 * restaurantMultiplier),
-                Math.round(2100000 * restaurantMultiplier),
-                Math.round(900000 * restaurantMultiplier),
-                Math.round(2600000 * restaurantMultiplier),
-                Math.round(3700000 * restaurantMultiplier),
-                Math.round(2400000 * restaurantMultiplier),
-              ],
-            });
-          }
         }
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu thống kê:", error);
+
+        // Kiểm tra mã lỗi cụ thể để xử lý phù hợp
+        if (error.response) {
+          if (error.response.status === 403) {
+            // Thông báo lỗi phân quyền
+            message.error("Bạn không có quyền xem dữ liệu thống kê này");
+
+            // Nếu là manager nhưng gọi API không đúng
+            if (user && user.role.name === "manager" && !selectedRestaurant) {
+              // Tự động đặt selectedRestaurant để tránh lỗi
+              setSelectedRestaurant(user.restaurant?.id);
+            }
+          } else if (error.response.status === 401) {
+            // Có thể token hết hạn, yêu cầu đăng nhập lại
+            message.error("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại");
+            // Redirect to login page or refresh token
+          } else {
+            message.error(`Lỗi server: ${error.message}`);
+          }
+        } else {
+          // Lỗi khác như mạng, timeout...
+          message.error(`Lỗi kết nối: ${error.message}`);
+        }
+
+        // Sử dụng dữ liệu mẫu khi có lỗi
+        useFallbackData();
       } finally {
         setLoading(false);
       }
     };
 
     fetchDashboardData();
-  }, [selectedRestaurant]);
+  }, [selectedRestaurant, user]);
 
   // Cấu hình biểu đồ doanh thu theo tuần
   const revenueChartOptions = {
@@ -445,45 +483,55 @@ const Dashboard = () => {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <div>
           <Title level={2} style={{ marginBottom: 0 }}>
-            Tổng quan hệ thống
+            {user && user.role && user.role.name === "manager" ? "Tổng quan nhà hàng" : "Tổng quan hệ thống"}
           </Title>
           <Text type="secondary" style={{ display: "block" }}>
             Xin chào, hôm nay là {moment().format("dddd, DD/MM/YYYY")}
           </Text>
         </div>
 
-        <div style={{ minWidth: 250 }}>
-          <Select
-            placeholder="Chọn nhà hàng để xem thống kê"
-            style={{ width: "100%" }}
-            onChange={(value) => setSelectedRestaurant(value)}
-            value={selectedRestaurant}
-            allowClear
-            onClear={() => setSelectedRestaurant(null)}
-          >
-            {restaurants.map((restaurant) => (
-              <Option key={restaurant.id} value={restaurant.id}>
-                {restaurant.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
+        {/* Chỉ hiển thị dropdown khi là admin */}
+        {(!user || !user.role || user.role.name !== "manager") && (
+          <div style={{ minWidth: 250 }}>
+            <Select
+              placeholder="Chọn nhà hàng để xem thống kê"
+              style={{ width: "100%" }}
+              onChange={(value) => setSelectedRestaurant(value)}
+              value={selectedRestaurant}
+              allowClear
+              onClear={() => setSelectedRestaurant(null)}
+            >
+              {restaurants.map((restaurant) => (
+                <Option key={restaurant.id} value={restaurant.id}>
+                  {restaurant.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+        )}
       </div>
 
-      {selectedRestaurant && restaurants.length > 0 && (
-        <div style={{ marginBottom: 16 }}>
-          <Text strong>
-            Đang xem thống kê cho:{" "}
-            {restaurants.find((r) => r.id === selectedRestaurant)?.name || "Nhà hàng không xác định"} <br />
-            Địa chỉ: {restaurants.find((r) => r.id === selectedRestaurant)?.address || "Nhà hàng không xác định"}
-          </Text>
-        </div>
-      )}
+      {/* Hiển thị thông tin nhà hàng đã chọn */}
+      {user && user.role && user.role.name === "manager" ? (
+        <div style={{ marginBottom: 16 }}></div>
+      ) : (
+        <>
+          {selectedRestaurant && restaurants.length > 0 && (
+            <div style={{ marginBottom: 16 }}>
+              <Text strong>
+                Đang xem thống kê cho:{" "}
+                {restaurants.find((r) => r.id === selectedRestaurant)?.name || "Nhà hàng không xác định"} <br />
+                Địa chỉ: {restaurants.find((r) => r.id === selectedRestaurant)?.address || "Nhà hàng không xác định"}
+              </Text>
+            </div>
+          )}
 
-      {!selectedRestaurant && (
-        <div style={{ marginBottom: 16 }}>
-          <Text strong>Đang xem thống kê tổng hợp cho toàn bộ chuỗi nhà hàng</Text>
-        </div>
+          {!selectedRestaurant && (
+            <div style={{ marginBottom: 16 }}>
+              <Text strong>Đang xem thống kê tổng hợp cho toàn bộ chuỗi nhà hàng</Text>
+            </div>
+          )}
+        </>
       )}
 
       {/* Các thẻ metric chính */}
