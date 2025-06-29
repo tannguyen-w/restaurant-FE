@@ -16,11 +16,11 @@ import AdminOrderList from "../pages/admin/order/AdminOrderList";
 
 const AdminRoutes = [
   <Route
-    key="admin-dashboard"
+    key="admin"
     Add
     commentMore
     actions
-    path="/admin"
+    path="/admin/"
     element={
       <PrivateRoute allowedRoles={["manager", "admin"]}>
         <LayoutAdmin />

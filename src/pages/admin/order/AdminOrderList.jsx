@@ -3,7 +3,7 @@ import { Table, Card, Button, Space, Tag, message, Row, Col, Input, Select, Tool
 import { PlusOutlined, ReloadOutlined, ExportOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { useAuth } from "../../../components/context/authContext";
-import { getOrdersByRestaurant, getAllOrders, updateOrder } from "../../../services/orderService";
+import { getOrdersByRestaurant, getAllOrders, updateOrderStatus } from "../../../services/orderService";
 import OrderDetailModal from "./OrderDetailModal";
 import OrderEditModal from "./OrderEditModal";
 import OrderAddModal from "./OrderAddModal";
@@ -203,7 +203,7 @@ const AdminOrderList = () => {
   const handleStatusChange = async (record, newStatus) => {
     try {
       setLoading(true);
-      await updateOrder(record.id, newStatus);
+      await updateOrderStatus(record.id, newStatus);
 
       // Cập nhật state data để hiển thị thay đổi ngay lập tức
       setData((prevData) => prevData.map((item) => (item.id === record.id ? { ...item, status: newStatus } : item)));

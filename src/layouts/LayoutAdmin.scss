@@ -1,84 +1,97 @@
 .dashboard {
-    position: relative;
-    width: 100vw;
-    .left-site {
-        width             : 200px;
-        background-color  : #fff;
-        position          : fixed;
-        -webkit-transition: 0.2s ease-in;
-        transition        : 0.2s ease-in;
-        height            : 100%;
-        z-index           : 11;
-        border-right      : 1px solid rgb(199, 222, 247);
-        height            : 100vh;
-    }
-    h1{
-        color: #000;
-    }
-    .brand-name {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  .left-site {
+    width: 220px;
+    background-color: #fff;
+    position: fixed;
+    -webkit-transition: 0.2s ease-in;
+    transition: 0.2s ease-in;
+    height: 100%;
+    z-index: 11;
+    border-right: 1px solid rgb(199, 222, 247);
+    height: 100vh;
+    overflow-y: auto;
+  }
+  h1 {
+    color: #000;
+  }
+  .brand-name {
+    min-height: 70px;
+    padding: 0 24px;
+  }
+  .slide-bar-menu ul {
+    background-color: #fff;
+  }
+  .ant-menu-title-content {
+    font-size: 15px;
+    color: #000000;
+  }
+
+  .body-wrapper {
+    margin-left: 220px;
+    background: #fff;
+    width: 100%;
+
+    .app-header {
+      z-index: 50;
+      background: #fff;
+      padding: 0 25px;
+      border-bottom: 1px solid rgb(199, 222, 247);
+      color: #111114;
+      .navbar {
         min-height: 70px;
-        padding   : 0 24px;
-
+        padding: 0;
+      }
     }
-    .slide-bar-menu ul {
-        background-color  : #fff;
-
+  }
+  :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-expand-icon,
+  :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-arrow {
+    color: #000000;
+  }
+  :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light .ant-menu-item-selected,
+  :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light > .ant-menu .ant-menu-item-selected {
+    background: #ccdafa;
+  }
+  .ant-select-selector {
+    span {
+      color: #000000;
     }
-    .ant-menu-title-content {
-        font-size: 15px;
-        color: #000000;
-    }
-
-    .body-wrapper {
-        position   : relative;
-        margin-left: 200px;
-        height     : 100vh;
-        background: #fff;
-        .app-header {
-            position  : relative;
-            z-index   : 50;
-            background: #fff;
-            padding   : 0 25px;
-            border-bottom: 1px solid rgb(199, 222, 247);
-            color: #111114;
-            .navbar {
-                min-height: 70px;
-                padding   : 0;
-            }
-        }
-    }
-    :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-expand-icon, :where(.css-dev-only-do-not-override-zg0ahe).ant-menu .ant-menu-submenu-arrow {
-        color: #000000;
-    }
-    :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light .ant-menu-item-selected, :where(.css-dev-only-do-not-override-zg0ahe).ant-menu-light>.ant-menu .ant-menu-item-selected{
-        background: #ccdafa;
-    }
-    .ant-select-selector {
-        span{
-        color: #000000;
-    }
-}
+  }
 }
 .ant-btn-default {
-        span {
-        color: #000000;
-        }
+  span {
+    color: #000000;
+  }
 }
 .ant-upload {
-    button {
-        color: #000000;
-    }
+  button {
+    color: #000000;
+  }
 }
 .layout-admin {
-    p, h1, h2, h3, h4, h5, h6 {
-        color: #000000;
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #000000;
+  }
+  .ant-select-selector {
+    background-color: #fff !important;
+    span {
+      color: #000000 !important;
     }
-    .ant-select-selector {
-        background-color: #fff !important;
-        span {
-            color: #000000 !important;  
-        }
-    }
+  }
+}
+
+.dashboard-container {
+  padding: 0 16px;
 }
 
 /* Thêm vào file CSS hiện có hoặc tạo file mới nếu cần */
@@ -103,4 +116,50 @@
 .avatar-uploader-container {
   text-align: center;
   margin-bottom: 20px;
+}
+
+// Thêm CSS để xử lý trạng thái loading
+.content-loading {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7) !important;
+    z-index: 100;
+  }
+
+  .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+  }
+}
+
+// CSS để xử lý chuyển đổi nội dung mượt mà
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.staff-header__rest-name--admin {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #000000;
 }

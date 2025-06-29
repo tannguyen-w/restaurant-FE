@@ -42,7 +42,7 @@ const LoginPage = () => {
         // Điều hướng theo role
         switch (response.user.role.name) {
           case "admin":
-            navigate("/admin");
+            navigate("/admin/dashboard");
             break;
           case "staff":
             navigate("/staff");
