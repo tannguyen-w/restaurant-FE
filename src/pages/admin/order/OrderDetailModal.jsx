@@ -43,7 +43,6 @@ const OrderDetailModal = ({ visible, order, onClose }) => {
     setLoading(true);
     try {
       const response = await getOrderDetailById(orderId);
-      console.log("Order Details Response:", response);
       setOrderDetails(response.data || []);
       setTotalAmount(response.total || 0);
     } catch (error) {
@@ -94,8 +93,6 @@ const OrderDetailModal = ({ visible, order, onClose }) => {
       render: (_, record) => `${(record.dish?.price * record.quantity)?.toLocaleString() || 0} đ`,
     },
   ];
-
-  console.log("Order Details:", orderDetails);
 
   return (
     <Modal

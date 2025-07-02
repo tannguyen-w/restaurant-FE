@@ -1,14 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
 import { Table, Card, Button, Space, Tag, message, Row, Col, Input, Select, Tooltip } from "antd";
-import { PlusOutlined, ReloadOutlined, ExportOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  ReloadOutlined,
+  ExportOutlined,
+  EditOutlined,
+  EyeOutlined,
+  DollarOutlined,
+} from "@ant-design/icons";
 import moment from "moment";
 import { useAuth } from "../../../components/context/authContext";
 import { getOrdersByRestaurant, getAllOrders, updateOrderStatus } from "../../../services/orderService";
 import OrderDetailModal from "./OrderDetailModal";
 import OrderEditModal from "./OrderEditModal";
 import OrderAddModal from "./OrderAddModal";
+import PaymentModal from "./PaymentModal";
 import * as XLSX from "xlsx";
 import { getRestaurants } from "../../../services/restaurantServices";
+import { getCheckOrderInvoice } from "../../../services/invoiceService";
 
 const { Option } = Select;
 
@@ -65,6 +74,9 @@ const AdminOrderList = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
 
+  const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+  const [paidOrders, setPaidOrders] = useState([]);
+
   // Fetch danh sách đơn hàng
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -103,6 +115,15 @@ const AdminOrderList = () => {
         ...prev,
         total: response.totalResults || 0,
       }));
+      // Kiểm tra trạng thái thanh toán của các đơn hàng
+      const paidOrdersIds = [];
+      for (const order of response.results || []) {
+        const invoiceCheck = await getCheckOrderInvoice(order.id);
+        if (invoiceCheck && invoiceCheck.exists) {
+          paidOrdersIds.push(order.id);
+        }
+      }
+      setPaidOrders(paidOrdersIds);
     } catch (error) {
       console.error("Lỗi khi tải danh sách đơn hàng:", error);
       message.error("Không thể tải danh sách đơn hàng");
@@ -217,6 +238,12 @@ const AdminOrderList = () => {
     }
   };
 
+  // Thêm hàm xử lý mở modal thanh toán
+  const handleOpenPayment = (record) => {
+    setSelectedOrder(record);
+    setPaymentModalVisible(true);
+  };
+
   // Cấu hình các cột trong bảng
   const columns = [
     {
@@ -309,6 +336,51 @@ const AdminOrderList = () => {
             ))}
           </Select>
         );
+      },
+    },
+    {
+      title: "Thanh toán",
+      key: "payment",
+      width: 120,
+      render: (_, record) => {
+        // Kiểm tra xem đơn hàng đã có hóa đơn hay chưa
+        const isPaid = paidOrders.includes(record.id);
+
+        // Nếu đã có hóa đơn, hiển thị đã thanh toán
+        if (isPaid) {
+          return <Tag color="green">Đã thanh toán</Tag>;
+        }
+
+        // Nếu đơn hàng đã hủy
+        if (record.status === "cancelled") {
+          return <Tag color="default">Đã hủy</Tag>;
+        }
+
+        // Nếu là đơn online và đang ở trạng thái pending
+        if (record.orderType === "online" && record.status === "pending") {
+          return (
+            <Button type="primary" icon={<DollarOutlined />} onClick={() => handleOpenPayment(record)}>
+              Xác nhận thanh toán
+            </Button>
+          );
+        }
+
+        // Nếu là đơn dine-in và đang ở trạng thái served
+        if (record.orderType === "dine-in" && record.status === "served") {
+          return (
+            <Button
+              type="primary"
+              icon={<DollarOutlined />}
+              onClick={() => handleOpenPayment(record)}
+              style={{ background: "#52c41a" }}
+            >
+              Thanh toán
+            </Button>
+          );
+        }
+
+        // Các trường hợp khác
+        return <Tag color="orange">Chưa thanh toán</Tag>;
       },
     },
     {
@@ -462,6 +534,24 @@ const AdminOrderList = () => {
           fetchOrders();
         }}
         restaurantId={filters.restaurant || userRestaurantId}
+      />
+
+      {/* Modal thanh toán */}
+      <PaymentModal
+        visible={paymentModalVisible}
+        order={selectedOrder}
+        onClose={() => setPaymentModalVisible(false)}
+        onSuccess={(orderId) => {
+          setPaymentModalVisible(false);
+
+          // Thêm đơn hàng vào danh sách đã thanh toán
+          if (orderId) {
+            setPaidOrders((prev) => [...prev, orderId]);
+          }
+
+          // Cập nhật lại danh sách đơn hàng
+          fetchOrders();
+        }}
       />
     </>
   );

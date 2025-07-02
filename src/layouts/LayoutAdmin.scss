@@ -1,10 +1,12 @@
 .dashboard {
   display: flex;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   overflow-x: hidden;
 
   .left-site {
+    top: 0;
+    bottom: 0;
     width: 220px;
     background-color: #fff;
     position: fixed;
@@ -13,7 +15,7 @@
     height: 100%;
     z-index: 11;
     border-right: 1px solid rgb(199, 222, 247);
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
   }
   h1 {
@@ -35,6 +37,7 @@
     margin-left: 220px;
     background: #fff;
     width: 100%;
+    min-height: 100vh;
 
     .app-header {
       z-index: 50;
